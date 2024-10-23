@@ -1,6 +1,7 @@
 package com.example.daycaremanagement;
 
 import com.example.daycaremanagement.database.Database;
+import com.example.daycaremanagement.scenes.LoginPagePane;
 import com.example.daycaremanagement.scenes.LoginPageScene;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -30,6 +31,11 @@ public class MainApp extends Application {
         Scene testScene = new Scene(testRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         // Set the Logic for login button press in LoginPageScene
+        // Has to grab the button in main app for the ability to change the primary stage to test page
+        LoginPagePane loginpagepane = (LoginPagePane)(loginPage.getRoot());
+        loginpagepane.getLoginButton().setOnAction(e -> {
+            loginpagepane.saveLoginInfo(loginpagepane.getDbNameInput(), loginpagepane.getUsernameInput(), loginpagepane.getHiddenPassInput());
+        });
 
         // Login Page Logic
         if (loginExists()) {

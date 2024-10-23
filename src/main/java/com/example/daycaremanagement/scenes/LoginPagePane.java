@@ -60,6 +60,7 @@ public class LoginPagePane extends BorderPane {
         inputs.setSpacing(10);
 
     // Button Actions
+        // Login button action is in MainApp.java
         showPass.setOnAction(e -> {
             if(showPass.getText().equals("Show Password")) {
 
@@ -104,13 +105,6 @@ public class LoginPagePane extends BorderPane {
                 throw new RuntimeException(ex);
             }
         });
-
-
-
-        loginButton.setOnAction(e -> {
-            saveLoginInfo(dbNameInput, usernameInput, hiddenPassInput);
-        });
-
 
         resetButton.setOnAction(e-> {
 
