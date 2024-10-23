@@ -1,6 +1,7 @@
 package com.example.daycaremanagement;
 
 import com.example.daycaremanagement.database.Database;
+import com.example.daycaremanagement.database.DbConst;
 import com.example.daycaremanagement.scenes.LoginPagePane;
 import com.example.daycaremanagement.scenes.LoginPageScene;
 import javafx.application.Application;
@@ -10,7 +11,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 
 import static com.example.daycaremanagement.AppConst.SCREEN_HEIGHT;
 import static com.example.daycaremanagement.AppConst.SCREEN_WIDTH;
@@ -36,15 +39,20 @@ public class MainApp extends Application {
         loginpagepane.getLoginButton().setOnAction(e -> {
             if(loginpagepane.saveLoginInfo(loginpagepane.getDbNameInput(), loginpagepane.getUsernameInput(), loginpagepane.getHiddenPassInput())) {
                 // Set Consts Here
+                if (setConst()) {
+                    // test Connection Here
 
-
-                Database.getInstance();
+                    System.out.println("Const Saved");
+                    Database.getInstance();
+                } else {
+                    loginpagepane.getMessageLabel().setText("Error Setting Constants");
+                }
             }
         });
 
         // Login Page Logic
         if (loginExists()) {
-            // Test Connection
+            // Test Connection Here
             primaryStage.setScene(testScene);
         } else {
             primaryStage.setScene(loginPage);
@@ -74,5 +82,33 @@ public class MainApp extends Application {
             }
         }
         return false;
+    }
+
+    /**
+     * Sets the DbConst File values for a db connection
+     *
+     * @return true if constants were set, false otherwise
+     * */
+    private boolean setConst() {
+        // Read const.txt file for creds
+        try (Scanner scanner = new Scanner(new File("login/const.txt"))) {
+            String[] fileConst = new String[3];
+            // Add creds to array
+            while (scanner.hasNextLine()) {
+                fileConst[0] = scanner.nextLine();
+                fileConst[1] = scanner.nextLine();
+                fileConst[2] = scanner.nextLine();
+            }
+
+            // Set DbConst values
+            DbConst.setDbName(fileConst[0]);
+            DbConst.setDbUser(fileConst[1]);
+            DbConst.setDbPass(fileConst[2]);
+            return true;
+
+        } catch (FileNotFoundException e) {
+            // Catch exception
+            return false;
+        }
     }
 }
