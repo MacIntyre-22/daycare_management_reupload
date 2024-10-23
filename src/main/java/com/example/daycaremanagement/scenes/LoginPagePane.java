@@ -117,6 +117,7 @@ public class LoginPagePane extends BorderPane {
         resetButton.setOnAction(e-> {
 
             // Clears the username & all password inputs
+            dbNameInput.clear();
             usernameInput.clear();
             visiblePassInput.clear();
             hiddenPassInput.clear();
@@ -140,12 +141,28 @@ public class LoginPagePane extends BorderPane {
     /**
      * Save login information to the file "login/const.txt"
      */
-    public void saveLoginInfo(TextField tableName, TextField username, TextField pass) {
-        // Check if any of the text fields are empty
-        if (tableName.getText().isEmpty() || username.getText().isEmpty() || pass.getText().isEmpty()) {
+    public void saveLoginInfo(TextField database, TextField username, TextField pass) {
+        // Check if any of the text fields are empty before proceeding
+        if (database.getText().isEmpty() || username.getText().isEmpty() || pass.getText().isEmpty()) {
             this.messageLabel.setText("All fields must be filled out.");
         }else {
-            this.messageLabel.setText("Login Accepted");
+
+            // Ensure the login folder exists
+            File loginFolder = new File("login");
+            if (!loginFolder.exists()) {
+                loginFolder.mkdirs();
+            }
+
+            // Write the login information to a const.txt file
+            try (PrintWriter writer = new PrintWriter(new File(loginFolder, "const.txt"))) {
+                String loginValues = database.getText() + "\n" +
+                        username.getText() + "\n" +
+                        pass.getText();
+                writer.print(loginValues);
+            } catch (FileNotFoundException ex) {
+                this.messageLabel.setText("Unable to create login file");
+            }
+            this.messageLabel.setText("Login Saved");
         }
     }
 
