@@ -22,13 +22,15 @@ public class LoginPagePane extends BorderPane {
 
     // Buttons
         Button showPass = new Button("Show Password");
-        Button submitButton = new Button("Submit");
+        Button loginButton = new Button("Login");
         Button resetButton = new Button("Reset");
+        Button testConnectionButton = new Button("Test Connection");
+        Button exitButton = new Button("Exit");
 
     // Groupings
         HBox password = new HBox(hiddenPassInput, showPass);
-        HBox buttons = new HBox(submitButton, resetButton);
-        VBox inputs = new VBox(usernameInput, password, buttons);
+        HBox buttons = new HBox(loginButton, resetButton);
+        VBox inputs = new VBox(usernameInput, password,testConnectionButton, buttons, exitButton);
 
     // Input Field styling
         usernameInput.setPromptText("Username");
@@ -42,7 +44,7 @@ public class LoginPagePane extends BorderPane {
     // Grouping Styling
         password.setSpacing(10);
 
-
+        inputs.setSpacing(10);
 
     // Button Actions
 
@@ -84,8 +86,17 @@ public class LoginPagePane extends BorderPane {
         });
 
 
+        testConnectionButton.setOnAction(e -> {
+            try {
+                
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
-        submitButton.setOnAction(e -> {
+
+
+        loginButton.setOnAction(e -> {
 
         // Saves the Username & Password
             usernameText = usernameInput.getText();
@@ -103,6 +114,7 @@ public class LoginPagePane extends BorderPane {
             }
         });
 
+
         resetButton.setOnAction(e-> {
 
             // Clears the username & all password inputs
@@ -117,6 +129,9 @@ public class LoginPagePane extends BorderPane {
 
             showPass.setText("Show Password");
         });
+
+        // Closes the program
+        exitButton.setOnAction(e -> HelloApplication.primaryStage.close());
 
     // Added to my pane...
         this.setCenter(inputs);
