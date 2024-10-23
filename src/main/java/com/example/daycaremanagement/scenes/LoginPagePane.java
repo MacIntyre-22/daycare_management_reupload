@@ -19,6 +19,7 @@ public class LoginPagePane extends BorderPane {
     private Label messageLabel;
     private TextField visiblePassInput;
     private PasswordField hiddenPassInput;
+    private Button loginButton = new Button("Login");
 
     public LoginPagePane(){
 
@@ -31,7 +32,6 @@ public class LoginPagePane extends BorderPane {
 
     // Buttons
         Button showPass = new Button("Show Password");
-        Button loginButton = new Button("Login");
         Button resetButton = new Button("Reset");
         Button testConnectionButton = new Button("Test Connection");
         Button exitButton = new Button("Exit");
@@ -166,5 +166,5 @@ public class LoginPagePane extends BorderPane {
         }
     }
 
-
+    // Setters and getters
 }

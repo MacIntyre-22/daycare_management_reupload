@@ -1,5 +1,6 @@
 package com.example.daycaremanagement;
 
+import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.scenes.LoginPageScene;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -18,6 +19,8 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        // Initalization
+        LoginPageScene loginPage = new LoginPageScene();
         primaryStage = stage;
         primaryStage.setTitle("Daycare Management");
 
@@ -26,11 +29,14 @@ public class MainApp extends Application {
         BorderPane testRoot = new BorderPane();
         Scene testScene = new Scene(testRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+        // Set the Logic for login button press in LoginPageScene
+
         // Login Page Logic
         if (loginExists()) {
+            // Test Connection
             primaryStage.setScene(testScene);
         } else {
-            primaryStage.setScene(new LoginPageScene());
+            primaryStage.setScene(loginPage);
         }
         primaryStage.show();
     }
