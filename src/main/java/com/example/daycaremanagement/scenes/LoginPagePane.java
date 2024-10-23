@@ -12,23 +12,23 @@ import java.io.PrintWriter;
 
 public class LoginPagePane extends BorderPane {
 
+    // Data Fields
     // Added variables here so they're visible inside the button actions
     private String usernameText;
     private String passwordText;
     private String dbText;
-    private Label messageLabel;
-    private TextField visiblePassInput;
-    private PasswordField hiddenPassInput;
+
+    // Input Fields
+    private TextField usernameInput = new TextField();
+    private TextField dbNameInput = new TextField();
+    private Label messageLabel = new Label("Please enter your username and password");
+    private TextField visiblePassInput = new TextField();
+    private PasswordField hiddenPassInput = new PasswordField();
+
+    // Login button
     private Button loginButton = new Button("Login");
 
     public LoginPagePane(){
-
-    // Input Fields
-        TextField usernameInput = new TextField();
-        TextField dbNameInput = new TextField();
-        messageLabel = new Label("Please enter your username and password");
-        visiblePassInput = new TextField();
-        hiddenPassInput = new PasswordField();
 
     // Buttons
         Button showPass = new Button("Show Password");
@@ -60,8 +60,6 @@ public class LoginPagePane extends BorderPane {
         inputs.setSpacing(10);
 
     // Button Actions
-
-
         showPass.setOnAction(e -> {
             if(showPass.getText().equals("Show Password")) {
 
@@ -167,4 +165,8 @@ public class LoginPagePane extends BorderPane {
     }
 
     // Setters and getters
+
+    public Button getLoginButton() {
+        return loginButton;
+    }
 }
