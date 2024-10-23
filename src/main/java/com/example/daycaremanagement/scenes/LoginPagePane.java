@@ -133,10 +133,11 @@ public class LoginPagePane extends BorderPane {
     /**
      * Save login information to the file "login/const.txt"
      */
-    public void saveLoginInfo(TextField database, TextField username, TextField pass) {
+    public boolean saveLoginInfo(TextField database, TextField username, TextField pass) {
         // Check if any of the text fields are empty before proceeding
         if (database.getText().isEmpty() || username.getText().isEmpty() || pass.getText().isEmpty()) {
             this.messageLabel.setText("All fields must be filled out.");
+            return false;
         }else {
 
             // Ensure the login folder exists
@@ -153,8 +154,10 @@ public class LoginPagePane extends BorderPane {
                 writer.print(loginValues);
             } catch (FileNotFoundException ex) {
                 this.messageLabel.setText("Unable to create login file");
+                return false;
             }
             this.messageLabel.setText("Login Saved");
+            return true;
         }
     }
 
