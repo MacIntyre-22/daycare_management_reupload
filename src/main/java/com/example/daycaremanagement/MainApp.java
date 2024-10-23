@@ -41,16 +41,10 @@ public class MainApp extends Application {
             if(loginpagepane.saveLoginInfo(loginpagepane.getDbNameInput(), loginpagepane.getUsernameInput(), loginpagepane.getHiddenPassInput())) {
                 // Set Consts Here
                 if (setConst()) {
-                    // Test Connection Here
-                    try {
-                        // Creates Instance here
-                        // May throw exception
-                        Database.getInstance();
-
-                        // If Successful connection, send to main page
+                    // Check Connection here
+                    if (isConnected()) {
                         primaryStage.setScene(loginPage);
-                    } catch (Exception e1) {
-                        // Catch Exception here and display text to user
+                    } else {
                         loginpagepane.getMessageLabel().setText("Error Connecting to Database");
                     }
                 } else {
@@ -61,7 +55,18 @@ public class MainApp extends Application {
 
         // Login Page Logic
         if (loginExists()) {
-            // Test Connection Here
+            // Set Consts Here
+            if (setConst()) {
+                // Check Connection here
+                if (isConnected()) {
+                    primaryStage.setScene(loginPage);
+                } else {
+                    loginpagepane.getMessageLabel().setText("Error Connecting to Database");
+                }
+            } else {
+                loginpagepane.getMessageLabel().setText("Error Setting Constants");
+            }
+
             primaryStage.setScene(testScene);
         } else {
             primaryStage.setScene(loginPage);
@@ -117,6 +122,26 @@ public class MainApp extends Application {
 
         } catch (FileNotFoundException e) {
             // Catch exception
+            return false;
+        }
+    }
+
+
+    /**
+     * Checks database connection
+     *
+     * @return true if connection worked, false otherwise
+     * */
+    private boolean isConnected() {
+        try {
+            // Might throw exception
+            Database db = Database.getInstance();
+            // Will return true if it does not throw exception
+            return true;
+
+        } catch (Exception e1) {
+            // If the database connection fails, display an error and stay on the login screen
+            // Returns false
             return false;
         }
     }
