@@ -3,7 +3,7 @@ package com.example.daycaremanagement.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import static com.example.daycaremanagement.database.Const.*;
+import static com.example.daycaremanagement.database.DbConst.*;
 
 public class Database {
     private static Database instance;

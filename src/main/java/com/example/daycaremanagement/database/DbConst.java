@@ -1,6 +1,6 @@
 package com.example.daycaremanagement.database;
 
-public class Const {
+public class DbConst {
     // take this out later, read the login info from a file
     // temporary
     public static final String DB_NAME = "";

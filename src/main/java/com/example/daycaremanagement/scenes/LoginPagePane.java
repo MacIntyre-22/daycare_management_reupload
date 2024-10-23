@@ -1,5 +1,6 @@
-package com.example.daycaremanagement;
+package com.example.daycaremanagement.scenes;
 
+import com.example.daycaremanagement.MainApp;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -10,6 +11,8 @@ public class LoginPagePane extends BorderPane {
     // Added variables here so they're visible inside the button actions
     private String usernameText;
     private String passwordText;
+    private String dbText;
+    private Label messageLabel;
     private TextField visiblePassInput;
     private PasswordField hiddenPassInput;
 
@@ -17,6 +20,8 @@ public class LoginPagePane extends BorderPane {
 
     // Input Fields
         TextField usernameInput = new TextField();
+        TextField dbNameInput = new TextField();
+        messageLabel = new Label("Please enter your username and password");
         visiblePassInput = new TextField();
         hiddenPassInput = new PasswordField();
 
@@ -30,7 +35,7 @@ public class LoginPagePane extends BorderPane {
     // Groupings
         HBox password = new HBox(hiddenPassInput, showPass);
         HBox buttons = new HBox(loginButton, resetButton);
-        VBox inputs = new VBox(usernameInput, password,testConnectionButton, buttons, exitButton);
+        VBox inputs = new VBox(dbNameInput, usernameInput, password,testConnectionButton, buttons, messageLabel, exitButton);
 
     // Input Field styling
         usernameInput.setPromptText("Username");
@@ -40,6 +45,10 @@ public class LoginPagePane extends BorderPane {
         hiddenPassInput.setPromptText("Password");
         hiddenPassInput.setStyle("-fx-prompt-text-fill: rgb(100, 100, 100)");
         hiddenPassInput.setMaxWidth(200);
+
+        dbNameInput.setPromptText("Database Name");
+        dbNameInput.setStyle("-fx-prompt-text-fill: rgb(100, 100, 100)");
+        dbNameInput.setMaxWidth(200);
 
     // Grouping Styling
         password.setSpacing(10);
@@ -131,9 +140,11 @@ public class LoginPagePane extends BorderPane {
         });
 
         // Closes the program
-        exitButton.setOnAction(e -> HelloApplication.primaryStage.close());
+        exitButton.setOnAction(e -> MainApp.primaryStage.close());
 
     // Added to my pane...
         this.setCenter(inputs);
     }
+
+
 }
