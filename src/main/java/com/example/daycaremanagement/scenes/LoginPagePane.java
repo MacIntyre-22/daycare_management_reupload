@@ -166,7 +166,43 @@ public class LoginPagePane extends BorderPane {
 
     // Setters and getters
 
+    public TextField getUsernameInput() {
+        return usernameInput;
+    }
+
+    public void setUsernameInput(TextField usernameInput) {
+        this.usernameInput = usernameInput;
+    }
+
+    public TextField getDbNameInput() {
+        return dbNameInput;
+    }
+
+    public void setDbNameInput(TextField dbNameInput) {
+        this.dbNameInput = dbNameInput;
+    }
+
+    public Label getMessageLabel() {
+        return messageLabel;
+    }
+
+    public void setMessageLabel(Label messageLabel) {
+        this.messageLabel = messageLabel;
+    }
+
     public Button getLoginButton() {
         return loginButton;
+    }
+
+    public void setLoginButton(Button loginButton) {
+        this.loginButton = loginButton;
+    }
+
+    public PasswordField getHiddenPassInput() {
+        return hiddenPassInput;
+    }
+
+    public void setHiddenPassInput(PasswordField hiddenPassInput) {
+        this.hiddenPassInput = hiddenPassInput;
     }
 }
