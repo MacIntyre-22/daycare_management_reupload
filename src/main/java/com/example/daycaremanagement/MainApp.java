@@ -2,21 +2,36 @@ package com.example.daycaremanagement;
 
 import com.example.daycaremanagement.scenes.LoginPageScene;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+
+import static com.example.daycaremanagement.AppConst.SCREEN_HEIGHT;
+import static com.example.daycaremanagement.AppConst.SCREEN_WIDTH;
 
 public class MainApp extends Application {
     public static Stage primaryStage;
 
     @Override
     public void start(Stage stage) throws IOException {
-
-
         primaryStage = stage;
         primaryStage.setTitle("Hello!");
-        primaryStage.setScene(new LoginPageScene());
+
+
+        // Test Page for login
+        BorderPane testRoot = new BorderPane();
+        Scene testScene = new Scene(testRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        // Login Page Logic
+        if (loginExists()) {
+            primaryStage.setScene(testScene);
+        } else {
+            primaryStage.setScene(new LoginPageScene());
+        }
         primaryStage.show();
     }
 
