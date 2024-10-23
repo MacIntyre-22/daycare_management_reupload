@@ -19,7 +19,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
-        primaryStage.setTitle("Hello!");
+        primaryStage.setTitle("Daycare Management");
 
 
         // Test Page for login
@@ -45,6 +45,17 @@ public class MainApp extends Application {
      * @return true if the file exists, false otherwise
      */
     private boolean loginExists() {
+        File loginFolder = new File("login");
+
+        // Checks ig login directory exists
+        if (loginFolder.exists() && loginFolder.isDirectory()) {
+
+            // Checks if const.txt file exists
+            File loginFile = new File(loginFolder, "const.txt");
+            if (loginFile.exists() && loginFile.isFile()) {
+                return true;
+            }
+        }
         return false;
     }
 }
