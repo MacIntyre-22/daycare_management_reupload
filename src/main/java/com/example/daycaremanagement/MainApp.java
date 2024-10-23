@@ -43,6 +43,7 @@ public class MainApp extends Application {
         });
 
         // Login Page Logic
+
         if (loginExists()) {
             connectToDatabase();
         } else {
@@ -135,9 +136,11 @@ public class MainApp extends Application {
                 primaryStage.setScene(testScene);
             } else {
                 loginpagepane.getMessageLabel().setText("Error Connecting to Database");
+                primaryStage.setScene(loginPage);
             }
         } else {
             loginpagepane.getMessageLabel().setText("Error Setting Constants");
+            primaryStage.setScene(loginPage);
         }
     }
 }
