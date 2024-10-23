@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import static com.example.daycaremanagement.AppConst.SCREEN_HEIGHT;
@@ -40,10 +41,18 @@ public class MainApp extends Application {
             if(loginpagepane.saveLoginInfo(loginpagepane.getDbNameInput(), loginpagepane.getUsernameInput(), loginpagepane.getHiddenPassInput())) {
                 // Set Consts Here
                 if (setConst()) {
-                    // test Connection Here
+                    // Test Connection Here
+                    try {
+                        // Creates Instance here
+                        // May throw exception
+                        Database.getInstance();
 
-                    System.out.println("Const Saved");
-                    Database.getInstance();
+                        // If Successful connection, send to main page
+                        primaryStage.setScene(loginPage);
+                    } catch (Exception e1) {
+                        // Catch Exception here and display text to user
+                        loginpagepane.getMessageLabel().setText("Error Connecting to Database");
+                    }
                 } else {
                     loginpagepane.getMessageLabel().setText("Error Setting Constants");
                 }
