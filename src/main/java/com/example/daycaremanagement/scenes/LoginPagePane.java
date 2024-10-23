@@ -6,6 +6,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 public class LoginPagePane extends BorderPane {
 
     // Added variables here so they're visible inside the button actions
@@ -106,21 +110,7 @@ public class LoginPagePane extends BorderPane {
 
 
         loginButton.setOnAction(e -> {
-
-        // Saves the Username & Password
-            usernameText = usernameInput.getText();
-            passwordText = hiddenPassInput.getText();
-
-        // Try's it use the username & pass
-            try {
-                if(!usernameText.isEmpty() || !passwordText.isEmpty()){
-                    System.out.println(usernameText);
-                    System.out.println(passwordText);
-                }
-
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
+            saveLoginInfo(dbNameInput, usernameInput, hiddenPassInput);
         });
 
 
@@ -144,6 +134,19 @@ public class LoginPagePane extends BorderPane {
 
     // Added to my pane...
         this.setCenter(inputs);
+    }
+
+
+    /**
+     * Save login information to the file "login/const.txt"
+     */
+    public void saveLoginInfo(TextField tableName, TextField username, TextField pass) {
+        // Check if any of the text fields are empty
+        if (tableName.getText().isEmpty() || username.getText().isEmpty() || pass.getText().isEmpty()) {
+            this.messageLabel.setText("All fields must be filled out.");
+        }else {
+            this.messageLabel.setText("Login Accepted");
+        }
     }
 
 
