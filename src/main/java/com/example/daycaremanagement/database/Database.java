@@ -44,8 +44,8 @@ public class Database {
             sql += ") VALUES (";
             // Doing the same thing again
             for (int i = 0; i < data.length; i++) {
-                if (data[i] instanceof Integer){
-                    // if it's an integer, don't give it quotes
+                if (data[i] instanceof Integer || data[i] instanceof Double){
+                    // if it's an integer or double, don't give it quotes
                     sql+= data[i];
                 } else {
                     // if it's a string, give it single quotes
@@ -92,9 +92,13 @@ public class Database {
         return null;
     }
 
-    // Same method that can accept an integer instead of a string in case the query is an int
+    // Same method that can accept an integer instead of a string in case the query is an int or double
 
-    public ResultSet find(String database, String category, int searchQuery) throws SQLException {
+    public ResultSet find(String database, String category, double searchQuery) throws SQLException {
+        // If the double is an int, cast it to int
+        if (searchQuery == Math.floor(searchQuery)){
+            searchQuery = (int) searchQuery;
+        }
         String sql = "SELECT * FROM " + database + " WHERE " + category + " = " + searchQuery;
         if (instance != null){
             return statement.executeQuery(sql);
@@ -103,7 +107,15 @@ public class Database {
         return null;
     }
 
-    public String update(String database, String whereCategory, String category, int oldData, int updatedData) throws SQLException {
+    public String update(String database, String whereCategory, String category, double oldData, double updatedData) throws SQLException {
+        // If the doubles are integers, cast them to int (to be able to use doubles in the queries without putting a double where an int should be)
+        if (oldData == Math.floor(oldData)){
+            oldData = (int) oldData;
+        }
+        if (updatedData == Math.floor(updatedData)){
+            updatedData = (int) updatedData;
+        }
+
         String sql = "UPDATE " + database + " SET " + category + "=" + updatedData + " WHERE" + whereCategory + "=" + oldData;
 
         if (instance != null) {
