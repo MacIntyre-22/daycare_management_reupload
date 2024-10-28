@@ -2,6 +2,7 @@ package com.example.daycaremanagement;
 
 import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.database.DbConst;
+import com.example.daycaremanagement.scenes.DisplayNavBarPane;
 import com.example.daycaremanagement.scenes.LoginPagePane;
 import com.example.daycaremanagement.scenes.LoginPageScene;
 import javafx.application.Application;
@@ -117,6 +118,7 @@ public class MainApp extends Application {
 
         } catch (Exception e1) {
             // If the database connection fails, display an error and stay on the login screen
+            System.out.println(e1);
             // Returns false
             return false;
         }
@@ -132,7 +134,8 @@ public class MainApp extends Application {
         // Set Consts Here
         if (setConst()) {
             // Check Connection here
-            if (isConnected()) {
+            if (!isConnected()) {
+                testRoot.setLeft(new DisplayNavBarPane());
                 primaryStage.setScene(testScene);
             } else {
                 loginpagepane.getMessageLabel().setText("Error Connecting to Database");
