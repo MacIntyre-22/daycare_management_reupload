@@ -15,6 +15,26 @@ public class DisplayNavBarPane extends VBox {
         this.setStyle("-fx-background-color: lightblue;");
         this.setSpacing(5);
 
+        Label show = new Label("Show Display Options");
+        Label display = new Label("Show Display Options");
+        Label options = new Label("Show Display Options");
+        Group displayNav = new Group(show, display, options);
+
+        show.setRotate(-90);
+        display.setRotate(-90);
+        options.setRotate(-90);
+        displayNav.setTranslateY(50);
+
+        this.getChildren().add(displayNav);
+
+        Label words = new Label("Hide Display Options");
+        Label arrow = new Label("------------>");
+        VBox hideNav = new VBox(words, arrow);
+
+        hideNav.setMinWidth(125);
+        hideNav.setAlignment(Pos.CENTER);
+        hideNav.setTranslateY(-200);
+
         Button graph1 = new Button("Graph 1");
         Button graph2 = new Button("Graph 2");
         Button graph3 = new Button("Graph 3");
@@ -29,10 +49,16 @@ public class DisplayNavBarPane extends VBox {
         line.setEndX(75);
         line.setStrokeWidth(2);
 
-        this.setAlignment(Pos.CENTER);
-        this.getChildren().addAll(graph1, graph2, graph3, graph4, line, read, update, delete);
-
-
+        this.setOnMouseEntered(e-> {
+            this.getChildren().remove(displayNav);
+            this.setAlignment(Pos.CENTER);
+            this.getChildren().addAll(hideNav, graph1, graph2, graph3, graph4, line, read, update, delete);
+        });
+        this.setOnMouseExited(e->{
+            this.getChildren().removeAll(hideNav, graph1, graph2, graph3, graph4, line, read, update, delete);
+            this.setAlignment(Pos.TOP_LEFT);
+            this.getChildren().add(displayNav);
+        });
 
 
 
