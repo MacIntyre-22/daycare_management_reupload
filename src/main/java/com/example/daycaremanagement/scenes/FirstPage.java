@@ -1,4 +1,4 @@
-package com.example.daycaremanagement;
+package com.example.daycaremanagement.scenes;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
