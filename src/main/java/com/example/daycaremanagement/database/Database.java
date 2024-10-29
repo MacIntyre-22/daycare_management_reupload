@@ -13,6 +13,13 @@ public class Database {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://localhost/" + DB_NAME +"?serverTimezone=UTC", DB_USER, DB_PASS);
+            createTable(TABLE_CITIES, CREATE_TABLE_CITIES, connection);
+            createTable(TABLE_POSITIONS, CREATE_TABLE_POSITIONS, connection);
+            createTable(TABLE_ROOMS, CREATE_TABLE_ROOMS, connection);
+            createTable(TABLE_GUARDIANS, CREATE_TABLE_GUARDIANS, connection);
+            createTable(TABLE_STAFF, CREATE_TABLE_STAFF, connection);
+            createTable(TABLE_STUDENTS, CREATE_TABLE_STUDENTS, connection);
+            createTable(TABLE_GUARDIAN_STUDENT_RELATION, CREATE_TABLE_GUARDIAN_STUDENT_RELATIONS, connection);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -188,30 +195,18 @@ public class Database {
         };
     }
 
-
-
-
-
-
-    //    public String update(String database, int id, String category, String updatedData) throws SQLException {
-    //        // Getting the id for the statement depending on the database being used, building the statement after
-    //        String dbId = getId(database);
-    //        String sql = "UPDATE " + database + " SET " + category + "='"+updatedData + "' WHERE" + dbId + "=" + id;
-    //
-    //        if (instance != null) {
-    //            try {
-    //                // If the statement deleted a row, return that it succeeded, if it didn't return that it failed
-    //                if (statement.executeUpdate(sql) == 1) {
-    //                    return "Updated " + category + " to " + updatedData + " in " + database + "!";
-    //                } else {
-    //                    return "Query failed!";
-    //                }
-    //            } catch (Exception e){
-    //                //returning this if we get an error
-    //                return "Invalid query";
-    //            }
-    //        }
-    //        // if the instance isn't created, return this
-    //        return "Instance does not exist";
-    //    }
+    public void createTable(String tableName, String tableQuery, Connection connection) throws SQLException{
+        Statement createTable;
+        DatabaseMetaData md = connection.getMetaData();
+        // Look inside the database for a table named tableName
+        ResultSet resultSet = md.getTables(DB_NAME, null, tableName, null);
+        // If the result set contains data
+        if (resultSet.next()){
+            System.out.println(tableName + " table already exists");
+        } else {
+            createTable = connection.createStatement();
+            createTable.execute(tableQuery);
+            System.out.println(tableName + " table has been created!");
+        }
+    }
 }
