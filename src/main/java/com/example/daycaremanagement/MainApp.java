@@ -4,6 +4,7 @@ import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.database.DbConst;
 import com.example.daycaremanagement.scenes.LoginPagePane;
 import com.example.daycaremanagement.scenes.LoginPageScene;
+import com.example.daycaremanagement.scenes.MainPage;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Border;
@@ -23,8 +24,8 @@ public class MainApp extends Application {
     public static Stage primaryStage;
     private LoginPageScene loginPage = new LoginPageScene();
     // Test Page for login
-    private BorderPane testRoot = new BorderPane();
-    private Scene testScene = new Scene(testRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
+    private MainPage mainPage = new MainPage();
+    private Scene scene = new Scene(mainPage, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 
     @Override
@@ -133,7 +134,7 @@ public class MainApp extends Application {
         if (setConst()) {
             // Check Connection here
             if (isConnected()) {
-                primaryStage.setScene(testScene);
+                primaryStage.setScene(scene);
             } else {
                 loginpagepane.getMessageLabel().setText("Error Connecting to Database");
                 primaryStage.setScene(loginPage);

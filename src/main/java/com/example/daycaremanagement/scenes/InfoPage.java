@@ -4,10 +4,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-public class Info extends BorderPane {
+public class InfoPage extends BorderPane {
 
 
-  public Info() {
+  public InfoPage() {
     VBox root = new VBox(10);
     root.setPadding(new javafx.geometry.Insets(15));
 

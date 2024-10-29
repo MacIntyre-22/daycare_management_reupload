@@ -4,8 +4,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-public class FirstPage extends BorderPane {
-  public FirstPage() {
+public class MainPage extends BorderPane {
+  public MainPage() {
     // Left Side Navigation (VBox)
     VBox vbox = new VBox(10);
     vbox.setStyle("-fx-background-color:SkyBlue; -fx-padding: 20;");
@@ -23,7 +23,7 @@ public class FirstPage extends BorderPane {
     infoButton.setMaxWidth(Double.MAX_VALUE);
 
     infoButton.setOnAction(e -> {
-      Info info = new Info();
+      InfoPage info = new InfoPage();
       this.setCenter(info);
     });
 
