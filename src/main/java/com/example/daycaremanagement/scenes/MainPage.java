@@ -15,7 +15,13 @@ public class MainPage extends BorderPane {
     Button staffButton = new Button("Staff ");
     Button infoButton = new Button("Information ");
 
-
+    studentsButton.setOnAction(e-> {
+        try {
+            this.setCenter(Test.getInstance());
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    });
 
     studentsButton.setMaxWidth(Double.MAX_VALUE);
     guardiansButton.setMaxWidth(Double.MAX_VALUE);

@@ -1,5 +1,6 @@
 package com.example.daycaremanagement.scenes;
 
+import com.example.daycaremanagement.database.Database;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -8,7 +9,19 @@ import javafx.scene.layout.VBox;
 
 public class Test extends BorderPane implements SideBar {
 
-    public Test() {
+    private static Test instance;
+
+    /**
+     * Gets an instance of this student test class
+     * @return the instance
+     */
+    public static Test getInstance(){
+        if (instance == null){
+            instance = new Test();
+        }
+        return instance;
+    }
+    private Test() {
        this.setTop(new Label("Student Test Page"));
        this.setLeft(sideBar());
        this.setBottom(bottomBar());
