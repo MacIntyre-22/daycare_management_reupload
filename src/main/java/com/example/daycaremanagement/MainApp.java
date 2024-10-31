@@ -4,15 +4,17 @@ import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.database.DbConst;
 import com.example.daycaremanagement.scenes.LoginPagePane;
 import com.example.daycaremanagement.scenes.LoginPageScene;
-import com.example.daycaremanagement.scenes.Test;
+import com.example.daycaremanagement.scenes.MainPage;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import static com.example.daycaremanagement.AppConst.SCREEN_HEIGHT;
@@ -22,8 +24,8 @@ public class MainApp extends Application {
     public static Stage primaryStage;
     private LoginPageScene loginPage = new LoginPageScene();
     // Test Page for login
-    private BorderPane testRoot = new BorderPane();
-    private Scene testScene = new Scene(new Test(), SCREEN_WIDTH, SCREEN_HEIGHT);
+    private MainPage mainPage = new MainPage();
+    private Scene scene = new Scene(mainPage, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 
     @Override
@@ -116,7 +118,6 @@ public class MainApp extends Application {
 
         } catch (Exception e1) {
             // If the database connection fails, display an error and stay on the login screen
-            System.out.println(e1);
             // Returns false
             return false;
         }
@@ -133,7 +134,7 @@ public class MainApp extends Application {
         if (setConst()) {
             // Check Connection here
             if (isConnected()) {
-                primaryStage.setScene(testScene);
+                primaryStage.setScene(scene);
             } else {
                 loginpagepane.getMessageLabel().setText("Error Connecting to Database");
                 primaryStage.setScene(loginPage);
