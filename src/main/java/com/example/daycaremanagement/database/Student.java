@@ -7,6 +7,14 @@ public class Student {
     private String birthdate;
     private int room_id;
 
+    public Student(int id, String first_name, String last_name, String birthdate, int room_id) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.birthdate = birthdate;
+        this.room_id = room_id;
+    }
+
     public int getId() {
         return id;
     }

@@ -48,6 +48,7 @@ public class Const {
 
     // Guardian Student relation table
     public static final String TABLE_GUARDIAN_STUDENT_RELATION = "guardian_student_relation";
+    public static final String GUARDIAN_STUDENT_RELATION_COLUMN_ID = "id";
     public static final String GUARDIAN_STUDENT_RELATION_COLUMN_GUARDIAN_ID = "guardian_id";
     public static final String GUARDIAN_STUDENT_RELATION_COLUMN_STUDENT_ID = "student_id";
 
@@ -109,8 +110,10 @@ public class Const {
 
     // Create guardian student relations table
     public static final String CREATE_TABLE_GUARDIAN_STUDENT_RELATIONS = " CREATE TABLE " + TABLE_GUARDIAN_STUDENT_RELATION + " ("+
+            GUARDIAN_STUDENT_RELATION_COLUMN_ID + " int NOT NULL AUTO_INCREMENT, " +
             GUARDIAN_STUDENT_RELATION_COLUMN_GUARDIAN_ID + " int NOT NULL, " +
             GUARDIAN_STUDENT_RELATION_COLUMN_STUDENT_ID + " int NOT NULL, " +
+            "PRIMARY KEY(" + GUARDIAN_STUDENT_RELATION_COLUMN_ID + "), " +
             "FOREIGN KEY (" + GUARDIAN_STUDENT_RELATION_COLUMN_GUARDIAN_ID + ")"+
                 " REFERENCES " + TABLE_GUARDIANS + "(" + GUARDIANS_COLUMN_ID + ")," +
             "FOREIGN KEY (" + GUARDIAN_STUDENT_RELATION_COLUMN_STUDENT_ID + ")"+

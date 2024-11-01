@@ -8,6 +8,15 @@ public class Staff {
     private int room_id;
     private int position_id;
 
+    public Staff(int id, String first_name, String last_name, double wage, int room_id, int position_id) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.wage = wage;
+        this.room_id = room_id;
+        this.position_id = position_id;
+    }
+
     public int getId() {
         return id;
     }

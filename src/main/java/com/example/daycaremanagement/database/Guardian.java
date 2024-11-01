@@ -10,6 +10,17 @@ public class Guardian {
     private int street_num;
     private String street_name;
 
+    public Guardian(int id, String first_name, String last_name, String phone, String email, int city_id, int street_num, String street_name) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.phone = phone;
+        this.email = email;
+        this.city_id = city_id;
+        this.street_num = street_num;
+        this.street_name = street_name;
+    }
+
     public int getId() {
         return id;
     }
