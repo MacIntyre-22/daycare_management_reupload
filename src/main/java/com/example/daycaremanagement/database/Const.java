@@ -124,4 +124,43 @@ public class Const {
             CITIES_COLUMN_ID + " int NOT NULL AUTO_INCREMENT, " +
             CITIES_COLUMN_NAME + " VARCHAR(20), " +
             "PRIMARY KEY(" + CITIES_COLUMN_ID + "));";
+
+
+
+    // Insert statement arrays
+
+    // TODO: Create insert arrays for other tables, change columns to the constant strings
+    String[] insertRooms = {
+            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'english');",
+            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'math');",
+            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'science');",
+            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'library');",
+            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'office');",
+            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'gym');",
+            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'geography');",
+            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'history');"
+    };
+
+    String[] insertStudents = {
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Andrea', 'Pittendreigh', STR_TO_DATE('11-18-2018', '%m-%d-%Y'), 8);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Lowrance', 'Mitskevich', STR_TO_DATE('7-19-2019', '%m-%d-%Y'), 8);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Allister', 'Orae', STR_TO_DATE('4-1-2019', '%m-%d-%Y'), 1);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Tod', 'Coffelt', STR_TO_DATE('7-6-2019', '%m-%d-%Y'), 3);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Arman', 'Tarte', STR_TO_DATE('3-8-2021', '%m-%d-%Y'), 3);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Walden', 'Scirman', STR_TO_DATE('9-24-2019', '%m-%d-%Y'), 4);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Lethia', 'Worvell', STR_TO_DATE('7-12-2017', '%m-%d-%Y'), 4);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Raymond', 'Cutcliffe', STR_TO_DATE('8-16-2019', '%m-%d-%Y'), 2);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Rudolph', 'Gurnett', STR_TO_DATE('2-28-2018', '%m-%d-%Y'), 1);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Fabian', 'Ramel', STR_TO_DATE('1-19-2019', '%m-%d-%Y'), 4);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Abbye', 'Dunridge', STR_TO_DATE('2-9-2018', '%m-%d-%Y'), 4);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Humberto', 'Bartoshevich', STR_TO_DATE('1-10-2019', '%m-%d-%Y'), 2);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Nicolle', 'Currey', STR_TO_DATE('1-23-2020', '%m-%d-%Y'), 8);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Bettine', 'Isacq', STR_TO_DATE('4-26-2017', '%m-%d-%Y'), 6);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Tim', 'Magog', STR_TO_DATE('7-29-2018', '%m-%d-%Y'), 2);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Archambault', 'Fishwick', STR_TO_DATE('3-4-2021', '%m-%d-%Y'), 9);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Magda', 'Domerc', STR_TO_DATE('2-26-2018', '%m-%d-%Y'), 3);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Stephen', 'Myhan', STR_TO_DATE('12-6-2017', '%m-%d-%Y'), 2);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Gertie', 'Laurencot', STR_TO_DATE('11-19-2020', '%m-%d-%Y'), 6);",
+            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Kale', 'Jeaffreson', STR_TO_DATE('10-13-2017', '%m-%d-%Y'), 2);"
+    };
 }
