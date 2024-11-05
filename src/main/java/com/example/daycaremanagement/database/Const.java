@@ -3,8 +3,8 @@ package com.example.daycaremanagement.database;
 public class Const {
     // take this out later, read the login info from a file
     // temporary
-    public static final String DB_NAME = "";
-    public static final String DB_USER = "";
+    public static final String DB_NAME = "azarankinmd";
+    public static final String DB_USER = "azarankin";
     public static final String DB_PASS = "";
 
 
@@ -65,7 +65,7 @@ public class Const {
             STUDENTS_COLUMN_BIRTHDATE + " DATE, " +
             STUDENTS_COLUMN_ROOM_ID + " int, " +
             "PRIMARY KEY(" + STUDENTS_COLUMN_ID + "), "+
-            "FOREIGN KEY(" + STUDENTS_COLUMN_ROOM_ID + "), "+
+            "FOREIGN KEY(" + STUDENTS_COLUMN_ROOM_ID + ")"+
                 " REFERENCES" + TABLE_ROOMS + "(" + ROOMS_COLUMN_ID + "));";
 
     // Create Staff table
@@ -77,9 +77,9 @@ public class Const {
             STAFF_COLUMN_ROOM_ID + " int, " +
             STAFF_COLUMN_POSITION_ID + " int, " +
             "PRIMARY KEY(" + STAFF_COLUMN_ID + "), " +
-            "FOREIGN KEY(" + STAFF_COLUMN_ROOM_ID + "), "+
+            "FOREIGN KEY(" + STAFF_COLUMN_ROOM_ID + ")"+
                 " REFERENCES" + TABLE_ROOMS + "(" + ROOMS_COLUMN_ID + ")," +
-            "FOREIGN KEY(" + STAFF_COLUMN_ROOM_ID + "), "+
+            "FOREIGN KEY(" + STAFF_COLUMN_ROOM_ID + ")"+
                 " REFERENCES" + TABLE_POSITIONS + "(" + POSITIONS_COLUMN_ID + "));";
 
     // Create Rooms table
