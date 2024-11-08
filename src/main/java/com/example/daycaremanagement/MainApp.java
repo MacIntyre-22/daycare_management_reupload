@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -38,7 +39,7 @@ public class MainApp extends Application {
         // Has to grab the button in main app for the ability to change the primary stage to test page
         LoginPagePane loginpagepane = (LoginPagePane)(loginPage.getRoot());
         loginpagepane.getLoginButton().setOnAction(e -> {
-            if(loginpagepane.saveLoginInfo(loginpagepane.getDbNameInput(), loginpagepane.getUsernameInput(), loginpagepane.getHiddenPassInput())) {
+            if(loginpagepane.saveLoginInfo(loginpagepane.getUsernameInput(), loginpagepane.getUsernameInput(), loginpagepane.getHiddenPassInput())) {
                 connectToDatabase();
             }
         });
@@ -51,6 +52,7 @@ public class MainApp extends Application {
             primaryStage.setScene(loginPage);
         }
         primaryStage.show();
+        scene.setFill(Color.TRANSPARENT);
     }
 
     public static void main(String[] args) {launch();}
