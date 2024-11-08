@@ -139,7 +139,7 @@ public class Const {
             "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Gym');",
             "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Geography');",
             "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'History');",
-            "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Human Resources Office');"
+            "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Human Resources');"
     };
 
     public static final String[] INSERT_STUDENTS = {
