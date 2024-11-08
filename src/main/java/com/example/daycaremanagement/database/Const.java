@@ -66,7 +66,7 @@ public class Const {
             STUDENTS_COLUMN_ROOM_ID + " int, " +
             "PRIMARY KEY(" + STUDENTS_COLUMN_ID + "), "+
             "FOREIGN KEY(" + STUDENTS_COLUMN_ROOM_ID + ")"+
-                " REFERENCES" + TABLE_ROOMS + "(" + ROOMS_COLUMN_ID + "));";
+                " REFERENCES " + TABLE_ROOMS + "(" + ROOMS_COLUMN_ID + "));";
 
     // Create Staff table
     public static final String CREATE_TABLE_STAFF = " CREATE TABLE " + TABLE_STAFF + " ("+
@@ -78,9 +78,9 @@ public class Const {
             STAFF_COLUMN_POSITION_ID + " int, " +
             "PRIMARY KEY(" + STAFF_COLUMN_ID + "), " +
             "FOREIGN KEY(" + STAFF_COLUMN_ROOM_ID + ")"+
-                " REFERENCES" + TABLE_ROOMS + "(" + ROOMS_COLUMN_ID + ")," +
-            "FOREIGN KEY(" + STAFF_COLUMN_ROOM_ID + ")"+
-                " REFERENCES" + TABLE_POSITIONS + "(" + POSITIONS_COLUMN_ID + "));";
+                " REFERENCES " + TABLE_ROOMS + "(" + ROOMS_COLUMN_ID + ")," +
+            "FOREIGN KEY(" + STAFF_COLUMN_POSITION_ID + ")"+
+                " REFERENCES " + TABLE_POSITIONS + "(" + POSITIONS_COLUMN_ID + "));";
 
     // Create Rooms table
     public static final String CREATE_TABLE_ROOMS = " CREATE TABLE " + TABLE_ROOMS + " ("+
