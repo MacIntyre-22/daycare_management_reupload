@@ -3,8 +3,8 @@ package com.example.daycaremanagement.database;
 public class Const {
     // take this out later, read the login info from a file
     // temporary
-    public static final String DB_NAME = "azarankinmd";
-    public static final String DB_USER = "azarankin";
+    public static final String DB_NAME = "";
+    public static final String DB_USER = "";
     public static final String DB_PASS = "";
 
 
@@ -129,38 +129,132 @@ public class Const {
 
     // Insert statement arrays
 
-    // TODO: Create insert arrays for other tables, change columns to the constant strings
-    String[] insertRooms = {
-            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'english');",
-            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'math');",
-            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'science');",
-            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'library');",
-            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'office');",
-            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'gym');",
-            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'geography');",
-            "INSERT INTO rooms (room_id, room_name) VALUES (0, 'history');"
+    // TODO: Create insert arrays for other tables
+    public static final String[] insertRooms = {
+            "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'English');",
+            "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Math');",
+            "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Science');",
+            "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Library');",
+            "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Office');",
+            "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Gym');",
+            "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Geography');",
+            "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'History');",
+            "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Human Resources Office');"
     };
 
-    String[] insertStudents = {
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Andrea', 'Pittendreigh', STR_TO_DATE('11-18-2018', '%m-%d-%Y'), 8);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Lowrance', 'Mitskevich', STR_TO_DATE('7-19-2019', '%m-%d-%Y'), 8);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Allister', 'Orae', STR_TO_DATE('4-1-2019', '%m-%d-%Y'), 1);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Tod', 'Coffelt', STR_TO_DATE('7-6-2019', '%m-%d-%Y'), 3);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Arman', 'Tarte', STR_TO_DATE('3-8-2021', '%m-%d-%Y'), 3);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Walden', 'Scirman', STR_TO_DATE('9-24-2019', '%m-%d-%Y'), 4);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Lethia', 'Worvell', STR_TO_DATE('7-12-2017', '%m-%d-%Y'), 4);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Raymond', 'Cutcliffe', STR_TO_DATE('8-16-2019', '%m-%d-%Y'), 2);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Rudolph', 'Gurnett', STR_TO_DATE('2-28-2018', '%m-%d-%Y'), 1);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Fabian', 'Ramel', STR_TO_DATE('1-19-2019', '%m-%d-%Y'), 4);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Abbye', 'Dunridge', STR_TO_DATE('2-9-2018', '%m-%d-%Y'), 4);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Humberto', 'Bartoshevich', STR_TO_DATE('1-10-2019', '%m-%d-%Y'), 2);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Nicolle', 'Currey', STR_TO_DATE('1-23-2020', '%m-%d-%Y'), 8);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Bettine', 'Isacq', STR_TO_DATE('4-26-2017', '%m-%d-%Y'), 6);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Tim', 'Magog', STR_TO_DATE('7-29-2018', '%m-%d-%Y'), 2);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Archambault', 'Fishwick', STR_TO_DATE('3-4-2021', '%m-%d-%Y'), 9);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Magda', 'Domerc', STR_TO_DATE('2-26-2018', '%m-%d-%Y'), 3);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Stephen', 'Myhan', STR_TO_DATE('12-6-2017', '%m-%d-%Y'), 2);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Gertie', 'Laurencot', STR_TO_DATE('11-19-2020', '%m-%d-%Y'), 6);",
-            "INSERT INTO students (student_id, first_name, last_name, birthdate, room_id) VALUES (0, 'Kale', 'Jeaffreson', STR_TO_DATE('10-13-2017', '%m-%d-%Y'), 2);"
+    public static final String[] insertStudents = {
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Drucy', 'Humber', STR_TO_DATE('4-6-2018', '%m-%d-%Y'), 1);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Crin', 'Tomaselli', STR_TO_DATE('3-11-2018', '%m-%d-%Y'), 1);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Rockwell', 'Spittles', STR_TO_DATE('10-24-2017', '%m-%d-%Y'), 1);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Stacey', 'McKeand', STR_TO_DATE('6-21-2018', '%m-%d-%Y'), 1);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Gasparo', 'MacTrustram', STR_TO_DATE('4-9-2018', '%m-%d-%Y'), 1);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Tiertza', 'Hurburt', STR_TO_DATE('4-4-2018', '%m-%d-%Y'), 1);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Noble', 'Nicholl', STR_TO_DATE('11-15-2017', '%m-%d-%Y'), 1);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Gertruda', 'Gershom', STR_TO_DATE('6-27-2018', '%m-%d-%Y'), 1);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Rani', 'Donoghue', STR_TO_DATE('3-28-2018', '%m-%d-%Y'), 1);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Yasmeen', 'Meads', STR_TO_DATE('8-16-2018', '%m-%d-%Y'), 1);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Danni', 'Deeth', STR_TO_DATE('1-13-2020', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Jocelyne', 'Gervaise', STR_TO_DATE('8-29-2020', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Charline', 'Tesdale', STR_TO_DATE('4-13-2020', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Frans', 'Sexti', STR_TO_DATE('11-3-2018', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Goran', 'Hailey', STR_TO_DATE('11-7-2019', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Loy', 'Greenman', STR_TO_DATE('11-23-2018', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Nadine', 'Cookes', STR_TO_DATE('5-4-2020', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Daphene', 'Matteo', STR_TO_DATE('1-10-2020', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Jabez', 'Matthai', STR_TO_DATE('4-21-2019', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Audry', 'Beckett', STR_TO_DATE('4-5-2020', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Wallas', 'Jinda', STR_TO_DATE('2-20-2020', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Allix', 'Ferrotti', STR_TO_DATE('1-12-2019', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Berny', 'Milham', STR_TO_DATE('3-29-2020', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Diego', 'Stanluck', STR_TO_DATE('3-17-2019', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Wells', 'Cloughton', STR_TO_DATE('8-26-2019', '%m-%d-%Y'), 2);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Helyn', 'Kamen', STR_TO_DATE('5-31-2021', '%m-%d-%Y'), 3);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Ivonne', 'Cowburn', STR_TO_DATE('8-10-2021', '%m-%d-%Y'), 3);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Torrin', 'McEllen', STR_TO_DATE('9-17-2021', '%m-%d-%Y'), 3);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Clim', 'Merrywether', STR_TO_DATE('10-24-2020', '%m-%d-%Y'), 3);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Emmerich', 'Crean', STR_TO_DATE('1-20-2021', '%m-%d-%Y'), 3);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Diena', 'Stuehmeier', STR_TO_DATE('1-2-2021', '%m-%d-%Y'), 3);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Web', 'Kaindl', STR_TO_DATE('4-19-2021', '%m-%d-%Y'), 3);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Hillier', 'Probin', STR_TO_DATE('9-12-2021', '%m-%d-%Y'), 3);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Dionis', 'Pitkethly', STR_TO_DATE('2-1-2021', '%m-%d-%Y'), 3);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Kameko', 'Boyn', STR_TO_DATE('7-15-2021', '%m-%d-%Y'), 3);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Tuckie', 'Landon', STR_TO_DATE('8-29-2022', '%m-%d-%Y'), 4);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Brenna', 'Sterling', STR_TO_DATE('10-27-2021', '%m-%d-%Y'), 4);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Ruby', 'Neads', STR_TO_DATE('7-20-2022', '%m-%d-%Y'), 4);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Allayne', 'Simenel', STR_TO_DATE('2-14-2022', '%m-%d-%Y'), 4);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Lilla', 'de Voiels', STR_TO_DATE('8-8-2022', '%m-%d-%Y'), 4);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Maddie', 'Tantrum', STR_TO_DATE('5-7-2022', '%m-%d-%Y'), 4);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Brynna', 'Wison', STR_TO_DATE('6-26-2022', '%m-%d-%Y'), 4);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Phillida', 'Montford', STR_TO_DATE('3-26-2022', '%m-%d-%Y'), 4);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Cordelie', 'Berry', STR_TO_DATE('5-2-2022', '%m-%d-%Y'), 4);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Chrisse', 'Risby', STR_TO_DATE('11-11-2021', '%m-%d-%Y'), 4);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Adela', 'Crisall', STR_TO_DATE('7-16-2023', '%m-%d-%Y'), 5);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Hubert', 'Djorvic', STR_TO_DATE('9-29-2023', '%m-%d-%Y'), 5);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Konstance', 'Darinton', STR_TO_DATE('6-23-2023', '%m-%d-%Y'), 5);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Rutger', 'Blackden', STR_TO_DATE('7-29-2023', '%m-%d-%Y'), 5);",
+            "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Dotti', 'Gatesman', STR_TO_DATE('12-27-2022', '%m-%d-%Y'), 5);"
+
+    };
+
+    public static final String[] insertCities = {
+            "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'Kingsville');",
+            "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'Windsor');",
+            "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'Tecumseh');",
+            "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'Essex');",
+            "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'Amherstburg');",
+            "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'LaSalle');",
+            "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'Belle River');",
+            "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'South Woodslee');"
+    };
+
+    public static final String[] insertPositions = {
+            "INSERT INTO " + TABLE_POSITIONS + " ("+POSITIONS_COLUMN_ID+", "+POSITIONS_COLUMN_NAME+") VALUES (0, 'Teacher');",
+            "INSERT INTO " + TABLE_POSITIONS + " ("+POSITIONS_COLUMN_ID+", "+POSITIONS_COLUMN_NAME+") VALUES (0, 'Principal');",
+            "INSERT INTO " + TABLE_POSITIONS + " ("+POSITIONS_COLUMN_ID+", "+POSITIONS_COLUMN_NAME+") VALUES (0, 'Custodian');",
+            "INSERT INTO " + TABLE_POSITIONS + " ("+POSITIONS_COLUMN_ID+", "+POSITIONS_COLUMN_NAME+") VALUES (0, 'Secretary');",
+            "INSERT INTO " + TABLE_POSITIONS + " ("+POSITIONS_COLUMN_ID+", "+POSITIONS_COLUMN_NAME+") VALUES (0, 'HR Manager');",
+            "INSERT INTO " + TABLE_POSITIONS + " ("+POSITIONS_COLUMN_ID+", "+POSITIONS_COLUMN_NAME+") VALUES (0, 'Janitor');",
+            "INSERT INTO " + TABLE_POSITIONS + " ("+POSITIONS_COLUMN_ID+", "+POSITIONS_COLUMN_NAME+") VALUES (0, 'Assistant Teacher');"
+    };
+
+    // TODO: Actually use the right area codes in phone numbers
+    public static final String[] insertGuardians = {
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Constantin', 'Zannetti', 2234146235, 'swolledge0@fotki.com', 2, 8, 'Bartillon Street');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Doug', 'Anker', 1719309141, 'agabbotts1@pen.io', 5, 983, 'Monterey Crossing');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Egan', 'Cridge', 9462948241, 'wunworth2@economist.com', 6, 1, 'Park Meadow Crossing');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Ramon', 'Alves', 2716489193, 'abidewell3@msn.com', 1, 8, 'Haas Trail');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Alfons', 'Ticic', 8416474205, 'rstanyard4@prlog.org', 2, 67083, ' Valley Edge Point');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Cordie', 'Grimolbie', 6763242945, 'kviggers5@php.net', 5, 2, ' Algoma Alley');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Aldric', 'Rodrigues', 2861144128, 'rallder6@seesaa.net', 6, 275, ' Amoth Place');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Zachery', 'Gellion', 3452103479, 'kskupinski7@ucoz.ru', 7, 4220, ' Ilene Park');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Layton', 'Simoncini', 5546263576, 'oingerson8@google.ru', 3, 58439, ' Atwood Plaza');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Yard', 'Barefoot', 8063260237, 'fbuckenham9@vk.com', 3, 1172, ' Hayes Plaza');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Tove', 'Zannetti', 4409353568, 'fextalla@seattletimes.com', 2, 650, ' Transport Way');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Gratia', 'Anker', 9379648870, 'bshreenanb@dion.ne.jp', 1, 6, 'Washington Street');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Elisabet', 'Cridge', 2393097464, 'gnyec@latimes.com', 3, 9, ' Talisman Plaza');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Bibbye', 'Megson', 5286688070, 'kpudnerd@w3.org', 6, 475, ' Evergreen Terrace');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Bel', 'Grimolbie', 4251369746, 'hroutleye@army.mil', 8, 548, ' Mifflin Lane');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Ellie', 'Rodrigues', 1678889066, 'bbrandenbergf@nhs.uk', 1, 79, ' Cambridge Place');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Christi', 'Gellion', 3466456780, 'mlackneyg@ow.ly', 2, 2, 'Bellgrove Circle');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Krystalle', 'Simoncini', 4366657408, 'lfaggh@loc.gov', 3, 7, 'Monterey Place');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Carolan', 'Barefoot', 7783040727, 'bpavieri@europa.eu', 2, 72213, ' Vera Parkway');",
+            "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Kacy', 'Fawcitt', 8856452654, 'krudgleyj@columbia.edu', 4, 2607, ' Cambridge Center');"
+    };
+
+    public static final String[] insertStaff = {
+            "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Dulcine', 'Courtney', 17.90, 1, 1);",
+            "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Ange', 'Loudiane', 16.15, 2, 1);",
+            "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Franchot', 'Satterthwaite', 17.41, 3, 1);",
+            "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Ulrike', 'Balmer', 19.46, 4, 1);",
+            "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Penelopa', 'Dulany', 16.41, 5, 1);",
+            "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Mendie', 'Perrigo', 19.05, 6, 2);",
+            "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Harriet', 'Casemore', 16.29, 6, 2);",
+            "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Hanson', 'Smith', 17.11, 7, 3);",
+            "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Reyna', 'Agent', 18.44, 8, 4);",
+            "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Leoine', 'Kovnot', 19.74, 8, 4);"
+    };
+
+    public static final String[] insertGuardianStudentRelation = {
+
     };
 }

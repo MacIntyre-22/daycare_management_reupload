@@ -28,11 +28,17 @@ public class Database {
     public Connection getConnection() {return connection;}
 
     public static Database getInstance() throws SQLException {
-        if (instance == null){
-            instance = new Database();
-            statement = instance.connection.createStatement();
+        try {
+            if (instance == null) {
+                instance = new Database();
+                statement = instance.connection.createStatement();
+            }
+            return instance;
+        } catch (Exception e){
+            System.out.println("Failed");
+            return null;
+
         }
-        return instance;
     }
 
     public String insertData(String database, String[] datatypes, Object[] data) throws SQLException {
