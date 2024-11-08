@@ -130,7 +130,7 @@ public class Const {
     // Insert statement arrays
 
     // TODO: Create insert arrays for other tables
-    public static final String[] insertRooms = {
+    public static final String[] INSERT_ROOMS = {
             "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'English');",
             "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Math');",
             "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Science');",
@@ -142,7 +142,7 @@ public class Const {
             "INSERT INTO " +TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, 'Human Resources Office');"
     };
 
-    public static final String[] insertStudents = {
+    public static final String[] INSERT_STUDENTS = {
             "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Drucy', 'Humber', STR_TO_DATE('4-6-2018', '%m-%d-%Y'), 1);",
             "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Crin', 'Tomaselli', STR_TO_DATE('3-11-2018', '%m-%d-%Y'), 1);",
             "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Rockwell', 'Spittles', STR_TO_DATE('10-24-2017', '%m-%d-%Y'), 1);",
@@ -195,7 +195,7 @@ public class Const {
             "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, 'Dotti', 'Gatesman', STR_TO_DATE('12-27-2022', '%m-%d-%Y'), 5);"
     };
 
-    public static final String[] insertCities = {
+    public static final String[] INSERT_CITIES = {
             "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'Kingsville');",
             "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'Windsor');",
             "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'Tecumseh');",
@@ -206,7 +206,7 @@ public class Const {
             "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, 'South Woodslee');"
     };
 
-    public static final String[] insertPositions = {
+    public static final String[] INSERT_POSITIONS = {
             "INSERT INTO " + TABLE_POSITIONS + " ("+POSITIONS_COLUMN_ID+", "+POSITIONS_COLUMN_NAME+") VALUES (0, 'Teacher');",
             "INSERT INTO " + TABLE_POSITIONS + " ("+POSITIONS_COLUMN_ID+", "+POSITIONS_COLUMN_NAME+") VALUES (0, 'Principal');",
             "INSERT INTO " + TABLE_POSITIONS + " ("+POSITIONS_COLUMN_ID+", "+POSITIONS_COLUMN_NAME+") VALUES (0, 'Custodian');",
@@ -217,7 +217,7 @@ public class Const {
     };
 
     // TODO: Actually use the right area codes in phone numbers
-    public static final String[] insertGuardians = {
+    public static final String[] INSERT_GUARDIANS = {
             "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Constantin', 'Zannetti', 2234146235, 'swolledge0@fotki.com', 2, 8, 'Bartillon Street');",
             "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Doug', 'Anker', 1719309141, 'agabbotts1@pen.io', 5, 983, 'Monterey Crossing');",
             "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Egan', 'Cridge', 9462948241, 'wunworth2@economist.com', 6, 1, 'Park Meadow Crossing');",
@@ -240,7 +240,7 @@ public class Const {
             "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, 'Kacy', 'Fawcitt', 8856452654, 'krudgleyj@columbia.edu', 4, 2607, ' Cambridge Center');"
     };
 
-    public static final String[] insertStaff = {
+    public static final String[] INSERT_STAFF = {
             "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Dulcine', 'Courtney', 17.90, 1, 1);",
             "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Ange', 'Loudiane', 16.15, 2, 1);",
             "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Franchot', 'Satterthwaite', 17.41, 3, 1);",
@@ -253,7 +253,7 @@ public class Const {
             "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, 'Leoine', 'Kovnot', 19.74, 8, 4);"
     };
 
-    public static final String[] insertGuardianStudentRelation = {
+    public static final String[] INSERT_GUARDIAN_STUDENT_RELATION = {
             "INSERT INTO " +TABLE_GUARDIAN_STUDENT_RELATION + " ("+GUARDIAN_STUDENT_RELATION_COLUMN_ID+", "+GUARDIAN_STUDENT_RELATION_COLUMN_GUARDIAN_ID+", "+GUARDIAN_STUDENT_RELATION_COLUMN_STUDENT_ID+") VALUES (0, 1, 4);",
             "INSERT INTO " +TABLE_GUARDIAN_STUDENT_RELATION + " ("+GUARDIAN_STUDENT_RELATION_COLUMN_ID+", "+GUARDIAN_STUDENT_RELATION_COLUMN_GUARDIAN_ID+", "+GUARDIAN_STUDENT_RELATION_COLUMN_STUDENT_ID+") VALUES (0, 2, 11);",
             "INSERT INTO " +TABLE_GUARDIAN_STUDENT_RELATION + " ("+GUARDIAN_STUDENT_RELATION_COLUMN_ID+", "+GUARDIAN_STUDENT_RELATION_COLUMN_GUARDIAN_ID+", "+GUARDIAN_STUDENT_RELATION_COLUMN_STUDENT_ID+") VALUES (0, 3, 18);",
