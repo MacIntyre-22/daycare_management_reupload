@@ -52,6 +52,7 @@ public class MainPage extends BorderPane {
 
     vbox.getChildren().addAll(studentsButton, guardiansButton, staffButton,infoButton);
     this.setLeft(vbox);
+    this.setCenter(studentDisplay);
   }
 
 

@@ -3,6 +3,7 @@ import javafx.scene.control.Label;
 
 public class Students extends BasePage {
     private static Students instance;
+    private Label title = new Label("Students");
 
     /**
      * Gets an instance of this class
@@ -18,7 +19,8 @@ public class Students extends BasePage {
 
     private Students() {
         super();
-        content.setTop(new Label("Students"));
+        title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 5px 20px");
+        content.setTop(title);
     }
 
     @Override

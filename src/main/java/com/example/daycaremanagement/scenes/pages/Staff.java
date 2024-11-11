@@ -8,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 public class Staff extends BasePage {
   private static Staff instance;
+  private Label title = new Label("Staff");
 
   /**
    * Gets an instance of this class
@@ -23,7 +24,8 @@ public class Staff extends BasePage {
 
   private Staff() {
     super();
-    content.setTop(new Label("Staff"));
+    title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 5px 20px");
+    content.setTop(title);
   }
 
   @Override
