@@ -15,13 +15,7 @@ public class MainPage extends BorderPane {
     Button staffButton = new Button("Staff ");
     Button infoButton = new Button("Information ");
 
-    studentsButton.setOnAction(e-> {
-        try {
-            this.setCenter(Test.getInstance());
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-    });
+
 
     studentsButton.setMaxWidth(Double.MAX_VALUE);
     guardiansButton.setMaxWidth(Double.MAX_VALUE);
@@ -29,8 +23,32 @@ public class MainPage extends BorderPane {
     infoButton.setMaxWidth(Double.MAX_VALUE);
 
     infoButton.setOnAction(e -> {
-      InfoPage info = new InfoPage();
+      Info info = new Info();
       this.setCenter(info);
+    });
+
+    // Action for Information button
+    infoButton.setOnAction(e -> {
+      Info info = new Info();   // Assuming Info class exists and is configured to show content
+      this.setCenter(info);
+    });
+
+    // Action for Students button
+    studentsButton.setOnAction(e -> {
+      Students studentDisplay = new Students();  // Assuming Staff class displays information for Students
+      this.setCenter(studentDisplay);
+    });
+
+    // Placeholder action for Guardians button
+    guardiansButton.setOnAction(e -> {
+      Guardians guardiansDisplay = Guardians.getInstance();
+      this.setCenter(guardiansDisplay);
+    });
+
+    // Placeholder action for Staff button
+    staffButton.setOnAction(e -> {
+      Staff staffDisplay = new Staff();  // Assuming Staff class displays information for Staff
+      this.setCenter(staffDisplay);
     });
 
 

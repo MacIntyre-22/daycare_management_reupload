@@ -1,8 +1,7 @@
-package com.example.daycaremanagement.scenes;
+package com.example.daycaremanagement.interfaces;
 
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;

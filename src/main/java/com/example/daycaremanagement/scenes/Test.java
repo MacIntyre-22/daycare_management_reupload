@@ -1,6 +1,6 @@
 package com.example.daycaremanagement.scenes;
 
-import com.example.daycaremanagement.database.Database;
+import com.example.daycaremanagement.interfaces.SideBar;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
