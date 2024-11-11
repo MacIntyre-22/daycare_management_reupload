@@ -2,6 +2,7 @@ package com.example.daycaremanagement;
 
 import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.database.DbConst;
+import com.example.daycaremanagement.scenes.FirstPage;
 import com.example.daycaremanagement.scenes.LoginPagePane;
 import com.example.daycaremanagement.scenes.LoginPageScene;
 import com.example.daycaremanagement.scenes.MainPage;
@@ -25,8 +26,8 @@ public class MainApp extends Application {
     public static Stage primaryStage;
     private LoginPageScene loginPage = new LoginPageScene();
     // Test Page for login
-    private MainPage mainPage = new MainPage();
-    private Scene scene = new Scene(mainPage, SCREEN_WIDTH, SCREEN_HEIGHT);
+    private FirstPage firstPage = new FirstPage();
+    private Scene scene = new Scene(firstPage, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 
     @Override
