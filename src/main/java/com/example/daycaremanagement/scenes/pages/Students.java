@@ -1,14 +1,8 @@
 package com.example.daycaremanagement.scenes.pages;
-
-import com.example.daycaremanagement.interfaces.SideBar;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
-public class Students extends BorderPane implements SideBar {
+public class Students extends BasePage {
     private static Students instance;
-    private BorderPane content = new BorderPane();
 
     /**
      * Gets an instance of this class
@@ -20,31 +14,20 @@ public class Students extends BorderPane implements SideBar {
         }
         return instance;
     }
+
+
     private Students() {
-        this.setLeft(sideBar());
-        this.setBottom(bottomBar());
+        super();
         content.setTop(new Label("Students"));
-        this.setCenter(content);
-    }
-
-
-    @Override
-    public VBox sideBar() {
-        return SideBar.super.sideBar();
     }
 
     @Override
-    public HBox bottomBar() {
-        return SideBar.super.bottomBar();
+    protected void sideButtonBar() {
+        // Define actions specific to Guardians’ side buttons here
     }
 
     @Override
-    public void sideButtonBar() {
-
-    }
-
-    @Override
-    public void bottomButtonBar() {
-
+    protected void bottomButtonBar() {
+        // Define actions specific to Guardians’ CRUD buttons here
     }
 }

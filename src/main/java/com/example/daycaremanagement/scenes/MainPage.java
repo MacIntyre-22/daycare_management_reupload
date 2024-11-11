@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class MainPage extends BorderPane {
-  private Staff staffDisplay = new Staff();
+  private Staff staffDisplay = Staff.getInstance();
   private Guardians guardiansDisplay = Guardians.getInstance();
   private Students studentDisplay = Students.getInstance();
 
