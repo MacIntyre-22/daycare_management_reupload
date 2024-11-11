@@ -1,4 +1,4 @@
-package com.example.daycaremanagement.scenes;
+package com.example.daycaremanagement.scenes.pages;
 
 import com.example.daycaremanagement.interfaces.SideBar;
 import javafx.scene.control.Label;

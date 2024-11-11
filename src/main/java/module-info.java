@@ -10,4 +10,6 @@ module com.example.daycaremanagement {
     opens com.example.daycaremanagement.scenes to javafx.fxml;
     exports com.example.daycaremanagement.interfaces;
     opens com.example.daycaremanagement.interfaces to javafx.fxml;
+    exports com.example.daycaremanagement.scenes.pages;
+    opens com.example.daycaremanagement.scenes.pages to javafx.fxml;
 }
