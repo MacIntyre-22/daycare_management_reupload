@@ -36,14 +36,14 @@ public class MainApp extends Application {
         LoginPagePane loginpagepane = (LoginPagePane)(loginPage.getRoot());
         loginpagepane.getLoginButton().setOnAction(e -> {
             if(loginpagepane.saveLoginInfo(loginpagepane.getDbNameInput(), loginpagepane.getUsernameInput(), loginpagepane.getHiddenPassInput())) {
-                primaryStage.setScene(scene);
+                connectToDatabase();
             }
         });
 
         // Login Page Logic
 
         if (loginExists()) {
-            primaryStage.setScene(scene);
+            connectToDatabase();
         } else {
             primaryStage.setScene(loginPage);
         }
