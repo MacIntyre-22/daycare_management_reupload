@@ -62,4 +62,37 @@ public class GuardianStudentRelationTable implements GuardianStudentRelationDAO 
         }
         return null;
     }
+
+    @Override
+    public void updateRelation(GuardianStudentRelation relation) {
+        String query = "UPDATE "+TABLE_GUARDIAN_STUDENT_RELATION + " SET " + GUARDIAN_STUDENT_RELATION_COLUMN_STUDENT_ID + " = " + relation.getStudent_id() + ", " + GUARDIAN_STUDENT_RELATION_COLUMN_GUARDIAN_ID + " = " + relation.getGuardian_id() + " WHERE " + GUARDIAN_STUDENT_RELATION_COLUMN_ID + " = " + relation.getId();
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteRelation(GuardianStudentRelation relation) {
+        String query = "DELETE FROM "+TABLE_GUARDIAN_STUDENT_RELATION+" WHERE "+ GUARDIAN_STUDENT_RELATION_COLUMN_ID + " = " + relation.getId() + " LIMIT 1";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createRelation(GuardianStudentRelation relation) {
+        String query = "INSERT INTO " +TABLE_GUARDIAN_STUDENT_RELATION + " ("+GUARDIAN_STUDENT_RELATION_COLUMN_ID+", "+GUARDIAN_STUDENT_RELATION_COLUMN_STUDENT_ID+", "+GUARDIAN_STUDENT_RELATION_COLUMN_GUARDIAN_ID+") VALUES (0, " + relation.getStudent_id() + ", "+relation.getGuardian_id()+");";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.execute(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

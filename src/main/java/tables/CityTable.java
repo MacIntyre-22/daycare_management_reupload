@@ -62,4 +62,37 @@ public class CityTable implements CityDAO {
         }
         return null;
     }
+
+    @Override
+    public void updateCity(City city) {
+        String query = "UPDATE " + TABLE_CITIES + " SET " + CITIES_COLUMN_NAME + " = '" + city.getName() + "' WHERE " + CITIES_COLUMN_ID + " = " + city.getId();
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteCity(City city) {
+        String query = "DELETE FROM "+TABLE_CITIES+" WHERE "+ CITIES_COLUMN_ID + " = " + city.getId() + " LIMIT 1";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createCity(City city) {
+        String query = "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, '" + city.getName() +"');";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.execute(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

@@ -62,4 +62,37 @@ public class PositionTable implements PositionDAO {
         }
         return null;
     }
+
+    @Override
+    public void updatePosition(Position position) {
+        String query = "UPDATE " + TABLE_POSITIONS + " SET " + POSITIONS_COLUMN_NAME + " = '" + position.getName() + "' WHERE " + POSITIONS_COLUMN_ID + " = " + position.getId();
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deletePosition(Position position) {
+        String query = "DELETE FROM "+TABLE_POSITIONS+" WHERE "+ POSITIONS_COLUMN_ID + " = " + position.getId() + " LIMIT 1";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createPosition(Position position) {
+        String query = "INSERT INTO " + TABLE_POSITIONS + " ("+POSITIONS_COLUMN_ID+", "+POSITIONS_COLUMN_NAME+") VALUES (0, '" + position.getName() +"');";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.execute(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

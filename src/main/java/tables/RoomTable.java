@@ -61,4 +61,37 @@ public class RoomTable implements RoomDAO {
         }
         return null;
     }
+
+    @Override
+    public void updateRoom(Room room) {
+        String query = "UPDATE " + TABLE_ROOMS + " SET " + ROOMS_COLUMN_NAME + " = '" + room.getName() + "' WHERE " + ROOMS_COLUMN_ID + " = " + room.getId();
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteRoom(Room room) {
+        String query = "DELETE FROM "+TABLE_ROOMS+" WHERE "+ ROOMS_COLUMN_ID + " = " + room.getId() + " LIMIT 1";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createRoom(Room room) {
+        String query = "INSERT INTO " + TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, '" + room.getName() +"');";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.execute(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

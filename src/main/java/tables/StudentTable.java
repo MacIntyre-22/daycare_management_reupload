@@ -62,4 +62,38 @@ public class StudentTable implements StudentDAO {
         }
         return null;
     }
+
+    @Override
+    public void updateStudent(Student student) {
+        String query = "UPDATE " + TABLE_STUDENTS + " SET " + STUDENTS_COLUMN_FIRST_NAME + " = '" + student.getFirst_name() + "', " + STUDENTS_COLUMN_LAST_NAME + " = '" + student.getLast_name() +"', " + STUDENTS_COLUMN_BIRTHDATE + " = '" + student.getBirthdate() + "', " + STUDENTS_COLUMN_ROOM_ID + " = "+ student.getRoom_id()+
+                " WHERE " + STUDENTS_COLUMN_ID + " = " + student.getId();
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteStudent(Student student) {
+        String query = "DELETE FROM "+TABLE_STUDENTS+" WHERE "+ STUDENTS_COLUMN_ID + " = " + student.getId() + " LIMIT 1";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createStudent(Student student) {
+        String query = "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, '"+student.getFirst_name()+"', '"+student.getLast_name()+"', '"+student.getBirthdate()+"', "+student.getRoom_id()+");";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.execute(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

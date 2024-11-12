@@ -72,4 +72,38 @@ public class GuardianTable implements GuardianDAO {
         }
         return null;
     }
+
+    @Override
+    public void updateGuardian(Guardian guardian) {
+        String query = "UPDATE " + TABLE_GUARDIANS + " SET " + GUARDIANS_COLUMN_FIRST_NAME + " = '" + guardian.getFirst_name() + "', " + GUARDIANS_COLUMN_LAST_NAME + " = '" + guardian.getLast_name() +"', " + GUARDIANS_COLUMN_PHONE + " = " + guardian.getPhone() + ", " + GUARDIANS_COLUMN_EMAIL + " = '"+ guardian.getEmail()+"', " + GUARDIANS_COLUMN_CITY_ID + " = " + guardian.getCity_id() + ", " + GUARDIANS_COLUMN_STREET_NUM + " = " + guardian.getStreet_num() + ", " + GUARDIANS_COLUMN_STREET_NAME + " = '" + guardian.getStreet_name() + "'" +
+                " WHERE " + GUARDIANS_COLUMN_ID + " = " + guardian.getId();
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteGuardian(Guardian guardian) {
+        String query = "DELETE FROM "+TABLE_GUARDIANS+" WHERE "+ GUARDIANS_COLUMN_ID + " = " + guardian.getId() + " LIMIT 1";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createGuardian(Guardian guardian) {
+        String query = "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, '"+guardian.getFirst_name()+"', '"+guardian.getLast_name()+"', "+guardian.getPhone()+", '"+guardian.getEmail()+"', "+guardian.getCity_id()+", "+guardian.getStreet_num()+", '"+guardian.getStreet_name()+"');";
+        try{
+            Statement statement = db.getConnection().createStatement();
+            statement.execute(query);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
