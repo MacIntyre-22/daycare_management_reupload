@@ -1,7 +1,7 @@
 package com.example.daycaremanagement;
 
 import com.example.daycaremanagement.database.Database;
-import com.example.daycaremanagement.database.DbConst;
+import com.example.daycaremanagement.database.DBConst;
 import com.example.daycaremanagement.scenes.MainPage;
 import com.example.daycaremanagement.scenes.LoginPagePane;
 import com.example.daycaremanagement.scenes.LoginPageScene;
@@ -89,9 +89,9 @@ public class MainApp extends Application {
             }
 
             // Set DbConst values
-            DbConst.setDbName(fileConst[0]);
-            DbConst.setDbUser(fileConst[1]);
-            DbConst.setDbPass(fileConst[2]);
+            DBConst.setDbName(fileConst[0]);
+            DBConst.setDbUser(fileConst[1]);
+            DBConst.setDbPass(fileConst[2]);
             return true;
 
         } catch (FileNotFoundException e) {
