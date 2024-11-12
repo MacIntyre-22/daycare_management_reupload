@@ -1,4 +1,4 @@
-package com.example.daycaremanagement.scenes.pages;
+package com.example.daycaremanagement.pages;
 import javafx.scene.control.Label;
 
 public class Students extends BasePage {

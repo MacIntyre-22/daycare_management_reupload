@@ -2,9 +2,8 @@ package com.example.daycaremanagement;
 
 import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.database.DBConst;
-import com.example.daycaremanagement.scenes.MainPage;
-import com.example.daycaremanagement.scenes.LoginPagePane;
-import com.example.daycaremanagement.scenes.LoginPageScene;
+import com.example.daycaremanagement.overlays.MainPage;
+import com.example.daycaremanagement.pages.LoginPagePane;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

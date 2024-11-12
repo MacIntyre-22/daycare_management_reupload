@@ -1,6 +1,6 @@
-package com.example.daycaremanagement.scenes;
+package com.example.daycaremanagement;
 
-import com.example.daycaremanagement.AppConst;
+import com.example.daycaremanagement.pages.LoginPagePane;
 import javafx.scene.Scene;
 
 public class LoginPageScene extends Scene {

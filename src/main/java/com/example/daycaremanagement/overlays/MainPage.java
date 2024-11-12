@@ -1,9 +1,9 @@
-package com.example.daycaremanagement.scenes;
+package com.example.daycaremanagement.overlays;
 
-import com.example.daycaremanagement.scenes.pages.Guardians;
-import com.example.daycaremanagement.scenes.pages.Info;
-import com.example.daycaremanagement.scenes.pages.Staff;
-import com.example.daycaremanagement.scenes.pages.Students;
+import com.example.daycaremanagement.pages.Guardians;
+import com.example.daycaremanagement.pages.Info;
+import com.example.daycaremanagement.pages.Staff;
+import com.example.daycaremanagement.pages.Students;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;

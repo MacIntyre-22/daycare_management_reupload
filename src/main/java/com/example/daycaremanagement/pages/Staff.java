@@ -1,11 +1,7 @@
-package com.example.daycaremanagement.scenes.pages;
+package com.example.daycaremanagement.pages;
 
-import com.example.daycaremanagement.interfaces.SideBar;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Label;
 
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 public class Staff extends BasePage {
   private static Staff instance;
   private Label title = new Label("Staff");

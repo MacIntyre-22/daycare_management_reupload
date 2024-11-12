@@ -1,4 +1,4 @@
-package com.example.daycaremanagement.scenes;
+package com.example.daycaremanagement.pages;
 
 import com.example.daycaremanagement.MainApp;
 import javafx.geometry.Pos;
