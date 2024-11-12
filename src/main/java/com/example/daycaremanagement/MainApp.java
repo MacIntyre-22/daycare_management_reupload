@@ -35,7 +35,7 @@ public class MainApp extends Application {
         // Has to grab the button in main app for the ability to change the primary stage to test page
         LoginPagePane loginpagepane = (LoginPagePane)(loginPage.getRoot());
         loginpagepane.getLoginButton().setOnAction(e -> {
-            if(loginpagepane.saveLoginInfo(loginpagepane.getDbNameInput(), loginpagepane.getUsernameInput(), loginpagepane.getHiddenPassInput())) {
+            if(loginpagepane.saveLoginInfo(loginpagepane.getUsernameInput(), loginpagepane.getUsernameInput(), loginpagepane.getHiddenPassInput())) {
                 connectToDatabase();
             }
         });
