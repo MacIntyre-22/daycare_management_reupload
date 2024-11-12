@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import static com.example.daycaremanagement.database.Const.*;
+import static com.example.daycaremanagement.database.DBConst.*;
 
 public class RoomTable implements RoomDAO {
     Database db;
