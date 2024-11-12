@@ -1,6 +1,6 @@
-package dao;
+package com.example.daycaremanagement.dao;
 
-import com.example.daycaremanagement.database.Student;
+import com.example.daycaremanagement.pojo.Student;
 
 import java.util.ArrayList;
 

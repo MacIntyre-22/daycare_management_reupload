@@ -1,8 +1,8 @@
-package tables;
+package com.example.daycaremanagement.tables;
 
 import com.example.daycaremanagement.database.Database;
-import com.example.daycaremanagement.database.GuardianStudentRelation;
-import dao.GuardianStudentRelationDAO;
+import com.example.daycaremanagement.pojo.GuardianStudentRelation;
+import com.example.daycaremanagement.dao.GuardianStudentRelationDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

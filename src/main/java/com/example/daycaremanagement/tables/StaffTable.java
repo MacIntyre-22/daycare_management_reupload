@@ -1,8 +1,8 @@
-package tables;
+package com.example.daycaremanagement.tables;
 
 import com.example.daycaremanagement.database.Database;
-import com.example.daycaremanagement.database.Staff;
-import dao.StaffDAO;
+import com.example.daycaremanagement.pojo.Staff;
+import com.example.daycaremanagement.dao.StaffDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

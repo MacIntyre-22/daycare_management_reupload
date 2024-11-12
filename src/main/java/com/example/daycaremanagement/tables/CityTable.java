@@ -1,9 +1,8 @@
-package tables;
+package com.example.daycaremanagement.tables;
 
-import com.example.daycaremanagement.database.City;
+import com.example.daycaremanagement.pojo.City;
 import com.example.daycaremanagement.database.Database;
-import com.example.daycaremanagement.database.Position;
-import dao.CityDAO;
+import com.example.daycaremanagement.dao.CityDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

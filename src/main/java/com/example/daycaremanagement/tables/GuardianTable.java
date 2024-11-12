@@ -1,8 +1,8 @@
-package tables;
+package com.example.daycaremanagement.tables;
 
 import com.example.daycaremanagement.database.Database;
-import com.example.daycaremanagement.database.Guardian;
-import dao.GuardianDAO;
+import com.example.daycaremanagement.pojo.Guardian;
+import com.example.daycaremanagement.dao.GuardianDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

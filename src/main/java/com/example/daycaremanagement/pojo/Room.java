@@ -1,4 +1,4 @@
-package com.example.daycaremanagement.database;
+package com.example.daycaremanagement.pojo;
 
 public class Room {
     private int id;

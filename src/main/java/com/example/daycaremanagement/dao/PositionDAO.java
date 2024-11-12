@@ -1,6 +1,6 @@
-package dao;
+package com.example.daycaremanagement.dao;
 
-import com.example.daycaremanagement.database.Position;
+import com.example.daycaremanagement.pojo.Position;
 
 import java.util.ArrayList;
 
