@@ -32,4 +32,9 @@ public class Guardians extends BasePage {
     protected void bottomButtonBar() {
         // Define actions specific to Guardians’ CRUD buttons here
     }
+
+    @Override
+    protected void loadTable() {
+
+    }
 }

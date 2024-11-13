@@ -4,11 +4,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public abstract class BasePage extends BorderPane {
+
+    // Table
+    protected TableView tableView;
 
     // Shared buttons
     protected Button graph1 = new Button("Graph 1");
@@ -81,4 +85,5 @@ public abstract class BasePage extends BorderPane {
     // Abstract methods for subclasses to define specific behavior
     protected abstract void sideButtonBar();
     protected abstract void bottomButtonBar();
+    protected abstract void loadTable();
 }
