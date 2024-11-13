@@ -2,14 +2,14 @@ package com.example.daycaremanagement.scenes;
 
 import com.example.daycaremanagement.scenes.pages.Guardians;
 import com.example.daycaremanagement.scenes.pages.Info;
-import com.example.daycaremanagement.scenes.pages.Staff;
+import com.example.daycaremanagement.scenes.pages.StaffPage;
 import com.example.daycaremanagement.scenes.pages.Students;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class MainPage extends BorderPane {
-  private Staff staffDisplay = Staff.getInstance();
+  private StaffPage staffDisplay = StaffPage.getInstance();
   private Guardians guardiansDisplay = Guardians.getInstance();
   private Students studentDisplay = Students.getInstance();
 
