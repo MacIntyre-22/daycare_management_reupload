@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 public class StaffPage extends BasePage {
   private static StaffPage instance;
@@ -26,10 +27,11 @@ public class StaffPage extends BasePage {
 
 
   private StaffPage() {
-    super();
-    title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 5px 20px");
-    content.setTop(title);
-    loadTable();
+      super();
+      title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
+      content.setTop(title);
+      loadTable();
+      loadInfo();
   }
 
   @Override
@@ -68,6 +70,15 @@ public class StaffPage extends BasePage {
 
       this.content.setCenter(tableView);
   }
+
+    @Override
+    protected void loadInfo() {
+        VBox pageInfo = new VBox();
+        Label testInfo = new Label("Test info: Will hold information on table");
+        Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
+        pageInfo.getChildren().addAll(testInfo, testInfo2);
+        this.content.setBottom(pageInfo);
+    }
 }
 
 

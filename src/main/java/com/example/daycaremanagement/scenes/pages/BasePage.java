@@ -31,6 +31,7 @@ public abstract class BasePage extends BorderPane {
         this.setLeft(createSideBar());
         this.setBottom(createBottomBar());
         this.setCenter(content);
+        content.setStyle("-fx-padding: 10px 50px 50px 50px;");
     }
 
     private VBox createSideBar() {
@@ -86,4 +87,5 @@ public abstract class BasePage extends BorderPane {
     protected abstract void sideButtonBar();
     protected abstract void bottomButtonBar();
     protected abstract void loadTable();
+    protected abstract void loadInfo();
 }

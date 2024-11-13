@@ -1,12 +1,11 @@
 package com.example.daycaremanagement.scenes.pages;
 import com.example.daycaremanagement.pojo.Guardian;
-import com.example.daycaremanagement.pojo.Staff;
 import com.example.daycaremanagement.tables.GuardianTable;
-import com.example.daycaremanagement.tables.StaffTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.VBox;
 
 public class Guardians extends BasePage {
     private static Guardians instance;
@@ -27,9 +26,10 @@ public class Guardians extends BasePage {
 
     private Guardians() {
         super();
-        title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 5px 20px");
+        title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         content.setTop(title);
         loadTable();
+        loadInfo();
     }
 
     @Override
@@ -72,7 +72,17 @@ public class Guardians extends BasePage {
 
         tableView.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7);
         tableView.getItems().addAll(guardians.getAllGuardians());
+        tableView.setStyle("");
 
         this.content.setCenter(tableView);
+    }
+
+    @Override
+    protected void loadInfo() {
+        VBox pageInfo = new VBox();
+        Label testInfo = new Label("Test info: Will hold information on table");
+        Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
+        pageInfo.getChildren().addAll(testInfo, testInfo2);
+        this.content.setBottom(pageInfo);
     }
 }
