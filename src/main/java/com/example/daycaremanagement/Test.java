@@ -1,6 +1,7 @@
 package com.example.daycaremanagement;
 
-import com.example.daycaremanagement.overlays.SideBar;
+
+import com.example.daycaremanagement.SideBar;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;

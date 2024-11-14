@@ -17,8 +17,10 @@ import java.util.Scanner;
 public class MainApp extends Application {
     public static Stage primaryStage;
     // Test Page for login
+    private LoginPagePane loginPage = new LoginPagePane();
     private MainPage root = new MainPage();
-    private Scene scene = new Scene(root, 1024, 768);
+    private Scene mainPageScene = new Scene(root, 1024, 768);
+    private Scene loginPageScene = new Scene(loginPage, 1024, 768);
 
 
     @Override
@@ -29,7 +31,7 @@ public class MainApp extends Application {
 
         // Set the Logic for login button press in LoginPageScene
         // Has to grab the button in main app for the ability to change the primary stage to test page
-        LoginPagePane loginPage = new LoginPagePane();
+
         loginPage.getLoginButton().setOnAction(e -> {
             if(loginPage.saveLoginInfo(loginPage.getUsernameInput(), loginPage.getUsernameInput(), loginPage.getHiddenPassInput())) {
                 connectToDatabase();
@@ -41,7 +43,7 @@ public class MainApp extends Application {
         if (loginExists()) {
             connectToDatabase();
         } else {
-            scene.setRoot(loginPage);
+            primaryStage.setScene(loginPageScene);
         }
         primaryStage.show();
     }
@@ -122,19 +124,19 @@ public class MainApp extends Application {
      * Cleans up code by putting the logic for a connection in one function
      * */
     private void connectToDatabase() {
-        LoginPagePane loginPage = new LoginPagePane();
+
         // Set Consts Here
         if (setConst()) {
             // Check Connection here
             if (isConnected()) {
-               scene.setRoot(root);
+                primaryStage.setScene(mainPageScene);
             } else {
                 loginPage.getMessageLabel().setText("Error Connecting to Database");
-                scene.setRoot(loginPage);
+                primaryStage.setScene(loginPageScene);
             }
         } else {
             loginPage.getMessageLabel().setText("Error Setting Constants");
-            scene.setRoot(loginPage);
+            primaryStage.setScene(loginPageScene);
         }
     }
 }
