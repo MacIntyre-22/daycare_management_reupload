@@ -1,7 +1,7 @@
 package com.example.daycaremanagement.overlays;
 
 import com.example.daycaremanagement.pages.Guardians;
-import com.example.daycaremanagement.pages.Info;
+import com.example.daycaremanagement.pages.InfoPage;
 import com.example.daycaremanagement.pages.Staff;
 import com.example.daycaremanagement.pages.Students;
 import javafx.scene.control.Button;
@@ -31,7 +31,7 @@ public class MainPage extends BorderPane {
 
     // Action for Information button
     infoButton.setOnAction(e -> {
-      Info infoDisplay = new Info();
+      InfoPage infoDisplay = new InfoPage();
       this.setCenter(infoDisplay);
     });
 

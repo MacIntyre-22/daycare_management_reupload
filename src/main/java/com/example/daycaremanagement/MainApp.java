@@ -13,15 +13,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static com.example.daycaremanagement.AppConst.SCREEN_HEIGHT;
-import static com.example.daycaremanagement.AppConst.SCREEN_WIDTH;
 
 public class MainApp extends Application {
     public static Stage primaryStage;
-    private LoginPageScene loginPage = new LoginPageScene();
     // Test Page for login
     private MainPage root = new MainPage();
-    private Scene scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
+    private Scene scene = new Scene(root, 1024, 768);
 
 
     @Override
@@ -32,9 +29,9 @@ public class MainApp extends Application {
 
         // Set the Logic for login button press in LoginPageScene
         // Has to grab the button in main app for the ability to change the primary stage to test page
-        LoginPagePane loginpagepane = (LoginPagePane)(loginPage.getRoot());
-        loginpagepane.getLoginButton().setOnAction(e -> {
-            if(loginpagepane.saveLoginInfo(loginpagepane.getUsernameInput(), loginpagepane.getUsernameInput(), loginpagepane.getHiddenPassInput())) {
+        LoginPagePane loginPage = new LoginPagePane();
+        loginPage.getLoginButton().setOnAction(e -> {
+            if(loginPage.saveLoginInfo(loginPage.getUsernameInput(), loginPage.getUsernameInput(), loginPage.getHiddenPassInput())) {
                 connectToDatabase();
             }
         });
@@ -44,7 +41,7 @@ public class MainApp extends Application {
         if (loginExists()) {
             connectToDatabase();
         } else {
-            primaryStage.setScene(loginPage);
+            scene.setRoot(loginPage);
         }
         primaryStage.show();
     }
@@ -125,19 +122,19 @@ public class MainApp extends Application {
      * Cleans up code by putting the logic for a connection in one function
      * */
     private void connectToDatabase() {
-        LoginPagePane loginpagepane = (LoginPagePane)(loginPage.getRoot());
+        LoginPagePane loginPage = new LoginPagePane();
         // Set Consts Here
         if (setConst()) {
             // Check Connection here
             if (isConnected()) {
-                primaryStage.setScene(scene);
+               scene.setRoot(root);
             } else {
-                loginpagepane.getMessageLabel().setText("Error Connecting to Database");
-                primaryStage.setScene(loginPage);
+                loginPage.getMessageLabel().setText("Error Connecting to Database");
+                scene.setRoot(loginPage);
             }
         } else {
-            loginpagepane.getMessageLabel().setText("Error Setting Constants");
-            primaryStage.setScene(loginPage);
+            loginPage.getMessageLabel().setText("Error Setting Constants");
+            scene.setRoot(loginPage);
         }
     }
 }

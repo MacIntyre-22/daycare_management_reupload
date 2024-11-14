@@ -1,5 +1,6 @@
 package com.example.daycaremanagement.pages;
 
+import com.example.daycaremanagement.overlays.BasePage;
 import javafx.scene.control.Label;
 
 public class Staff extends BasePage {
