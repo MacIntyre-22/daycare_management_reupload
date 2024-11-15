@@ -1,4 +1,6 @@
-package com.example.daycaremanagement.scenes.pages;
+package com.example.daycaremanagement.pages;
+
+import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Staff;
 import com.example.daycaremanagement.pojo.Student;
@@ -9,7 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-public class StaffPage extends BasePage {
+public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
   private Label title = new Label("Staff");
   private StaffTable staff;

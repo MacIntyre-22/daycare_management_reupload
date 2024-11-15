@@ -2,9 +2,8 @@ package com.example.daycaremanagement;
 
 import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.database.DBConst;
-import com.example.daycaremanagement.scenes.MainPage;
-import com.example.daycaremanagement.scenes.LoginPagePane;
-import com.example.daycaremanagement.scenes.LoginPageScene;
+import com.example.daycaremanagement.overlays.MainTablesOverlay;
+import com.example.daycaremanagement.pages.LoginPage;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -14,15 +13,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static com.example.daycaremanagement.AppConst.SCREEN_HEIGHT;
-import static com.example.daycaremanagement.AppConst.SCREEN_WIDTH;
 
 public class MainApp extends Application {
     public static Stage primaryStage;
-    private LoginPageScene loginPage = new LoginPageScene();
     // Test Page for login
     private MainPage root;
     private Scene scene;
+    private LoginPage loginPage = new LoginPage();
+    private MainTablesOverlay root;
+    private Scene mainPageScene;
+    private Scene loginPageScene = new Scene(loginPage, 1024, 768);
 
 
     @Override
@@ -33,9 +33,9 @@ public class MainApp extends Application {
 
         // Set the Logic for login button press in LoginPageScene
         // Has to grab the button in main app for the ability to change the primary stage to test page
-        LoginPagePane loginpagepane = (LoginPagePane)(loginPage.getRoot());
-        loginpagepane.getLoginButton().setOnAction(e -> {
-            if(loginpagepane.saveLoginInfo(loginpagepane.getUsernameInput(), loginpagepane.getUsernameInput(), loginpagepane.getHiddenPassInput())) {
+
+        loginPage.getLoginButton().setOnAction(e -> {
+            if(loginPage.saveLoginInfo(loginPage.getUsernameInput(), loginPage.getUsernameInput(), loginPage.getHiddenPassInput())) {
                 connectToDatabase();
             }
         });
@@ -45,7 +45,7 @@ public class MainApp extends Application {
         if (loginExists()) {
             connectToDatabase();
         } else {
-            primaryStage.setScene(loginPage);
+            primaryStage.setScene(loginPageScene);
         }
         primaryStage.show();
     }
@@ -126,21 +126,21 @@ public class MainApp extends Application {
      * Cleans up code by putting the logic for a connection in one function
      * */
     private void connectToDatabase() {
-        LoginPagePane loginpagepane = (LoginPagePane)(loginPage.getRoot());
+
         // Set Consts Here
         if (setConst()) {
             // Check Connection here
             if (isConnected()) {
-                root = new MainPage();
-                scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
-                primaryStage.setScene(scene);
+                root = new MainTablesOverlay();
+                mainPageScene = new Scene(root, 1024, 768);
+                primaryStage.setScene(mainPageScene);
             } else {
-                loginpagepane.getMessageLabel().setText("Error Connecting to Database");
-                primaryStage.setScene(loginPage);
+                loginPage.getMessageLabel().setText("Error Connecting to Database");
+                primaryStage.setScene(loginPageScene);
             }
         } else {
-            loginpagepane.getMessageLabel().setText("Error Setting Constants");
-            primaryStage.setScene(loginPage);
+            loginPage.getMessageLabel().setText("Error Setting Constants");
+            primaryStage.setScene(loginPageScene);
         }
     }
 }

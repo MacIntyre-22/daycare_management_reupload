@@ -1,4 +1,6 @@
-package com.example.daycaremanagement.scenes.pages;
+package com.example.daycaremanagement.pages;
+import com.example.daycaremanagement.overlays.CrudOverlay;
+
 import com.example.daycaremanagement.pojo.Student;
 import com.example.daycaremanagement.tables.StudentTable;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,8 +12,8 @@ import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
 
-public class Students extends BasePage {
-    private static Students instance;
+public class StudentsPage extends CrudOverlay {
+    private static StudentsPage instance;
     private Label title = new Label("Students");
     private StudentTable students;
 
@@ -20,15 +22,15 @@ public class Students extends BasePage {
      * Gets an instance of this class
      * @return the instance
      */
-    public static Students getInstance(){
+    public static StudentsPage getInstance(){
         if (instance == null){
-            instance = new Students();
+            instance = new StudentsPage();
         }
         return instance;
     }
 
 
-    private Students() {
+    private StudentsPage() {
         super();
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         content.setTop(title);

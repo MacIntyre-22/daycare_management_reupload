@@ -1,27 +1,27 @@
-package com.example.daycaremanagement.scenes;
+package com.example.daycaremanagement.Tests;
 
-import com.example.daycaremanagement.interfaces.SideBar;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class Test extends BorderPane implements SideBar {
+public class TestTemporaryCrudOverlay extends BorderPane implements TemporaryCrudOverlay {
 
-    private static Test instance;
+    private static TestTemporaryCrudOverlay instance;
 
     /**
      * Gets an instance of this student test class
      * @return the instance
      */
-    public static Test getInstance(){
+    public static TestTemporaryCrudOverlay getInstance(){
         if (instance == null){
-            instance = new Test();
+            instance = new TestTemporaryCrudOverlay();
         }
         return instance;
     }
-    private Test() {
+    private TestTemporaryCrudOverlay() {
        this.setTop(new Label("Student Test Page"));
        this.setLeft(sideBar());
        this.setBottom(bottomBar());

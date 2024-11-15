@@ -1,4 +1,6 @@
-package com.example.daycaremanagement.scenes.pages;
+package com.example.daycaremanagement.pages;
+import com.example.daycaremanagement.overlays.CrudOverlay;
+
 import com.example.daycaremanagement.pojo.Guardian;
 import com.example.daycaremanagement.tables.GuardianTable;
 import javafx.beans.property.SimpleStringProperty;
@@ -7,8 +9,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
-public class Guardians extends BasePage {
-    private static Guardians instance;
+public class GuardiansPage extends CrudOverlay {
+    private static GuardiansPage instance;
     private Label title = new Label("Guardians");
     private GuardianTable guardians;
 
@@ -16,15 +18,15 @@ public class Guardians extends BasePage {
      * Gets an instance of this class
      * @return the instance
      */
-    public static Guardians getInstance(){
+    public static GuardiansPage getInstance(){
         if (instance == null){
-            instance = new Guardians();
+            instance = new GuardiansPage();
         }
         return instance;
     }
 
 
-    private Guardians() {
+    private GuardiansPage() {
         super();
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         content.setTop(title);

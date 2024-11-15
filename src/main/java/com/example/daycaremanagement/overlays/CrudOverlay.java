@@ -1,4 +1,4 @@
-package com.example.daycaremanagement.scenes.pages;
+package com.example.daycaremanagement.overlays;
 
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public abstract class BasePage extends BorderPane {
+public abstract class CrudOverlay extends BorderPane {
 
     // Table
     protected TableView tableView;
@@ -27,7 +27,7 @@ public abstract class BasePage extends BorderPane {
 
     protected BorderPane content = new BorderPane();
 
-    public BasePage() {
+    public CrudOverlay() {
         this.setLeft(createSideBar());
         this.setBottom(createBottomBar());
         this.setCenter(content);
