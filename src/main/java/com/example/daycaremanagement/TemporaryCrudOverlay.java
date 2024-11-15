@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public interface SideBar {
+public interface TemporaryCrudOverlay {
     // We could probably move these buttons into read button
     Button graph1 = new Button("Graph 1");
     Button graph2 = new Button("Graph 2");

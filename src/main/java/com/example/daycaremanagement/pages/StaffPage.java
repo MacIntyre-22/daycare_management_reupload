@@ -1,25 +1,25 @@
 package com.example.daycaremanagement.pages;
 
-import com.example.daycaremanagement.overlays.BasePage;
+import com.example.daycaremanagement.overlays.CrudOverlay;
 import javafx.scene.control.Label;
 
-public class Staff extends BasePage {
-  private static Staff instance;
+public class StaffPage extends CrudOverlay {
+  private static StaffPage instance;
   private Label title = new Label("Staff");
 
   /**
    * Gets an instance of this class
    * @return the instance
    */
-  public static Staff getInstance(){
+  public static StaffPage getInstance(){
     if (instance == null){
-      instance = new Staff();
+      instance = new StaffPage();
     }
     return instance;
   }
 
 
-  private Staff() {
+  private StaffPage() {
     super();
     title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 5px 20px");
     content.setTop(title);

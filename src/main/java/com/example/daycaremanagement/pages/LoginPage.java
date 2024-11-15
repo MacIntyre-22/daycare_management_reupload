@@ -5,8 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
-import javafx.scene.effect.Shadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,9 +15,8 @@ import javafx.scene.text.FontWeight;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Objects;
 
-public class LoginPagePane extends BorderPane {
+public class LoginPage extends BorderPane {
 
     // Data Fields
     // Added variables here so they're visible inside the button actions
@@ -36,7 +33,7 @@ public class LoginPagePane extends BorderPane {
     // Login button
     private Button loginButton = new Button("Login");
 
-    public LoginPagePane(){
+    public LoginPage(){
 
     // Heading Text
         Label title = new Label("(Daycare Name) Login Page");

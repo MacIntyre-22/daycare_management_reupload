@@ -8,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public abstract class BasePage extends BorderPane {
+public abstract class CrudOverlay extends BorderPane {
 
     // Shared buttons
     protected Button graph1 = new Button("Graph 1");
@@ -23,7 +23,7 @@ public abstract class BasePage extends BorderPane {
 
     protected BorderPane content = new BorderPane();
 
-    public BasePage() {
+    public CrudOverlay() {
         this.setLeft(createSideBar());
         this.setBottom(createBottomBar());
         this.setCenter(content);

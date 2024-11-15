@@ -1,20 +1,20 @@
 package com.example.daycaremanagement.overlays;
 
-import com.example.daycaremanagement.pages.Guardians;
+import com.example.daycaremanagement.pages.GuardiansPage;
 import com.example.daycaremanagement.pages.InfoPage;
-import com.example.daycaremanagement.pages.Staff;
-import com.example.daycaremanagement.pages.Students;
+import com.example.daycaremanagement.pages.StaffPage;
+import com.example.daycaremanagement.pages.StudentsPage;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-public class MainPage extends BorderPane {
-  private Staff staffDisplay = Staff.getInstance();
-  private Guardians guardiansDisplay = Guardians.getInstance();
-  private Students studentDisplay = Students.getInstance();
+public class MainTablesOverlay extends BorderPane {
+  private StaffPage staffPageDisplay = StaffPage.getInstance();
+  private GuardiansPage guardiansPageDisplay = GuardiansPage.getInstance();
+  private StudentsPage studentDisplay = StudentsPage.getInstance();
 
 
-  public MainPage() {
+  public MainTablesOverlay() {
     // Left Side Navigation (VBox)
     VBox vbox = new VBox(10);
     vbox.setStyle("-fx-background-color:SkyBlue; -fx-padding: 20;");
@@ -37,12 +37,12 @@ public class MainPage extends BorderPane {
 
     // Placeholder action for Guardians button
     guardiansButton.setOnAction(e -> {
-      this.setCenter(guardiansDisplay);
+      this.setCenter(guardiansPageDisplay);
     });
 
     // Placeholder action for Staff button
     staffButton.setOnAction(e -> {
-      this.setCenter(staffDisplay);
+      this.setCenter(staffPageDisplay);
     });
 
     studentsButton.setOnAction(e -> {

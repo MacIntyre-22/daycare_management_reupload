@@ -2,8 +2,8 @@ package com.example.daycaremanagement;
 
 import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.database.DBConst;
-import com.example.daycaremanagement.overlays.MainPage;
-import com.example.daycaremanagement.pages.LoginPagePane;
+import com.example.daycaremanagement.overlays.MainTablesOverlay;
+import com.example.daycaremanagement.pages.LoginPage;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,8 +17,8 @@ import java.util.Scanner;
 public class MainApp extends Application {
     public static Stage primaryStage;
     // Test Page for login
-    private LoginPagePane loginPage = new LoginPagePane();
-    private MainPage root = new MainPage();
+    private LoginPage loginPage = new LoginPage();
+    private MainTablesOverlay root = new MainTablesOverlay();
     private Scene mainPageScene = new Scene(root, 1024, 768);
     private Scene loginPageScene = new Scene(loginPage, 1024, 768);
 

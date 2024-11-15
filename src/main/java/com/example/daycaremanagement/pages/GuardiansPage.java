@@ -1,24 +1,24 @@
 package com.example.daycaremanagement.pages;
-import com.example.daycaremanagement.overlays.BasePage;
+import com.example.daycaremanagement.overlays.CrudOverlay;
 import javafx.scene.control.Label;
 
-public class Guardians extends BasePage {
-    private static Guardians instance;
+public class GuardiansPage extends CrudOverlay {
+    private static GuardiansPage instance;
     private Label title = new Label("Guardians");
 
     /**
      * Gets an instance of this class
      * @return the instance
      */
-    public static Guardians getInstance(){
+    public static GuardiansPage getInstance(){
         if (instance == null){
-            instance = new Guardians();
+            instance = new GuardiansPage();
         }
         return instance;
     }
 
 
-    private Guardians() {
+    private GuardiansPage() {
         super();
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 5px 20px");
         content.setTop(title);
