@@ -21,8 +21,8 @@ public class MainApp extends Application {
     public static Stage primaryStage;
     private LoginPageScene loginPage = new LoginPageScene();
     // Test Page for login
-    private MainPage root = new MainPage();
-    private Scene scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
+    private MainPage root;
+    private Scene scene;
 
 
     @Override
@@ -131,6 +131,8 @@ public class MainApp extends Application {
         if (setConst()) {
             // Check Connection here
             if (isConnected()) {
+                root = new MainPage();
+                scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
                 primaryStage.setScene(scene);
             } else {
                 loginpagepane.getMessageLabel().setText("Error Connecting to Database");
