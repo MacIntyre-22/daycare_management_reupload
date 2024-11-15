@@ -17,8 +17,6 @@ import java.util.Scanner;
 public class MainApp extends Application {
     public static Stage primaryStage;
     // Test Page for login
-    private MainPage root;
-    private Scene scene;
     private LoginPage loginPage = new LoginPage();
     private MainTablesOverlay root;
     private Scene mainPageScene;
