@@ -1,6 +1,7 @@
 package com.example.daycaremanagement.pages;
 
 import com.example.daycaremanagement.MainApp;
+import com.example.daycaremanagement.database.Database;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
@@ -15,6 +16,7 @@ import javafx.scene.text.FontWeight;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 public class LoginPage extends BorderPane {
 
@@ -33,7 +35,7 @@ public class LoginPage extends BorderPane {
     // Login button
     private Button loginButton = new Button("Login");
 
-    public LoginPage(){
+    public LoginPage() {
 
     // Heading Text
         Label title = new Label("(Daycare Name) Login Page");

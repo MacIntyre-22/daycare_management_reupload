@@ -9,6 +9,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
+import java.sql.SQLException;
+
 public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
     private Label title = new Label("Guardians");

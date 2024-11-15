@@ -15,10 +15,10 @@ public abstract class CrudOverlay extends BorderPane {
     protected TableView tableView;
 
     // Shared buttons
-    protected Button graph1 = new Button("Graph 1");
-    protected Button graph2 = new Button("Graph 2");
-    protected Button graph3 = new Button("Graph 3");
-    protected Button graph4 = new Button("Graph 4");
+    protected Button graph1 = new Button("Table");
+    protected Button graph2 = new Button("Graph 1");
+    protected Button graph3 = new Button("Graph 2");
+    protected Button graph4 = new Button("Graph 3");
 
     protected Button create = new Button("Create");
     protected Button read = new Button("Read");
@@ -48,8 +48,9 @@ public abstract class CrudOverlay extends BorderPane {
         TopNavGroup.setTranslateY(-200);
 
         VBox NavButtons = new VBox(graph1, graph2, graph3, graph4);
+        stylebtns();
         NavButtons.setAlignment(Pos.CENTER);
-        NavButtons.setSpacing(5);
+        NavButtons.setSpacing(20);
 
         sideButtonBar();
 
@@ -71,6 +72,13 @@ public abstract class CrudOverlay extends BorderPane {
         });
 
         return sideBar;
+    }
+
+    private void stylebtns() {
+        graph1.setStyle("-fx-min-width: 100px");
+        graph2.setStyle("-fx-min-width: 100px");
+        graph3.setStyle("-fx-min-width: 100px");
+        graph4.setStyle("-fx-min-width: 100px");
     }
 
     private HBox createBottomBar() {

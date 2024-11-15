@@ -12,13 +12,19 @@ public class Database {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://localhost/" + DB_NAME +"?serverTimezone=UTC", DB_USER, DB_PASS);
-            createTable(TABLE_CITIES, CREATE_TABLE_CITIES, connection, INSERT_CITIES);
-            createTable(TABLE_POSITIONS, CREATE_TABLE_POSITIONS, connection, INSERT_POSITIONS);
-            createTable(TABLE_ROOMS, CREATE_TABLE_ROOMS, connection, INSERT_ROOMS);
-            createTable(TABLE_GUARDIANS, CREATE_TABLE_GUARDIANS, connection, INSERT_GUARDIANS);
-            createTable(TABLE_STAFF, CREATE_TABLE_STAFF, connection, INSERT_STAFF);
-            createTable(TABLE_STUDENTS, CREATE_TABLE_STUDENTS, connection, INSERT_STUDENTS);
-            createTable(TABLE_GUARDIAN_STUDENT_RELATION, CREATE_TABLE_GUARDIAN_STUDENT_RELATIONS, connection, INSERT_GUARDIAN_STUDENT_RELATION);
+            if (connection != null) {
+                createTable(TABLE_CITIES, CREATE_TABLE_CITIES, connection, INSERT_CITIES);
+                createTable(TABLE_POSITIONS, CREATE_TABLE_POSITIONS, connection, INSERT_POSITIONS);
+                createTable(TABLE_ROOMS, CREATE_TABLE_ROOMS, connection, INSERT_ROOMS);
+                createTable(TABLE_GUARDIANS, CREATE_TABLE_GUARDIANS, connection, INSERT_GUARDIANS);
+                createTable(TABLE_STAFF, CREATE_TABLE_STAFF, connection, INSERT_STAFF);
+                createTable(TABLE_STUDENTS, CREATE_TABLE_STUDENTS, connection, INSERT_STUDENTS);
+                createTable(TABLE_GUARDIAN_STUDENT_RELATION, CREATE_TABLE_GUARDIAN_STUDENT_RELATIONS, connection, INSERT_GUARDIAN_STUDENT_RELATION);
+            } else {
+                System.out.println("no connection");
+                System.out.println(connection);
+            }
+
         } catch (Exception e){
             e.printStackTrace();
         }

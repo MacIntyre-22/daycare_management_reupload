@@ -16,6 +16,7 @@ public class StudentTable implements StudentDAO {
     ArrayList<Student> students;
 
     public StudentTable() throws SQLException {
+        System.out.println("Student Table");
     }
 
     @Override

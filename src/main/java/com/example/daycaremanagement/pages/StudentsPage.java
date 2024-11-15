@@ -4,6 +4,11 @@ import com.example.daycaremanagement.overlays.CrudOverlay;
 import com.example.daycaremanagement.pojo.Student;
 import com.example.daycaremanagement.tables.StudentTable;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.BubbleChart;
+import javafx.scene.chart.Chart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -11,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class StudentsPage extends CrudOverlay {
     private static StudentsPage instance;
@@ -40,7 +46,43 @@ public class StudentsPage extends CrudOverlay {
 
     @Override
     protected void sideButtonBar() {
-        // Define actions specific to Guardians’ side buttons here
+        graph1.setOnAction(e->{
+            loadTable();
+        });
+        graph2.setOnAction(e->{
+            PieChart chart = new PieChart();
+            chart.setTitle("Students Per Room");
+            chart.setLegendVisible(true);
+            try {
+                students = new StudentTable();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                System.out.println("Could not get table.");
+            }
+
+            //Grab a list of all the coin types
+            ArrayList<Student> studentsArray = students.getAllStudents();
+            ArrayList<PieChart.Data> data = new ArrayList<>();
+            for(Student student : studentsArray){
+                double roomId = student.getRoom_id();
+                //"PENNY", 5
+                if(roomId > 0) {
+                    data.add(new PieChart.Data(student.getFirst_name(), roomId));
+                }
+            }
+            ObservableList<PieChart.Data> chartData
+                    = FXCollections.observableArrayList(data);
+            chart.setData(chartData);
+
+            // Set the graph
+            content.setCenter(chart);
+        });
+        graph3.setOnAction(e->{
+
+        });
+        graph4.setOnAction(e->{
+
+        });
     }
 
     @Override
