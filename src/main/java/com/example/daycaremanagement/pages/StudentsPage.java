@@ -1,10 +1,22 @@
 package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
+import com.example.daycaremanagement.tables.StudentTable;
 import javafx.scene.control.Label;
 
 public class StudentsPage extends CrudOverlay {
     private static StudentsPage instance;
     private Label title = new Label("Students");
+
+    private Label info=new Label("Information");
+     private Label student=new Label("Information about db content");
+   private  Label basicinfo=new Label("Display Student info:");
+
+
+
+
+
+
+
 
     /**
      * Gets an instance of this class
@@ -24,9 +36,19 @@ public class StudentsPage extends CrudOverlay {
         content.setTop(title);
     }
 
+    private StudentTable(){
+        void();
+        info.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-padding: 5px 20px");
+
+        StudentTable.setLeft(info);
+
+    }
+
     @Override
     protected void sideButtonBar() {
         // Define actions specific to Guardians’ side buttons here
+
+
     }
 
     @Override

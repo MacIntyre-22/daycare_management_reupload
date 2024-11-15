@@ -80,5 +80,8 @@ public abstract class CrudOverlay extends BorderPane {
 
     // Abstract methods for subclasses to define specific behavior
     protected abstract void sideButtonBar();
+
+
+
     protected abstract void bottomButtonBar();
 }

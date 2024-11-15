@@ -6,6 +6,9 @@ public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
     private Label title = new Label("Guardians");
 
+    private Label info=new Label("Information");
+
+
     /**
      * Gets an instance of this class
      * @return the instance

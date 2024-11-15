@@ -7,6 +7,13 @@ public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
   private Label title = new Label("Staff");
 
+  private Label info=new Label("Information:");
+
+
+
+
+
+
   /**
    * Gets an instance of this class
    * @return the instance
@@ -26,13 +33,20 @@ public class StaffPage extends CrudOverlay {
   }
 
   @Override
-  protected void sideButtonBar() {
+  protected void sideButtonBar()
+  {
+
     // Define actions specific to Guardians’ side buttons here
+
+
+
   }
 
   @Override
   protected void bottomButtonBar() {
     // Define actions specific to Guardians’ CRUD buttons here
+
+
   }
 }
 
