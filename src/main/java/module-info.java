@@ -10,4 +10,6 @@ module com.example.daycaremanagement {
     opens com.example.daycaremanagement.overlays to javafx.fxml;
     exports com.example.daycaremanagement.pages;
     opens com.example.daycaremanagement.pages to javafx.fxml;
+    exports com.example.daycaremanagement.Tests;
+    opens com.example.daycaremanagement.Tests to javafx.fxml;
 }
