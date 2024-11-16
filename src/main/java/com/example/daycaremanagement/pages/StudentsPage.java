@@ -7,14 +7,6 @@ public class StudentsPage extends CrudOverlay {
     private Label title = new Label("Students");
 
     private Label info=new Label("Information:\n Information about db content:\n Display Student info:\n Basic info:");
-     private Label student=new Label("Information about db content");
-   private  Label basicinfo=new Label("Display Student info:");
-
-
-
-
-
-
 
 
 

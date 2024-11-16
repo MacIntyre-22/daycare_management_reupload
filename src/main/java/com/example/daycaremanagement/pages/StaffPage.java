@@ -7,7 +7,7 @@ public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
   private Label title = new Label("Staff");
 
-  private Label info=new Label("Information:");
+  private Label Staffinfo=new Label("Information:\n Information about db content:\n Display Staff info:\n Basic info:");
 
 
 
@@ -30,6 +30,10 @@ public class StaffPage extends CrudOverlay {
     super();
     title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 5px 20px");
     content.setTop(title);
+
+    Staffinfo.setStyle("-fx-font-size: 15px; -fx-font-weight:light; -fx-padding: 5px 20px");
+    content.setLeft(Staffinfo);
+
   }
 
   @Override
