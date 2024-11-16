@@ -6,7 +6,7 @@ public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
     private Label title = new Label("Guardians");
 
-    private Label info=new Label("Information");
+    private Label Guardianinfo=new Label("Information:\n Information about db content:\n Display Guardian info:\n Basic info:");
 
 
     /**
@@ -25,6 +25,10 @@ public class GuardiansPage extends CrudOverlay {
         super();
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 5px 20px");
         content.setTop(title);
+
+        Guardianinfo.setStyle("-fx-font-size: 15px; -fx-font-weight:light; -fx-padding: 5px 20px");
+        content.setLeft(Guardianinfo);
+
     }
 
     @Override
