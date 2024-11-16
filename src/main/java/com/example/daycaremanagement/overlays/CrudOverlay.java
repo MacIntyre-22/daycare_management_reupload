@@ -82,6 +82,5 @@ public abstract class CrudOverlay extends BorderPane {
     protected abstract void sideButtonBar();
 
 
-
     protected abstract void bottomButtonBar();
 }
