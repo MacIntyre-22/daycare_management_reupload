@@ -96,7 +96,7 @@ public class MainApp extends Application {
             // Catch exception
             return false;
         }
-    }
+    } -
 
 
     /**

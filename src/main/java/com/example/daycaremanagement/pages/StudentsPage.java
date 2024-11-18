@@ -22,6 +22,7 @@ public class StudentsPage extends CrudOverlay {
     }
 
 
+
     private StudentsPage() {
         super();
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 5px 20px");

@@ -9,11 +9,6 @@ public class StaffPage extends CrudOverlay {
 
   private Label Staffinfo=new Label("Information:\n Information about db content:\n Display Staff info:\n Basic info:");
 
-
-
-
-
-
   /**
    * Gets an instance of this class
    * @return the instance
