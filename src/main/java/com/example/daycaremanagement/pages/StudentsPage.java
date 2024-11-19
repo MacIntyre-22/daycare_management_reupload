@@ -8,6 +8,7 @@ import com.example.daycaremanagement.tables.StudentTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Side;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -16,8 +17,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 public class StudentsPage extends CrudOverlay {
     private static StudentsPage instance;
@@ -76,6 +82,7 @@ public class StudentsPage extends CrudOverlay {
                 }
             }
             ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList(data);
+            chart.setLegendSide(Side.LEFT);
             chart.setData(chartData);
 
             // Set the graph
@@ -95,22 +102,47 @@ public class StudentsPage extends CrudOverlay {
             xAxis.setLabel("Rooms");
 
             //Defining the y axis
-            NumberAxis yAxis = new NumberAxis();
+            NumberAxis yAxis = new NumberAxis(0, 14, 2);
             yAxis.setLabel("Students");
 
             //Creating the Bar chart
             BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
-            barChart.setTitle("Students Per Room");
+            barChart.setTitle("Age Count");
 
-            // Add data
-            XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("Data");
+            // Series
+            // Each Room is a series
+            String series1Name = "<1";
+            XYChart.Series<String, Number> age1 = new XYChart.Series<>();
+            age1.setName(series1Name);
+            // Set Data for all series for each room under here
 
+            String series2Name = "1<";
+            XYChart.Series<String, Number> age2 = new XYChart.Series<>();
+            age2.setName(series2Name);
+
+            String series3Name = "2<";
+            XYChart.Series<String, Number> age3 = new XYChart.Series<>();
+            age3.setName(series3Name);
+
+            String series4Name = "3<";
+            XYChart.Series<String, Number> age4 = new XYChart.Series<>();
+            age4.setName(series4Name);
+
+            String series5Name = "4<";
+            XYChart.Series<String, Number> age5 = new XYChart.Series<>();
+            age5.setName(series5Name);
+
+
+            // Storing Data from students
             for (Student student : students.getAllStudents()) {
-                series.getData().add(new XYChart.Data("Data", student.getId()));
+                switch (student.getRoom_id()) {
+                    case 1:
+
+                }
             }
 
-            barChart.getData().addAll(series);
+            barChart.getData().addAll(age1less, age1, age2, age3, age4);
+            barChart.setLegendSide(Side.LEFT);
             content.setCenter(barChart);
 
         });
@@ -193,5 +225,21 @@ public class StudentsPage extends CrudOverlay {
         Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
         pageInfo.getChildren().addAll(testInfo, testInfo2);
         this.content.setBottom(pageInfo);
+    }
+
+    // Check Student age
+    private String getAge(int studentId) {
+        // Get student birthday
+        // YYYY-MM-DD
+        String birthday = students.getStudent(studentId).getBirthdate();
+        String[] birthdaySplit = birthday.split("-");
+        LocalDate birthdayDate = LocalDate.of(Integer.parseInt(birthdaySplit[0]), Integer.parseInt(birthdaySplit[1]), Integer.parseInt(birthdaySplit[2]));
+        LocalDate now = LocalDate.now();
+        String age = "";
+
+        // Get the difference to find age
+        age = String.valueOf(ChronoUnit.YEARS.between(birthdayDate, now));
+        // Return age
+        return age;
     }
 }
