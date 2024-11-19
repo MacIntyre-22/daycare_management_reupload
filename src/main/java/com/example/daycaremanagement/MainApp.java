@@ -18,8 +18,8 @@ public class MainApp extends Application {
     public static Stage primaryStage;
     // Test Page for login
     private LoginPage loginPage = new LoginPage();
-    private MainTablesOverlay root = new MainTablesOverlay();
-    private Scene mainPageScene = new Scene(root, 1024, 768);
+    private MainTablesOverlay root;
+    private Scene mainPageScene;
     private Scene loginPageScene = new Scene(loginPage, 1024, 768);
 
 
@@ -129,6 +129,8 @@ public class MainApp extends Application {
         if (setConst()) {
             // Check Connection here
             if (isConnected()) {
+                root = new MainTablesOverlay();
+                mainPageScene = new Scene(root, 1024, 768);
                 primaryStage.setScene(mainPageScene);
             } else {
                 loginPage.getMessageLabel().setText("Error Connecting to Database");

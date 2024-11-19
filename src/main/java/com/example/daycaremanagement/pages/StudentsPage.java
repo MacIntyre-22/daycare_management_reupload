@@ -1,10 +1,22 @@
 package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
+
+import com.example.daycaremanagement.pojo.Student;
+import com.example.daycaremanagement.tables.StudentTable;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+
+import java.sql.SQLException;
 
 public class StudentsPage extends CrudOverlay {
     private static StudentsPage instance;
     private Label title = new Label("Students");
+    private StudentTable students;
+
 
     private Label info=new Label("Information:\n Information about db content:\n Display Student info:\n Basic info:");
 
@@ -25,13 +37,18 @@ public class StudentsPage extends CrudOverlay {
 
     private StudentsPage() {
         super();
-        title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 5px 20px");
+        title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         content.setTop(title);
+<<<<<<< HEAD
 
         info.setStyle("-fx-font-size: 15px; -fx-font-weight:light; -fx-padding: 5px 20px");
         content.setLeft(info);
 
 
+=======
+        loadTable();
+        loadInfo();
+>>>>>>> development
     }
 
     @Override
@@ -44,5 +61,44 @@ public class StudentsPage extends CrudOverlay {
     @Override
     protected void bottomButtonBar() {
         // Define actions specific to Guardians’ CRUD buttons here
+    }
+
+    // Create Table
+    @Override
+    protected void loadTable() {
+        this.tableView = new TableView();
+        try {
+            students = new StudentTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Could not get table.");
+        }
+
+        // Create Columns
+        TableColumn<Student, String> column1 = new TableColumn<>("First Name");
+        column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
+
+        TableColumn<Student, String> column2 = new TableColumn<>("Last Name");
+        column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
+
+        TableColumn<Student, String> column3 = new TableColumn<>("Birthday");
+        column3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBirthdate()));
+
+        TableColumn<Student, String> column4 = new TableColumn<>("Room");
+        column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom_id())));
+
+        tableView.getColumns().addAll(column1, column2, column3, column4);
+        tableView.getItems().addAll(students.getAllStudents());
+
+        this.content.setCenter(tableView);
+    }
+
+    @Override
+    protected void loadInfo() {
+        VBox pageInfo = new VBox();
+        Label testInfo = new Label("Test info: Will hold information on table");
+        Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
+        pageInfo.getChildren().addAll(testInfo, testInfo2);
+        this.content.setBottom(pageInfo);
     }
 }
