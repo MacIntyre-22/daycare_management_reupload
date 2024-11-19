@@ -96,34 +96,15 @@ public class StudentsPage extends CrudOverlay {
             BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
             barChart.setTitle("Students Per Room");
 
-            // Series
-            XYChart.Series<String, Number> seriesRoom1 = new XYChart.Series<>();
-            seriesRoom1.setName("Room 1");
-            XYChart.Series<String, Number> seriesRoom2 = new XYChart.Series<>();
-            seriesRoom2.setName("Room 2");
-            XYChart.Series<String, Number> seriesRoom3 = new XYChart.Series<>();
-            seriesRoom3.setName("Room 3");
-            XYChart.Series<String, Number> seriesRoom4 = new XYChart.Series<>();
-            seriesRoom4.setName("Room 4");
-            XYChart.Series<String, Number> seriesRoom5 = new XYChart.Series<>();
-            seriesRoom5.setName("Room 5");
+            // Add data using XYChart.Series
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Data");
 
             for (Student student : students.getAllStudents()) {
-                switch (student.getRoom_id()) {
-                    case 1:
-                        seriesRoom1.getData().add(new XYChart.Data("Room 1", student.getId()));
-                    case 2:
-                        seriesRoom2.getData().add(new XYChart.Data("Room 2", student.getId()));
-                    case 3:
-                        seriesRoom3.getData().add(new XYChart.Data("Room 3", student.getId()));
-                    case 4:
-                        seriesRoom4.getData().add(new XYChart.Data("Room 4", student.getId()));
-                    case 5:
-                        seriesRoom5.getData().add(new XYChart.Data("Room 5", student.getId()));
-                }
+                series.getData().add(new XYChart.Data("Data", student.getId()));
             }
 
-            barChart.getData().addAll(seriesRoom1, seriesRoom2, seriesRoom3, seriesRoom4);
+            barChart.getData().addAll(series);
             content.setCenter(barChart);
 
         });
