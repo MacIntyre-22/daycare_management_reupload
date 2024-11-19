@@ -96,7 +96,7 @@ public class StudentsPage extends CrudOverlay {
             BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
             barChart.setTitle("Students Per Room");
 
-            // Add data using XYChart.Series
+            // Add data
             XYChart.Series<String, Number> series = new XYChart.Series<>();
             series.setName("Data");
 
@@ -109,7 +109,39 @@ public class StudentsPage extends CrudOverlay {
 
         });
         graph4.setOnAction(e->{
+            try {
+                students = new StudentTable();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                System.out.println("Could not get table.");
+            }
 
+            // Create the X and Y axes
+            NumberAxis xAxis = new NumberAxis(0, 20, 2);
+            xAxis.setLabel("Students");
+
+            NumberAxis yAxis = new NumberAxis(0, 20, 1);
+            yAxis.setLabel("Age");
+
+            // Create the BubbleChart
+            BubbleChart<Number, Number> bubbleChart = new BubbleChart<>(xAxis, yAxis);
+            bubbleChart.setTitle("Age Chart");
+
+            // Create a dataset
+            XYChart.Series<Number, Number> series = new XYChart.Series<>();
+            series.setName("Data");
+
+            // Create Birthday Data here
+
+            // Sample data
+            series.getData().add(new XYChart.Data<>(4, 4));
+            series.getData().add(new XYChart.Data<>(9, 9));
+            series.getData().add(new XYChart.Data<>(11, 11));
+            series.getData().add(new XYChart.Data<>(9, 9));
+
+            // Add the series to the chart
+            bubbleChart.getData().add(series);
+            content.setCenter(bubbleChart);
         });
     }
 
