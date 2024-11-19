@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -16,9 +17,9 @@ public abstract class CrudOverlay extends BorderPane {
 
     // Shared buttons
     protected Button graph1 = new Button("Table");
-    protected Button graph2 = new Button("Graph 1");
-    protected Button graph3 = new Button("Graph 2");
-    protected Button graph4 = new Button("Graph 3");
+    protected Button graph2 = new Button("Pie");
+    protected Button graph3 = new Button("Bar");
+    protected Button graph4 = new Button("Bubble");
 
     protected Button create = new Button("Create");
     protected Button read = new Button("Read");
@@ -84,8 +85,9 @@ public abstract class CrudOverlay extends BorderPane {
     private HBox createBottomBar() {
         HBox crudButtons = new HBox(create, read, update, delete);
         bottomButtonBar();
-        crudButtons.setAlignment(Pos.TOP_CENTER);
+        crudButtons.setAlignment(Pos.CENTER);
         crudButtons.setMinHeight(50);
+        crudButtons.setMinWidth(100);
         crudButtons.setStyle("-fx-background-color: lightblue;");
         crudButtons.setSpacing(50);
         return crudButtons;
