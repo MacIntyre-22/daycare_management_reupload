@@ -1,7 +1,9 @@
 package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
+import com.example.daycaremanagement.pojo.Room;
 import com.example.daycaremanagement.pojo.Student;
+import com.example.daycaremanagement.tables.RoomTable;
 import com.example.daycaremanagement.tables.StudentTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -21,6 +23,7 @@ public class StudentsPage extends CrudOverlay {
     private static StudentsPage instance;
     private Label title = new Label("Students");
     private StudentTable students;
+    private RoomTable roomTable;
 
 
     /**
@@ -54,19 +57,22 @@ public class StudentsPage extends CrudOverlay {
             chart.setLegendVisible(true);
             try {
                 students = new StudentTable();
+                roomTable = new RoomTable();
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 System.out.println("Could not get table.");
             }
 
-            //Grab a list of all the coin types
-            ArrayList<Student> studentsArray = students.getAllStudents();
+            ArrayList<Room> roomArray = roomTable.getAllRooms();
+
             ArrayList<PieChart.Data> data = new ArrayList<>();
-            for(Student student : studentsArray){
-                double roomId = student.getRoom_id();
-                //"PENNY", 5
-                if(roomId > 0) {
-                    data.add(new PieChart.Data(student.getFirst_name(), roomId));
+
+
+            for(Room room : roomArray){
+                double count = students.getItemCount(room.getId());
+
+                if(count > 0) {
+                    data.add(new PieChart.Data(room.getName(), count));
                 }
             }
             ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList(data);

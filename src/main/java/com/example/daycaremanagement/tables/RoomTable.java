@@ -4,6 +4,7 @@ import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.pojo.Room;
 import com.example.daycaremanagement.dao.RoomDAO;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
