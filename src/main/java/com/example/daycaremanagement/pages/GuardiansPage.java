@@ -14,8 +14,6 @@ public class GuardiansPage extends CrudOverlay {
     private Label title = new Label("Guardians");
     private GuardianTable guardians;
 
-    private Label Guardianinfo=new Label("Information:\n Information about db content:\n Display Guardian info:\n Basic info:");
-
 
     /**
      * Gets an instance of this class
@@ -33,15 +31,11 @@ public class GuardiansPage extends CrudOverlay {
         super();
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         content.setTop(title);
-<<<<<<< HEAD
 
-        Guardianinfo.setStyle("-fx-font-size: 15px; -fx-font-weight:light; -fx-padding: 5px 20px");
-        content.setLeft(Guardianinfo);
 
-=======
+
         loadTable();
         loadInfo();
->>>>>>> development
     }
 
     @Override
@@ -92,9 +86,12 @@ public class GuardiansPage extends CrudOverlay {
     @Override
     protected void loadInfo() {
         VBox pageInfo = new VBox();
-        Label testInfo = new Label("Test info: Will hold information on table");
-        Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
-        pageInfo.getChildren().addAll(testInfo, testInfo2);
+        Label Guardianinfo=new Label("Information:\n Information about db content:\n Display Guardian info:\n Basic info:");
+
+        Guardianinfo.setStyle("-fx-font-size: 15px; -fx-font-weight:light; -fx-padding: 5px 20px");
+        content.setLeft(Guardianinfo);
+
+        pageInfo.getChildren().addAll(Guardianinfo);
         this.content.setBottom(pageInfo);
     }
 }

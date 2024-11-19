@@ -16,7 +16,7 @@ public class StaffPage extends CrudOverlay {
   private Label title = new Label("Staff");
   private StaffTable staff;
 
-  private Label Staffinfo=new Label("Information:\n Information about db content:\n Display Staff info:\n Basic info:");
+
 
   /**
    * Gets an instance of this class
@@ -31,21 +31,17 @@ public class StaffPage extends CrudOverlay {
 
 
   private StaffPage() {
-<<<<<<< HEAD
+
     super();
     title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 5px 20px");
     content.setTop(title);
 
-    Staffinfo.setStyle("-fx-font-size: 15px; -fx-font-weight:light; -fx-padding: 5px 20px");
-    content.setLeft(Staffinfo);
 
-=======
-      super();
-      title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
-      content.setTop(title);
+
+
       loadTable();
       loadInfo();
->>>>>>> development
+
   }
 
   @Override
@@ -95,9 +91,13 @@ public class StaffPage extends CrudOverlay {
     @Override
     protected void loadInfo() {
         VBox pageInfo = new VBox();
-        Label testInfo = new Label("Test info: Will hold information on table");
-        Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
-        pageInfo.getChildren().addAll(testInfo, testInfo2);
+        Label Staffinfo=new Label("Information:\n Information about db content:\n Display Staff info:\n Basic info:");
+
+
+        Staffinfo.setStyle("-fx-font-size: 15px; -fx-font-weight:light; -fx-padding: 5px 20px");
+        content.setLeft(Staffinfo);
+
+        pageInfo.getChildren().addAll(Staffinfo);
         this.content.setBottom(pageInfo);
     }
 }
