@@ -116,27 +116,38 @@ public class StudentsPage extends CrudOverlay {
             age1.setName(series1Name);
             // Set Data for all series for each room under here
 
-            String series2Name = "1<";
+            String series2Name = "1";
             XYChart.Series<String, Number> age2 = new XYChart.Series<>();
             age2.setName(series2Name);
 
-            String series3Name = "2<";
+            String series3Name = "2";
             XYChart.Series<String, Number> age3 = new XYChart.Series<>();
             age3.setName(series3Name);
 
-            String series4Name = "3<";
+            String series4Name = "3";
             XYChart.Series<String, Number> age4 = new XYChart.Series<>();
             age4.setName(series4Name);
 
-            String series5Name = "4<";
+            String series5Name = "4";
             XYChart.Series<String, Number> age5 = new XYChart.Series<>();
             age5.setName(series5Name);
 
 
             // Storing Data from students
             for (Student student : students.getAllStudents()) {
-                if (student.getAge()) {
-
+                if (student.getAge() < 1) {
+                    age1.getData().add(new XYChart.Data(getRoomName(student), student.getAge()));
+                } else {
+                    switch ((int) student.getAge()) {
+                        case 1:
+                            age2.getData().add(new XYChart.Data(getRoomName(student), student.getAge()));
+                        case 2:
+                            age3.getData().add(new XYChart.Data(getRoomName(student), student.getAge()));
+                        case 3:
+                            age4.getData().add(new XYChart.Data(getRoomName(student), student.getAge()));
+                        case 4:
+                            age5.getData().add(new XYChart.Data(getRoomName(student), student.getAge()));
+                    }
                 }
             }
 
@@ -226,7 +237,18 @@ public class StudentsPage extends CrudOverlay {
         this.content.setBottom(pageInfo);
     }
 
-    private void setBarChartData(XYChart.Series<String, Number> series, String roomName, int age) {
-        series.getData().add(new XYChart.Data(roomName, age));
+    // TODO Make Function that enters data
+    private String getRoomName(Student student) {
+        // Enhanced switch
+        // Pretty cool
+        String room = switch (student.getRoom_id()) {
+            case 1 -> "Room 1";
+            case 2 -> "Room 2";
+            case 3 -> "Room 3";
+            case 4 -> "Room 4";
+            case 5 -> "Room 5";
+            default -> "";
+        };
+        return room;
     }
 }
