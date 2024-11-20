@@ -1,7 +1,11 @@
 package com.example.daycaremanagement.pages;
 
 import com.example.daycaremanagement.MainApp;
+import com.example.daycaremanagement.database.DBConst;
+import com.example.daycaremanagement.database.Database;
+import com.example.daycaremanagement.overlays.MainTablesOverlay;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -15,6 +19,10 @@ import javafx.scene.text.FontWeight;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import static com.example.daycaremanagement.MainApp.primaryStage;
 
 public class LoginPage extends BorderPane {
 
@@ -32,6 +40,8 @@ public class LoginPage extends BorderPane {
 
     // Login button
     private Button loginButton = new Button("Login");
+    private MainTablesOverlay root;
+    private Scene mainPageScene;
 
     public LoginPage(){
 
@@ -206,8 +216,16 @@ public class LoginPage extends BorderPane {
             showPass.setText("Show Password");
         });
 
+        loginButton.setOnAction(e -> {
+            if(this.saveLoginInfo(usernameInput, usernameInput, hiddenPassInput)) {
+                connectToDatabase();
+            }
+        });
+
+
+
         // Closes the program
-        exitButton.setOnAction(e -> MainApp.primaryStage.close());
+        exitButton.setOnAction(e -> primaryStage.close());
 
     // Added to my pane...
         this.setCenter(inputs);
@@ -243,6 +261,61 @@ public class LoginPage extends BorderPane {
             }
             this.messageLabel.setText("Login Saved");
             return true;
+        }
+    }
+
+
+
+    /**
+     * Sets the DbConst File values for a db connection
+     *
+     * @return true if constants were set, false otherwise
+     * */
+    private boolean setConst() {
+        // Read const.txt file for creds
+        try (Scanner scanner = new Scanner(new File("login/const.txt"))) {
+            String[] fileConst = new String[3];
+            // Add creds to array
+            while (scanner.hasNextLine()) {
+                fileConst[0] = scanner.nextLine();
+                fileConst[1] = scanner.nextLine();
+                fileConst[2] = scanner.nextLine();
+            }
+
+            // Set DbConst values
+            DBConst.setDbName(fileConst[0]);
+            DBConst.setDbUser(fileConst[1]);
+            DBConst.setDbPass(fileConst[2]);
+            return true;
+
+        } catch (FileNotFoundException e) {
+            // Catch exception
+            return false;
+        }
+    }
+
+
+
+
+
+    /**
+     * Checks connection and sets scene
+     * Cleans up code by putting the logic for a connection in one function
+     * */
+    public void connectToDatabase() {
+
+        // Set Consts Here
+        if (setConst()) {
+            // Check Connection here
+            if (Database.checkConnection()) {
+                root = new MainTablesOverlay();
+                mainPageScene = new Scene(root, 1024, 768);
+                primaryStage.setScene(mainPageScene);
+            } else {
+                getMessageLabel().setText("Error Connecting to Database");
+            }
+        } else {
+            getMessageLabel().setText("Error Setting Constants");
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.daycaremanagement.database;
 
 import java.sql.*;
+import java.util.Arrays;
 
 import static com.example.daycaremanagement.database.DBConst.*;
 
@@ -25,6 +26,15 @@ public class Database {
     }
 
     public Connection getConnection() {return connection;}
+
+    public static boolean checkConnection()  {
+        try {
+            DriverManager.getConnection("jdbc:mysql://localhost/" + DB_NAME +"?serverTimezone=UTC", DB_USER, DB_PASS);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     public static Database getInstance() throws SQLException {
         try {
