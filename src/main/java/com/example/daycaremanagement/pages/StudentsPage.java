@@ -198,6 +198,7 @@ public class StudentsPage extends CrudOverlay {
         this.tableView = new TableView();
         try {
             students = new StudentTable();
+            roomTable = new RoomTable();
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Could not get table.");
@@ -210,13 +211,16 @@ public class StudentsPage extends CrudOverlay {
         TableColumn<Student, String> column2 = new TableColumn<>("Last Name");
         column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
 
-        TableColumn<Student, String> column3 = new TableColumn<>("Birthday");
+        TableColumn<Student, String> column3 = new TableColumn<>("Birth Date");
         column3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBirthdate()));
 
-        TableColumn<Student, String> column4 = new TableColumn<>("Room");
-        column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom_id())));
+        TableColumn<Student, String> column4 = new TableColumn<>("Age");
+        column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getAge())));
 
-        tableView.getColumns().addAll(column1, column2, column3, column4);
+        TableColumn<Student, String> column5 = new TableColumn<>("Room");
+        column5.setCellValueFactory(e -> new SimpleStringProperty(roomTable.getRoom(e.getValue().getRoom_id()).getName()));
+
+        tableView.getColumns().addAll(column1, column2, column3, column4, column5);
         tableView.getItems().addAll(students.getAllStudents());
 
         this.content.setCenter(tableView);
@@ -229,21 +233,6 @@ public class StudentsPage extends CrudOverlay {
         Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
         pageInfo.getChildren().addAll(testInfo, testInfo2);
         this.content.setBottom(pageInfo);
-    }
-
-    // TODO Make Function that enters data
-    private String getRoomName(Student student) {
-        // Enhanced switch
-        // Pretty cool
-        String room = switch (student.getRoom_id()) {
-            case 1 -> "Room 1";
-            case 2 -> "Room 2";
-            case 3 -> "Room 3";
-            case 4 -> "Room 4";
-            case 5 -> "Room 5";
-            default -> "";
-        };
-        return room;
     }
 
     /**
