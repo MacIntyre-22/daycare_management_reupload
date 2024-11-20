@@ -2,7 +2,7 @@ package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Guardian;
-import com.example.daycaremanagement.tables.GuardianTable;
+import com.example.daycaremanagement.tables.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -15,6 +15,10 @@ public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
     private Label title = new Label("Guardians");
     private GuardianTable guardians;
+    private RoomTable roomTable;
+    private CityTable cityTable;
+    private GuardianStudentRelationTable familyRelationTable;
+    private StudentTable studentTable;
 
     /**
      * Gets an instance of this class

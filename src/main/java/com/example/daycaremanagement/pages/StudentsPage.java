@@ -97,8 +97,6 @@ public class StudentsPage extends CrudOverlay {
             }
             //Defining the x axis
             CategoryAxis xAxis = new CategoryAxis();
-
-            xAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList("Room")));
             xAxis.setLabel("Rooms");
 
             //Defining the y axis
@@ -107,7 +105,7 @@ public class StudentsPage extends CrudOverlay {
 
             //Creating the Bar chart
             BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
-            barChart.setTitle("Age Count");
+            barChart.setTitle("Age Count By Room");
 
             // Series
             ArrayList<XYChart.Series<String, Number>> seriesArray = new ArrayList<>();

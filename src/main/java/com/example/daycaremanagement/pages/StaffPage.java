@@ -4,6 +4,8 @@ import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Staff;
 import com.example.daycaremanagement.pojo.Student;
+import com.example.daycaremanagement.tables.PositionTable;
+import com.example.daycaremanagement.tables.RoomTable;
 import com.example.daycaremanagement.tables.StaffTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TableColumn;
@@ -15,6 +17,9 @@ public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
   private Label title = new Label("Staff");
   private StaffTable staff;
+  private RoomTable roomTable;
+  private PositionTable positionTable;
+
 
   /**
    * Gets an instance of this class
@@ -49,7 +54,16 @@ public class StaffPage extends CrudOverlay {
   @Override
   protected void loadTable() {
       this.tableView = new TableView();
-      staff = new StaffTable();
+
+      try {
+          staff = new StaffTable();
+          roomTable = new RoomTable();
+          positionTable = new PositionTable();
+      } catch (Exception e) {
+          System.out.println("Could not get tables.");
+          e.printStackTrace();
+      }
+
 
       // Create Columns
       TableColumn<Staff, String> column1 = new TableColumn<>("First Name");
@@ -62,10 +76,10 @@ public class StaffPage extends CrudOverlay {
       column3.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getWage())));
 
       TableColumn<Staff, String> column4 = new TableColumn<>("Room");
-      column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom_id())));
+      column4.setCellValueFactory(e -> new SimpleStringProperty(roomTable.getRoom(e.getValue().getRoom_id()).getName()));
 
       TableColumn<Staff, String> column5 = new TableColumn<>("Position");
-      column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getPosition_id())));
+      column5.setCellValueFactory(e -> new SimpleStringProperty(positionTable.getPosition(e.getValue().getPosition_id()).getName()));
 
       tableView.getColumns().addAll(column1, column2, column3, column4, column5);
       tableView.getItems().addAll(staff.getAllStaff());
