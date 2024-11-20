@@ -135,13 +135,12 @@ public class StudentsPage extends CrudOverlay {
 
             // Storing Data from students
             for (Student student : students.getAllStudents()) {
-                switch (student.getRoom_id()) {
-                    case 1:
+                if (student.getAge()) {
 
                 }
             }
 
-            barChart.getData().addAll(age1less, age1, age2, age3, age4);
+            barChart.getData().addAll(age1, age2, age3, age4, age5);
             barChart.setLegendSide(Side.LEFT);
             content.setCenter(barChart);
 
@@ -227,19 +226,7 @@ public class StudentsPage extends CrudOverlay {
         this.content.setBottom(pageInfo);
     }
 
-    // Check Student age
-    private String getAge(int studentId) {
-        // Get student birthday
-        // YYYY-MM-DD
-        String birthday = students.getStudent(studentId).getBirthdate();
-        String[] birthdaySplit = birthday.split("-");
-        LocalDate birthdayDate = LocalDate.of(Integer.parseInt(birthdaySplit[0]), Integer.parseInt(birthdaySplit[1]), Integer.parseInt(birthdaySplit[2]));
-        LocalDate now = LocalDate.now();
-        String age = "";
-
-        // Get the difference to find age
-        age = String.valueOf(ChronoUnit.YEARS.between(birthdayDate, now));
-        // Return age
-        return age;
+    private void setBarChartData(XYChart.Series<String, Number> series, String roomName, int age) {
+        series.getData().add(new XYChart.Data(roomName, age));
     }
 }
