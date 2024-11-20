@@ -2,6 +2,7 @@ package com.example.daycaremanagement.pages;
 
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
+import com.example.daycaremanagement.pojo.Room;
 import com.example.daycaremanagement.pojo.Staff;
 import com.example.daycaremanagement.pojo.Student;
 import com.example.daycaremanagement.tables.PositionTable;
@@ -13,12 +14,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+
 public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
   private Label title = new Label("Staff");
   private StaffTable staff;
   private RoomTable roomTable;
   private PositionTable positionTable;
+  private ArrayList<Room> rooms = new ArrayList<>();
 
 
   /**
@@ -37,6 +41,16 @@ public class StaffPage extends CrudOverlay {
       super();
       title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
       content.setTop(title);
+
+      // Add rooms to array
+      // Significantly increases the load speed and lagginess of the tableView
+      try {
+          roomTable = new RoomTable();
+          rooms.addAll(roomTable.getAllRooms());
+      } catch (Exception e) {
+          System.out.println("Error From: StaffPage.java, line 51. Couldn't get Rooms Table.");
+      }
+
       loadTable();
       loadInfo();
   }
@@ -57,7 +71,6 @@ public class StaffPage extends CrudOverlay {
 
       try {
           staff = new StaffTable();
-          roomTable = new RoomTable();
           positionTable = new PositionTable();
       } catch (Exception e) {
           System.out.println("Could not get tables.");
@@ -76,7 +89,7 @@ public class StaffPage extends CrudOverlay {
       column3.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getWage())));
 
       TableColumn<Staff, String> column4 = new TableColumn<>("Room");
-      column4.setCellValueFactory(e -> new SimpleStringProperty(roomTable.getRoom(e.getValue().getRoom_id()).getName()));
+      column4.setCellValueFactory(e -> new SimpleStringProperty(getRoomName(this.rooms,e.getValue().getRoom_id())));
 
       TableColumn<Staff, String> column5 = new TableColumn<>("Position");
       column5.setCellValueFactory(e -> new SimpleStringProperty(positionTable.getPosition(e.getValue().getPosition_id()).getName()));

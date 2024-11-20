@@ -73,7 +73,6 @@ public class Student {
 
         // Get the difference to find age
         age = (double) ChronoUnit.YEARS.between(birthdayDate, now);
-        System.out.println(age);
         // Return age
         return age;
     }

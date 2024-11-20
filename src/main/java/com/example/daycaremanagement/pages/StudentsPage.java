@@ -30,6 +30,7 @@ public class StudentsPage extends CrudOverlay {
     private Label title = new Label("Students");
     private StudentTable students;
     private RoomTable roomTable;
+    private ArrayList<Room> rooms = new ArrayList<>();
 
 
     /**
@@ -48,6 +49,15 @@ public class StudentsPage extends CrudOverlay {
         super();
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         content.setTop(title);
+        // Add rooms to array
+        // Significantly increases the load speed and lagginess of the tableView
+        try {
+            roomTable = new RoomTable();
+            rooms.addAll(roomTable.getAllRooms());
+        } catch (Exception e) {
+            System.out.println("Error From: StudentsPage.java, line 56. Couldn't get Rooms Table.");
+        }
+
         loadTable();
         loadInfo();
     }
@@ -82,7 +92,7 @@ public class StudentsPage extends CrudOverlay {
                 }
             }
             ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList(data);
-            chart.setLegendSide(Side.LEFT);
+            chart.setLegendVisible(false);
             chart.setData(chartData);
 
             // Set the graph
@@ -100,7 +110,7 @@ public class StudentsPage extends CrudOverlay {
             xAxis.setLabel("Rooms");
 
             //Defining the y axis
-            NumberAxis yAxis = new NumberAxis(0, 14, 2);
+            NumberAxis yAxis = new NumberAxis(0, 16, 2);
             yAxis.setLabel("Students");
 
             //Creating the Bar chart
@@ -131,7 +141,7 @@ public class StudentsPage extends CrudOverlay {
             age3.setName(series3Name);
             seriesArray.add(age3);
 
-            String series4Name = "4";
+            String series4Name = "4+";
             XYChart.Series<String, Number> age4 = new XYChart.Series<>();
             age4.setName(series4Name);
             seriesArray.add(age4);
@@ -144,6 +154,7 @@ public class StudentsPage extends CrudOverlay {
             setDataByRoom(seriesArray, 5);
 
 
+            barChart.getData().addAll(age0, age1, age2, age3, age4);
             barChart.setLegendSide(Side.LEFT);
             content.setCenter(barChart);
 
@@ -196,7 +207,6 @@ public class StudentsPage extends CrudOverlay {
         this.tableView = new TableView();
         try {
             students = new StudentTable();
-            roomTable = new RoomTable();
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Could not get table.");
@@ -213,10 +223,10 @@ public class StudentsPage extends CrudOverlay {
         column3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBirthdate()));
 
         TableColumn<Student, String> column4 = new TableColumn<>("Age");
-        column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getAge())));
+        column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf((int) e.getValue().getAge())));
 
         TableColumn<Student, String> column5 = new TableColumn<>("Room");
-        column5.setCellValueFactory(e -> new SimpleStringProperty(roomTable.getRoom(e.getValue().getRoom_id()).getName()));
+        column5.setCellValueFactory(e -> new SimpleStringProperty(getRoomName(this.rooms,e.getValue().getRoom_id())));
 
         tableView.getColumns().addAll(column1, column2, column3, column4, column5);
         tableView.getItems().addAll(students.getAllStudents());
@@ -254,18 +264,18 @@ public class StudentsPage extends CrudOverlay {
 
         // Get age count for room
         for (Student student : studentsList) {
-            System.out.println(student.getAge());
-            switch ((int) student.getAge()) {
-                case 0:
-                    count0++;
-                case 1:
-                    count1++;
-                case 2:
-                    count2++;
-                case 3:
-                    count3++;
-                case 4:
-                    count4++;
+            int age = (int) student.getAge();
+
+            if (age < 0) {
+                count0++;
+            } else if (age == 1) {
+                count1++;
+            } else if (age == 2) {
+                count2++;
+            } else if (age == 3) {
+                count3++;
+            } else if (age >= 4) {
+                count4++;
             }
         }
 
