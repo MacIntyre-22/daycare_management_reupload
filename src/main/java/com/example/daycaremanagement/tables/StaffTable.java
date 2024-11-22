@@ -45,14 +45,14 @@ public class StaffTable implements StaffDAO {
     }
 
     public ArrayList<DisplayStaff> getAllDisplayStaff(){
-        // TODO: Update to use column names from const file
         ArrayList<DisplayStaff> displayStaff = new ArrayList<>();
-        String query = "SELECT staff.staff_id as id, staff.first_name as first_name, " +
-                " staff.last_name as last_name, staff.wage as wage," +
-                " rooms.room_name as room, positions.positions_name as position " +
-                " from staff " +
-                "JOIN positions on staff.position_id = positions.positions_id " +
-                "JOIN rooms on staff.room_id = rooms.room_id " +
+        //pain
+        String query = "SELECT "+TABLE_STAFF+"."+STAFF_COLUMN_ID+" as id, "+TABLE_STAFF+"."+STAFF_COLUMN_FIRST_NAME+" as first_name, " +
+                " "+TABLE_STAFF+"."+STAFF_COLUMN_LAST_NAME+" as last_name, "+TABLE_STAFF+"."+STAFF_COLUMN_WAGE+" as wage," +
+                " "+TABLE_ROOMS+"."+ROOMS_COLUMN_NAME+" as room, "+TABLE_POSITIONS+"."+POSITIONS_COLUMN_NAME+" as position " +
+                " from "+TABLE_STAFF+" " +
+                "JOIN "+TABLE_POSITIONS+" on "+TABLE_STAFF+"."+STAFF_COLUMN_POSITION_ID+" = "+TABLE_POSITIONS+"."+POSITIONS_COLUMN_ID+" " +
+                "JOIN "+TABLE_ROOMS+" on "+TABLE_STAFF+"."+STAFF_COLUMN_ROOM_ID+" = "+TABLE_ROOMS+"."+ROOMS_COLUMN_ID+" " +
                 "ORDER BY id ASC";
 
         try {
