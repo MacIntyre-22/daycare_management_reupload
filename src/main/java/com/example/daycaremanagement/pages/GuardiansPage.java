@@ -64,7 +64,8 @@ public class GuardiansPage extends CrudOverlay {
         column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
 
         TableColumn<Guardian, String> column3 = new TableColumn<>("Phone");
-        column3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getPhone()));
+        column3.setCellValueFactory(e -> new SimpleStringProperty(String.format("(%s) %s-%s", e.getValue().getPhone().substring(0, 3), e.getValue().getPhone().substring(3, 6),
+                e.getValue().getPhone().substring(6, 10))));
 
         TableColumn<Guardian, String> column4 = new TableColumn<>("Email");
         column4.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getEmail()));

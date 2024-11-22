@@ -66,7 +66,7 @@ public class StaffPage extends CrudOverlay {
       column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
 
       TableColumn<Staff, String> column3 = new TableColumn<>("Wage");
-      column3.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getWage())));
+      column3.setCellValueFactory(e -> new SimpleStringProperty(String.format("$%.2f", e.getValue().getWage())));
 
       TableColumn<Staff, String> column4 = new TableColumn<>("Room");
       column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom_id())));
