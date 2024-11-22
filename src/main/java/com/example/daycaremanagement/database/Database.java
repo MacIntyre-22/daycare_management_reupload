@@ -9,6 +9,10 @@ public class Database {
     private static Database instance;
     private Connection connection;
 
+    /**
+     * This connects the user to the database and store it into a connection
+     * This will also try to make all the tables into the user's database
+     */
     private Database(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -25,8 +29,16 @@ public class Database {
         }
     }
 
+    /**
+     * This will get the connection that we store in the constructor
+     * @return Connection
+     */
     public Connection getConnection() {return connection;}
 
+    /**
+     * This Checks if there is a connection
+     * @return it will return true if the connection doesn't fail, and false if it does
+     */
     public static boolean checkConnection()  {
         try {
             DriverManager.getConnection("jdbc:mysql://localhost/" + DB_NAME +"?serverTimezone=UTC", DB_USER, DB_PASS);
@@ -36,6 +48,11 @@ public class Database {
         }
     }
 
+    /**
+     * This is to get an instance of the database
+     * @return The instance of the database
+     * @throws SQLException but will print to the terminal that it failed
+     */
     public static Database getInstance() throws SQLException {
         try {
             if (instance == null) {
@@ -43,12 +60,20 @@ public class Database {
             }
             return instance;
         } catch (Exception e){
-            System.out.println("Failed");
+            System.out.println("Database Failed");
             return null;
 
         }
     }
 
+    /**
+     * This is try to create the tables into the user's database
+     * @param tableName
+     * @param tableQuery
+     * @param connection
+     * @param inserts
+     * @throws SQLException
+     */
     public void createTable(String tableName, String tableQuery, Connection connection, String[] inserts) throws SQLException{
         Statement createTable;
         DatabaseMetaData md = connection.getMetaData();

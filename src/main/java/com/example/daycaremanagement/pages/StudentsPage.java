@@ -29,7 +29,12 @@ public class StudentsPage extends CrudOverlay {
         return instance;
     }
 
-
+    /**
+     * This Pages Displays the Students Page.
+     * With the Table data
+     * and with the CRUD overlay
+     * and a some low level table info at the bottom of the table
+     */
     private StudentsPage() {
         super();
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");

@@ -7,6 +7,9 @@ import javafx.scene.layout.VBox;
 public class InfoPage extends BorderPane {
 
 
+  /**
+   * This Pages Displays the Information about the creators, and the program itself
+   */
   public InfoPage() {
     VBox root = new VBox(10);
     root.setPadding(new javafx.geometry.Insets(15));
@@ -21,6 +24,14 @@ public class InfoPage extends BorderPane {
 
   }
 
+  /**
+   *
+   * @param container that is a VBox
+   * @param name This is string
+   * Makes the name into a label
+   * This adds styling to the label
+   * Then adds the label to the container
+   */
   private void addName(VBox container, String name) {
     Label nameLabel = new Label(name);
     nameLabel.setStyle("-fx-font-weight: bold;");

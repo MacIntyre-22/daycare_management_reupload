@@ -34,9 +34,10 @@ public class MainApp extends Application {
 
         if (loginExists()) {
             loginPage.connectToDatabase();
+        }else {
+            primaryStage.setScene(loginPageScene);
         }
 
-        primaryStage.setScene(loginPageScene);
 
         primaryStage.show();
     }
