@@ -1,0 +1,33 @@
+GitHub Milestone:
+
+    Clean up Code
+
+GitHub issues:
+
+	- Remake folders √
+	    * Pages √
+	    * Database √
+	    * Overlays √
+	    * ***
+	- Delete Unused files √
+	    * Info √
+	    * SideBar √
+	    * LoginPageScene √
+	    * AppConst √
+	    * ***
+	- rename all pages
+	    * Student √
+	    * Staff √
+	    * Guardians √
+	    * LoginPagePane √
+	    * Test √
+	    * ***
+	- rename MainPage √
+	    * Rename with page not init √
+	    * ***
+	- Create a test folder √
+	    * Move Test files into it √
+	    * ***
+
+	- Move functions into appropriate files
+	- Add Javadoc Comments

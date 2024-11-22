@@ -27,6 +27,9 @@ public abstract class CrudOverlay extends BorderPane {
 
     protected BorderPane content = new BorderPane();
 
+    /**
+     * This adds the different Bars into the scene with the content in the center
+     */
     public CrudOverlay() {
         this.setLeft(createSideBar());
         this.setBottom(createBottomBar());
@@ -34,6 +37,10 @@ public abstract class CrudOverlay extends BorderPane {
         content.setStyle("-fx-padding: 10px 50px 50px 50px;");
     }
 
+    /**
+     * This is the creation of the sideBar that has the graph Buttons inside
+     * @return sideBar
+     */
     private VBox createSideBar() {
         Label closedNavWords = new Label("Show Display Options");
         closedNavWords.setRotate(-90);
@@ -73,6 +80,10 @@ public abstract class CrudOverlay extends BorderPane {
         return sideBar;
     }
 
+    /**
+     * This is the creation of the Bottom bar with the main CRUD operations
+     * @return crudButtons
+     */
     private HBox createBottomBar() {
         HBox crudButtons = new HBox(create, read, update, delete);
         bottomButtonBar();
@@ -86,6 +97,14 @@ public abstract class CrudOverlay extends BorderPane {
     // Abstract methods for subclasses to define specific behavior
     protected abstract void sideButtonBar();
     protected abstract void bottomButtonBar();
+    /**
+     *  Creates the Table
+     *  Adding the columns to the display
+     *  and all the data under the corresponding
+     */
     protected abstract void loadTable();
+    /**
+     * This creates the table info
+     */
     protected abstract void loadInfo();
 }
