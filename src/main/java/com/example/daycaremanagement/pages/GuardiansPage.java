@@ -2,6 +2,7 @@ package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Guardian;
+import com.example.daycaremanagement.pojo.display.DisplayGuardian;
 import com.example.daycaremanagement.tables.GuardianTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
@@ -57,31 +58,31 @@ public class GuardiansPage extends CrudOverlay {
         }
 
         // Create Columns
-        TableColumn<Guardian, String> column1 = new TableColumn<>("First Name");
+        TableColumn<DisplayGuardian, String> column1 = new TableColumn<>("First Name");
         column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
-        TableColumn<Guardian, String> column2 = new TableColumn<>("Last Name");
+        TableColumn<DisplayGuardian, String> column2 = new TableColumn<>("Last Name");
         column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
 
-        TableColumn<Guardian, String> column3 = new TableColumn<>("Phone");
+        TableColumn<DisplayGuardian, String> column3 = new TableColumn<>("Phone");
         column3.setCellValueFactory(e -> new SimpleStringProperty(String.format("(%s) %s-%s", e.getValue().getPhone().substring(0, 3), e.getValue().getPhone().substring(3, 6),
                 e.getValue().getPhone().substring(6, 10))));
 
-        TableColumn<Guardian, String> column4 = new TableColumn<>("Email");
+        TableColumn<DisplayGuardian, String> column4 = new TableColumn<>("Email");
         column4.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getEmail()));
 
-        TableColumn<Guardian, String> column5 = new TableColumn<>("City ID");
-        column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getCity_id())));
+        TableColumn<DisplayGuardian, String> column5 = new TableColumn<>("City");
+        column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getCity())));
 
-        TableColumn<Guardian, String> column6 = new TableColumn<>("Street Number");
+        TableColumn<DisplayGuardian, String> column6 = new TableColumn<>("Street Number");
         column6.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getStreet_num())));
 
-        TableColumn<Guardian, String> column7 = new TableColumn<>("Street Name");
+        TableColumn<DisplayGuardian, String> column7 = new TableColumn<>("Street Name");
         column7.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getStreet_name()));
 
 
         tableView.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7);
-        tableView.getItems().addAll(guardians.getAllGuardians());
+        tableView.getItems().addAll(guardians.getAllDisplayGuardians());
         tableView.setStyle("");
 
         this.content.setCenter(tableView);

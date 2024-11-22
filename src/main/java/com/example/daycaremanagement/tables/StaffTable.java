@@ -47,13 +47,16 @@ public class StaffTable implements StaffDAO {
     public ArrayList<DisplayStaff> getAllDisplayStaff(){
         ArrayList<DisplayStaff> displayStaff = new ArrayList<>();
         //pain
-        String query = "SELECT "+TABLE_STAFF+"."+STAFF_COLUMN_ID+" as id, "+TABLE_STAFF+"."+STAFF_COLUMN_FIRST_NAME+" as first_name, " +
-                " "+TABLE_STAFF+"."+STAFF_COLUMN_LAST_NAME+" as last_name, "+TABLE_STAFF+"."+STAFF_COLUMN_WAGE+" as wage," +
-                " "+TABLE_ROOMS+"."+ROOMS_COLUMN_NAME+" as room, "+TABLE_POSITIONS+"."+POSITIONS_COLUMN_NAME+" as position " +
-                " from "+TABLE_STAFF+" " +
-                "JOIN "+TABLE_POSITIONS+" on "+TABLE_STAFF+"."+STAFF_COLUMN_POSITION_ID+" = "+TABLE_POSITIONS+"."+POSITIONS_COLUMN_ID+" " +
-                "JOIN "+TABLE_ROOMS+" on "+TABLE_STAFF+"."+STAFF_COLUMN_ROOM_ID+" = "+TABLE_ROOMS+"."+ROOMS_COLUMN_ID+" " +
-                "ORDER BY id ASC";
+        String query = "SELECT "+TABLE_STAFF+"."+STAFF_COLUMN_ID+" as id, "
+                + TABLE_STAFF+"."+STAFF_COLUMN_FIRST_NAME+" as first_name, "
+                + TABLE_STAFF+"."+STAFF_COLUMN_LAST_NAME+" as last_name, "
+                + TABLE_STAFF+"."+STAFF_COLUMN_WAGE+" as wage,"
+                + TABLE_ROOMS+"."+ROOMS_COLUMN_NAME+" as room, "
+                + TABLE_POSITIONS+"."+POSITIONS_COLUMN_NAME+" as position "
+                + " from "+TABLE_STAFF
+                + " JOIN "+TABLE_POSITIONS+" on "+TABLE_STAFF+"."+STAFF_COLUMN_POSITION_ID+" = "+TABLE_POSITIONS+"."+POSITIONS_COLUMN_ID
+                + " JOIN "+TABLE_ROOMS+" on "+TABLE_STAFF+"."+STAFF_COLUMN_ROOM_ID+" = "+TABLE_ROOMS+"."+ROOMS_COLUMN_ID
+                + " ORDER BY id ASC";
 
         try {
             Statement getStaff = db.getConnection().createStatement();

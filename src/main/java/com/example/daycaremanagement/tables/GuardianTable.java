@@ -3,6 +3,7 @@ package com.example.daycaremanagement.tables;
 import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.pojo.Guardian;
 import com.example.daycaremanagement.dao.GuardianDAO;
+import com.example.daycaremanagement.pojo.display.DisplayGuardian;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,6 +42,41 @@ public class GuardianTable implements GuardianDAO {
             e.printStackTrace();
         }
         return guardians;
+    }
+
+    public ArrayList<DisplayGuardian> getAllDisplayGuardians(){
+        ArrayList<DisplayGuardian> displayGuardians = new ArrayList<>();
+        String query = "SELECT "+ TABLE_GUARDIANS +"."+GUARDIANS_COLUMN_ID+" as id, "
+                + TABLE_GUARDIANS+"."+GUARDIANS_COLUMN_FIRST_NAME+" as first_name, "
+                + TABLE_GUARDIANS+"."+GUARDIANS_COLUMN_LAST_NAME+" as last_name, "
+                + TABLE_GUARDIANS+"."+GUARDIANS_COLUMN_PHONE+" as phone, "
+                + TABLE_GUARDIANS+"."+GUARDIANS_COLUMN_EMAIL+" as email, "
+                + TABLE_CITIES+"."+CITIES_COLUMN_NAME+" as city, "
+                + TABLE_GUARDIANS+"."+GUARDIANS_COLUMN_STREET_NUM+" as street_num, "
+                + TABLE_GUARDIANS+"."+GUARDIANS_COLUMN_STREET_NAME+" as street_name "
+                + " from "+TABLE_GUARDIANS
+                + " JOIN "+TABLE_CITIES+" on "+TABLE_GUARDIANS+"."+GUARDIANS_COLUMN_CITY_ID+" = "+TABLE_CITIES+"."+CITIES_COLUMN_ID
+                + " ORDER BY id ASC";
+
+        try {
+            Statement getGuardians = db.getConnection().createStatement();
+            ResultSet data = getGuardians.executeQuery(query);
+            while(data.next()) {
+                displayGuardians.add(new DisplayGuardian(data.getInt("id"),
+                        data.getString("first_name"),
+                        data.getString("last_name"),
+                        data.getString("phone"),
+                        data.getString("email"),
+                        data.getString("city"),
+                        data.getInt("street_num"),
+                        data.getString("street_name")));
+            }
+            getGuardians.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return displayGuardians;
     }
 
     @Override

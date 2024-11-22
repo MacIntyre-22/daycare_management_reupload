@@ -44,12 +44,14 @@ public class StudentTable implements StudentDAO {
 
     public ArrayList<DisplayStudent> getAllDisplayStudents(){
         ArrayList<DisplayStudent> displayStudents = new ArrayList<>();
-        String query = "SELECT "+ TABLE_STUDENTS +"."+STUDENTS_COLUMN_ID+" as id, "+TABLE_STUDENTS+"."+STUDENTS_COLUMN_FIRST_NAME+" as first_name, " +
-                " "+TABLE_STUDENTS+"."+STUDENTS_COLUMN_LAST_NAME+" as last_name, "+TABLE_STUDENTS+"."+STUDENTS_COLUMN_BIRTHDATE+" as birthdate," +
-                " "+TABLE_ROOMS+"."+ROOMS_COLUMN_NAME+" as room " +
-                " from "+TABLE_STUDENTS+" " +
-                "JOIN "+TABLE_ROOMS+" on "+TABLE_STUDENTS+"."+STUDENTS_COLUMN_ROOM_ID+" = "+TABLE_ROOMS+"."+ROOMS_COLUMN_ID+" " +
-                "ORDER BY id ASC";
+        String query = "SELECT "+ TABLE_STUDENTS +"."+STUDENTS_COLUMN_ID+" as id, "
+                + TABLE_STUDENTS+"."+STUDENTS_COLUMN_FIRST_NAME+" as first_name, "
+                + TABLE_STUDENTS+"."+STUDENTS_COLUMN_LAST_NAME+" as last_name, "
+                + TABLE_STUDENTS+"."+STUDENTS_COLUMN_BIRTHDATE+" as birthdate, "
+                + TABLE_ROOMS+"."+ROOMS_COLUMN_NAME+" as room "
+                + " FROM "+TABLE_STUDENTS
+                + " JOIN "+TABLE_ROOMS+" on "+TABLE_STUDENTS+"."+STUDENTS_COLUMN_ROOM_ID+" = "+TABLE_ROOMS+"."+ROOMS_COLUMN_ID
+                + " ORDER BY id ASC";
 
         try {
             Statement getStudents = db.getConnection().createStatement();
