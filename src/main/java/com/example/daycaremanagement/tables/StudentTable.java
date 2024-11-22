@@ -3,6 +3,8 @@ package com.example.daycaremanagement.tables;
 import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.pojo.Student;
 import com.example.daycaremanagement.dao.StudentDAO;
+import com.example.daycaremanagement.pojo.display.DisplayStaff;
+import com.example.daycaremanagement.pojo.display.DisplayStudent;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,6 +40,33 @@ public class StudentTable implements StudentDAO {
             e.printStackTrace();
         }
         return students;
+    }
+
+    public ArrayList<DisplayStudent> getAllDisplayStudents(){
+        ArrayList<DisplayStudent> displayStudents = new ArrayList<>();
+        String query = "SELECT "+ TABLE_STUDENTS +"."+STUDENTS_COLUMN_ID+" as id, "+TABLE_STUDENTS+"."+STUDENTS_COLUMN_FIRST_NAME+" as first_name, " +
+                " "+TABLE_STUDENTS+"."+STUDENTS_COLUMN_LAST_NAME+" as last_name, "+TABLE_STUDENTS+"."+STUDENTS_COLUMN_BIRTHDATE+" as birthdate," +
+                " "+TABLE_ROOMS+"."+ROOMS_COLUMN_NAME+" as room " +
+                " from "+TABLE_STUDENTS+" " +
+                "JOIN "+TABLE_ROOMS+" on "+TABLE_STUDENTS+"."+STUDENTS_COLUMN_ROOM_ID+" = "+TABLE_ROOMS+"."+ROOMS_COLUMN_ID+" " +
+                "ORDER BY id ASC";
+
+        try {
+            Statement getStudents = db.getConnection().createStatement();
+            ResultSet data = getStudents.executeQuery(query);
+            while(data.next()) {
+                displayStudents.add(new DisplayStudent(data.getInt("id"),
+                        data.getString("first_name"),
+                        data.getString("last_name"),
+                        data.getString("birthdate"),
+                        data.getString("room")));
+            }
+            getStudents.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return displayStudents;
     }
 
     @Override

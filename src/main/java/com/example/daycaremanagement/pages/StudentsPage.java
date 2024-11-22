@@ -2,6 +2,7 @@ package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Student;
+import com.example.daycaremanagement.pojo.display.DisplayStudent;
 import com.example.daycaremanagement.tables.StudentTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
@@ -60,20 +61,20 @@ public class StudentsPage extends CrudOverlay {
         }
 
         // Create Columns
-        TableColumn<Student, String> column1 = new TableColumn<>("First Name");
+        TableColumn<DisplayStudent, String> column1 = new TableColumn<>("First Name");
         column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
-        TableColumn<Student, String> column2 = new TableColumn<>("Last Name");
+        TableColumn<DisplayStudent, String> column2 = new TableColumn<>("Last Name");
         column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
 
-        TableColumn<Student, String> column3 = new TableColumn<>("Birthday");
+        TableColumn<DisplayStudent, String> column3 = new TableColumn<>("Birthday");
         column3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBirthdate()));
 
-        TableColumn<Student, String> column4 = new TableColumn<>("Room");
-        column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom_id())));
+        TableColumn<DisplayStudent, String> column4 = new TableColumn<>("Room");
+        column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom())));
 
         tableView.getColumns().addAll(column1, column2, column3, column4);
-        tableView.getItems().addAll(students.getAllStudents());
+        tableView.getItems().addAll(students.getAllDisplayStudents());
 
         this.content.setCenter(tableView);
     }
