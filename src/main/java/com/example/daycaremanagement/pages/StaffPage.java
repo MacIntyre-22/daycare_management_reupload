@@ -4,6 +4,7 @@ import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Staff;
 import com.example.daycaremanagement.pojo.Student;
+import com.example.daycaremanagement.pojo.display.DisplayStaff;
 import com.example.daycaremanagement.tables.StaffTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TableColumn;
@@ -59,23 +60,23 @@ public class StaffPage extends CrudOverlay {
       }
 
       // Create Columns
-      TableColumn<Staff, String> column1 = new TableColumn<>("First Name");
+      TableColumn<DisplayStaff, String> column1 = new TableColumn<>("First Name");
       column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
-      TableColumn<Staff, String> column2 = new TableColumn<>("Last Name");
+      TableColumn<DisplayStaff, String> column2 = new TableColumn<>("Last Name");
       column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
 
-      TableColumn<Staff, String> column3 = new TableColumn<>("Wage");
+      TableColumn<DisplayStaff, String> column3 = new TableColumn<>("Wage");
       column3.setCellValueFactory(e -> new SimpleStringProperty(String.format("$%.2f", e.getValue().getWage())));
 
-      TableColumn<Staff, String> column4 = new TableColumn<>("Room");
-      column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom_id())));
+      TableColumn<DisplayStaff, String> column4 = new TableColumn<>("Room");
+      column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom())));
 
-      TableColumn<Staff, String> column5 = new TableColumn<>("Position");
-      column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getPosition_id())));
+      TableColumn<DisplayStaff, String> column5 = new TableColumn<>("Position");
+      column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getPosition())));
 
       tableView.getColumns().addAll(column1, column2, column3, column4, column5);
-      tableView.getItems().addAll(staff.getAllStaff());
+      tableView.getItems().addAll(staff.getAllDisplayStaff());
 
       this.content.setCenter(tableView);
   }

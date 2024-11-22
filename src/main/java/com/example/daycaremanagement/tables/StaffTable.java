@@ -3,6 +3,7 @@ package com.example.daycaremanagement.tables;
 import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.pojo.Staff;
 import com.example.daycaremanagement.dao.StaffDAO;
+import com.example.daycaremanagement.pojo.display.DisplayStaff;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,6 +42,36 @@ public class StaffTable implements StaffDAO {
             e.printStackTrace();
         }
         return staff;
+    }
+
+    public ArrayList<DisplayStaff> getAllDisplayStaff(){
+        // TODO: Update to use column names from const file
+        ArrayList<DisplayStaff> displayStaff = new ArrayList<>();
+        String query = "SELECT staff.staff_id as id, staff.first_name as first_name, " +
+                " staff.last_name as last_name, staff.wage as wage," +
+                " rooms.room_name as room, positions.positions_name as position " +
+                " from staff " +
+                "JOIN positions on staff.position_id = positions.positions_id " +
+                "JOIN rooms on staff.room_id = rooms.room_id " +
+                "ORDER BY id ASC";
+
+        try {
+            Statement getStaff = db.getConnection().createStatement();
+            ResultSet data = getStaff.executeQuery(query);
+            while(data.next()) {
+                displayStaff.add(new DisplayStaff(data.getInt("id"),
+                        data.getString("first_name"),
+                        data.getString("last_name"),
+                        data.getDouble("wage"),
+                        data.getString("room"),
+                        data.getString("position")));
+            }
+            getStaff.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return displayStaff;
     }
 
     @Override
