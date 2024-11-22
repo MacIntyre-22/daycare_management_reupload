@@ -1,7 +1,12 @@
 package com.example.daycaremanagement.pages;
 
 import com.example.daycaremanagement.MainApp;
+import com.example.daycaremanagement.database.DBConst;
+import com.example.daycaremanagement.database.Database;
+import com.example.daycaremanagement.overlays.MainTablesOverlay;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -15,31 +20,39 @@ import javafx.scene.text.FontWeight;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import static com.example.daycaremanagement.MainApp.primaryStage;
 
 public class LoginPage extends BorderPane {
 
-    // Data Fields
-    // Added variables here so they're visible inside the button actions
-    private String usernameText;
-    private String passwordText;
-    private String dbText;
-
-    // Input Fields
-    private TextField usernameInput = new TextField();
+    // This Message Label is to explain to the user what to do
+    // ex. enter inputs into fields and Errors that are happening
     private Label messageLabel = new Label("Please enter your username and password");
-    private TextField visiblePassInput = new TextField();
-    private PasswordField hiddenPassInput = new PasswordField();
 
-    // Login button
-    private Button loginButton = new Button("Login");
+    // Main Page Scene
+    private MainTablesOverlay root;
+    private Scene mainPageScene;
 
+
+    /**
+     * This Pages Displays the Login fields,
+     * then signs the user in, If their credentials are right
+     */
     public LoginPage(){
 
     // Heading Text
         Label title = new Label("(Daycare Name) Login Page");
 
+    //Input Fields
+        TextField usernameInput = new TextField();
+        TextField visiblePassInput = new TextField();
+        PasswordField hiddenPassInput = new PasswordField();
+
     // Buttons
         Button showPass = new Button("Show Password");
+        Button loginButton = new Button("Login");
         Button resetButton = new Button("Reset");
         Button testConnectionButton = new Button("Test Connection");
         Button exitButton = new Button("Exit");
@@ -126,8 +139,8 @@ public class LoginPage extends BorderPane {
         this.setStyle("-fx-background-color: #0E6BA8");
 
     // Button Actions
-        // Login button action is in MainApp.java
         showPass.setOnAction(e -> {
+            String passwordText;
             if(showPass.getText().equals("Show Password")) {
 
                 // Saves pass and clears the hidden input field
@@ -165,7 +178,7 @@ public class LoginPage extends BorderPane {
 
 
         testConnectionButton.setOnAction(e -> {
-            // This is test code
+            // This is test the Db Connection
             if (messageLabel.getText().equals("Error Connecting to Database")){
                 shadow.setColor(Color.RED);
                 inputs.setEffect(shadow);
@@ -180,7 +193,7 @@ public class LoginPage extends BorderPane {
                 messageLabel.setTextFill(Color.LIGHTBLUE);
             }
             try {
-                
+                Database.checkConnection();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -188,7 +201,6 @@ public class LoginPage extends BorderPane {
 
 
         resetButton.setOnAction(e-> {
-
             // Clears the username & all otherButtons inputs
             usernameInput.clear();
             visiblePassInput.clear();
@@ -206,22 +218,29 @@ public class LoginPage extends BorderPane {
             showPass.setText("Show Password");
         });
 
+        loginButton.setOnAction(e -> {
+            if(this.saveLoginInfo(usernameInput, usernameInput, hiddenPassInput)) {
+                connectToDatabase();
+            }
+        });
+
         // Closes the program
-        exitButton.setOnAction(e -> MainApp.primaryStage.close());
+        exitButton.setOnAction(e -> primaryStage.close());
+
 
     // Added to my pane...
         this.setCenter(inputs);
-
     }
 
 
     /**
      * Save login information to the file "login/const.txt"
+     * @return true or false depending on if it created the login information
      */
     public boolean saveLoginInfo(TextField database, TextField username, TextField pass) {
         // Check if any of the text fields are empty before proceeding
         if (username.getText().isEmpty() || pass.getText().isEmpty()) {
-            this.messageLabel.setText("All fields must be filled out.");
+            messageLabel.setText("All fields must be filled out.");
             return false;
         }else {
 
@@ -238,46 +257,67 @@ public class LoginPage extends BorderPane {
                         pass.getText();
                 writer.print(loginValues);
             } catch (FileNotFoundException ex) {
-                this.messageLabel.setText("Unable to create login file");
+                messageLabel.setText("Unable to create login file");
                 return false;
             }
-            this.messageLabel.setText("Login Saved");
+            messageLabel.setText("Login Saved");
             return true;
         }
     }
 
-    // Setters and getters
 
-    public TextField getUsernameInput() {
-        return usernameInput;
+
+    /**
+     * Sets the DbConst File values for a db connection
+     *
+     * @return true if constants were set, false otherwise
+     * */
+    private boolean setConst() {
+        // Read const.txt file for creds
+        try (Scanner scanner = new Scanner(new File("login/const.txt"))) {
+            String[] fileConst = new String[3];
+            // Add creds to array
+            while (scanner.hasNextLine()) {
+                fileConst[0] = scanner.nextLine();
+                fileConst[1] = scanner.nextLine();
+                fileConst[2] = scanner.nextLine();
+            }
+
+            // Set DbConst values
+            DBConst.setDbName(fileConst[0]);
+            DBConst.setDbUser(fileConst[1]);
+            DBConst.setDbPass(fileConst[2]);
+            return true;
+
+        } catch (FileNotFoundException e) {
+            // Catch exception
+            return false;
+        }
     }
 
-    public void setUsernameInput(TextField usernameInput) {
-        this.usernameInput = usernameInput;
-    }
 
 
-    public Label getMessageLabel() {
-        return messageLabel;
-    }
 
-    public void setMessageLabel(Label messageLabel) {
-        this.messageLabel = messageLabel;
-    }
 
-    public Button getLoginButton() {
-        return loginButton;
-    }
+    /**
+     * Uses the setConst() Function
+     * Then Checks the connection to the Database
+     * And If all is true then it sets the scene to the mainPageScene
+     * */
+    public void connectToDatabase() {
 
-    public void setLoginButton(Button loginButton) {
-        this.loginButton = loginButton;
-    }
-
-    public PasswordField getHiddenPassInput() {
-        return hiddenPassInput;
-    }
-
-    public void setHiddenPassInput(PasswordField hiddenPassInput) {
-        this.hiddenPassInput = hiddenPassInput;
+        // Set Consts Here
+        if (setConst()) {
+            // Check Connection here
+            if (Database.checkConnection()) {
+                root = new MainTablesOverlay();
+                mainPageScene = new Scene(root, 1024, 768);
+                primaryStage.setScene(mainPageScene);
+            } else {
+                messageLabel.setText("Error Connecting to Database");
+            }
+        } else {
+            messageLabel.setText("Error Setting Constants");
+        }
     }
 }

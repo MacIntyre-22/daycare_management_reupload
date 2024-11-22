@@ -13,9 +13,9 @@ import java.sql.SQLException;
 
 public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
-    private Label title = new Label("Guardians");
-    private GuardianTable guardians;
+    Label title = new Label("Guardians");
 
+    GuardianTable guardians;
     /**
      * Gets an instance of this class
      * @return the instance
@@ -28,13 +28,21 @@ public class GuardiansPage extends CrudOverlay {
     }
 
 
+    /**
+     * This Pages Displays the Guardians Page.
+     * With the Table data
+     * and with the CRUD overlay
+     * and a some low level table info at the bottom of the table
+     */
     private GuardiansPage() {
         super();
+
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         content.setTop(title);
         loadTable();
         loadInfo();
     }
+
 
     @Override
     protected void sideButtonBar() {
@@ -46,8 +54,10 @@ public class GuardiansPage extends CrudOverlay {
         // Define actions specific to Guardians’ CRUD buttons here
     }
 
+
     @Override
     protected void loadTable() {
+
         this.tableView = new TableView();
         try {
             guardians = GuardianTable.getInstance();
@@ -86,6 +96,7 @@ public class GuardiansPage extends CrudOverlay {
 
         this.content.setCenter(tableView);
     }
+
 
     @Override
     protected void loadInfo() {
