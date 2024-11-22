@@ -9,6 +9,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
+import java.sql.SQLException;
+
 public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
     private Label title = new Label("Guardians");
@@ -47,7 +49,12 @@ public class GuardiansPage extends CrudOverlay {
     @Override
     protected void loadTable() {
         this.tableView = new TableView();
-        guardians = new GuardianTable();
+        try {
+            guardians = GuardianTable.getInstance();
+        } catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Could not get table.");
+        }
 
         // Create Columns
         TableColumn<Guardian, String> column1 = new TableColumn<>("First Name");

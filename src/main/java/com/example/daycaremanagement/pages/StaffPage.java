@@ -11,6 +11,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+import java.sql.SQLException;
+
 public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
   private Label title = new Label("Staff");
@@ -49,7 +51,12 @@ public class StaffPage extends CrudOverlay {
   @Override
   protected void loadTable() {
       this.tableView = new TableView();
-      staff = new StaffTable();
+      try {
+          staff = StaffTable.getInstance();
+      } catch (SQLException e){
+          e.printStackTrace();
+          System.out.println("Could not get table.");
+      }
 
       // Create Columns
       TableColumn<Staff, String> column1 = new TableColumn<>("First Name");
