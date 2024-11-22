@@ -58,7 +58,7 @@ public class StudentsPage extends CrudOverlay {
     protected void loadTable() {
         this.tableView = new TableView();
         try {
-            students = new StudentTable();
+            students = StudentTable.getInstance();
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Could not get table.");

@@ -12,14 +12,9 @@ import java.util.ArrayList;
 import static com.example.daycaremanagement.database.DBConst.*;
 
 public class StaffTable implements StaffDAO {
+    private static StaffTable instance;
+    private StaffTable() throws SQLException { db = Database.getInstance(); }
     Database db;
-    {
-        try {
-            db = Database.getInstance();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     ArrayList<Staff> staff;
 
@@ -103,5 +98,12 @@ public class StaffTable implements StaffDAO {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static StaffTable getInstance() throws SQLException {
+        if (instance == null){
+            instance = new StaffTable();
+        }
+        return instance;
     }
 }

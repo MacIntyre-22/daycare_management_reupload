@@ -12,11 +12,10 @@ import java.util.ArrayList;
 import static com.example.daycaremanagement.database.DBConst.*;
 
 public class StudentTable implements StudentDAO {
-    Database db = Database.getInstance();
+    private static StudentTable instance;
+    private StudentTable() throws SQLException { db = Database.getInstance(); }
+    Database db;
     ArrayList<Student> students;
-
-    public StudentTable() throws SQLException {
-    }
 
     @Override
     public ArrayList<Student> getAllStudents() {
@@ -95,5 +94,12 @@ public class StudentTable implements StudentDAO {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static StudentTable getInstance() throws SQLException {
+        if (instance == null){
+            instance = new StudentTable();
+        }
+        return instance;
     }
 }

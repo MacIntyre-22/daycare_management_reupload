@@ -9,6 +9,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
+import java.sql.SQLException;
+
 public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
     Label title = new Label("Guardians");
@@ -57,7 +59,12 @@ public class GuardiansPage extends CrudOverlay {
     protected void loadTable() {
 
         this.tableView = new TableView();
-        guardians = new GuardianTable();
+        try {
+            guardians = GuardianTable.getInstance();
+        } catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Could not get table.");
+        }
 
         // Create Columns
         TableColumn<Guardian, String> column1 = new TableColumn<>("First Name");
@@ -70,16 +77,16 @@ public class GuardiansPage extends CrudOverlay {
         column3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getPhone()));
 
         TableColumn<Guardian, String> column4 = new TableColumn<>("Email");
-        column4.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getPhone()));
+        column4.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getEmail()));
 
         TableColumn<Guardian, String> column5 = new TableColumn<>("City ID");
         column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getCity_id())));
 
         TableColumn<Guardian, String> column6 = new TableColumn<>("Street Number");
-        column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getStreet_num())));
+        column6.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getStreet_num())));
 
         TableColumn<Guardian, String> column7 = new TableColumn<>("Street Name");
-        column4.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getStreet_name()));
+        column7.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getStreet_name()));
 
 
         tableView.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7);
