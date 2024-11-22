@@ -12,14 +12,9 @@ import java.util.ArrayList;
 import static com.example.daycaremanagement.database.DBConst.*;
 
 public class GuardianStudentRelationTable implements GuardianStudentRelationDAO {
+    private static GuardianStudentRelationTable instance;
+    private GuardianStudentRelationTable() throws SQLException { db = Database.getInstance(); }
     Database db;
-    {
-        try {
-            db = Database.getInstance();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     ArrayList<GuardianStudentRelation> relations;
     @Override
@@ -94,5 +89,12 @@ public class GuardianStudentRelationTable implements GuardianStudentRelationDAO 
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private static GuardianStudentRelationTable getInstance() throws SQLException {
+        if (instance == null){
+            instance = new GuardianStudentRelationTable();
+        }
+        return instance;
     }
 }

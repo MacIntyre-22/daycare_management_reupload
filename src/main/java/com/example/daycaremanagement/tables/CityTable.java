@@ -12,14 +12,11 @@ import java.util.ArrayList;
 import static com.example.daycaremanagement.database.DBConst.*;
 
 public class CityTable implements CityDAO {
+
+    private static CityTable instance;
+    private CityTable() throws SQLException { db = Database.getInstance(); }
     Database db;
-    {
-        try {
-            db = Database.getInstance();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
     ArrayList<City> cities;
 
@@ -93,5 +90,12 @@ public class CityTable implements CityDAO {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private static CityTable getInstance() throws SQLException {
+        if (instance == null){
+            instance = new CityTable();
+        }
+        return instance;
     }
 }
