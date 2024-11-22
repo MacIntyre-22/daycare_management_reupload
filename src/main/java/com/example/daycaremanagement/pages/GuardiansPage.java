@@ -2,7 +2,11 @@ package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Guardian;
+import com.example.daycaremanagement.pojo.GuardianStudentRelation;
 import com.example.daycaremanagement.pojo.display.DisplayGuardian;
+import com.example.daycaremanagement.pojo.display.DisplayStaff;
+import com.example.daycaremanagement.pojo.display.DisplayStudent;
+import com.example.daycaremanagement.tables.GuardianStudentRelationTable;
 import com.example.daycaremanagement.tables.GuardianTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
@@ -11,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
@@ -53,6 +58,25 @@ public class GuardiansPage extends CrudOverlay {
     @Override
     protected void bottomButtonBar() {
         // Define actions specific to Guardians’ CRUD buttons here
+
+        // Deletes the guardian and all of their relations
+        // Does not delete the students connected to them (in-case the student has other guardians)
+        delete.setOnAction(e->{
+            if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                DisplayGuardian deleteGuardian = (DisplayGuardian) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                try {
+                    ArrayList<GuardianStudentRelation> deleteRelations = GuardianStudentRelationTable.getInstance().getRelationByEitherId(deleteGuardian.getId(), true);
+                    for (GuardianStudentRelation deleteRelation : deleteRelations) {
+                        GuardianStudentRelationTable.getInstance().deleteRelation(deleteRelation);
+                    }
+                } catch (SQLException e2) {
+                    e2.printStackTrace();
+                }
+
+                guardians.deleteGuardian(guardians.getGuardian(deleteGuardian.getId()));
+                loadTable();
+            }
+        });
     }
 
 

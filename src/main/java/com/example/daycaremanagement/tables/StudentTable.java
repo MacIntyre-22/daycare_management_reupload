@@ -93,6 +93,27 @@ public class StudentTable implements StudentDAO {
         return null;
     }
 
+    public Student getStudentByRelation(int id) {
+        String query = "SELECT * FROM "+ TABLE_STUDENTS + " WHERE " + TABLE_GUARDIAN_STUDENT_RELATION + "." + GUARDIAN_STUDENT_RELATION_COLUMN_ID + " = " + id;
+        try{
+            Statement getStudent = db.getConnection().createStatement();
+            ResultSet data = getStudent.executeQuery(query);
+            if (data.next()){
+                Student student = new Student(
+                        data.getInt(STUDENTS_COLUMN_ID),
+                        data.getString(STUDENTS_COLUMN_FIRST_NAME),
+                        data.getString(STUDENTS_COLUMN_LAST_NAME),
+                        data.getString(STUDENTS_COLUMN_BIRTHDATE),
+                        data.getInt(STUDENTS_COLUMN_ROOM_ID)
+                );
+                return student;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public void updateStudent(Student student) {
         String query = "UPDATE " + TABLE_STUDENTS + " SET " + STUDENTS_COLUMN_FIRST_NAME + " = '" + student.getFirst_name() + "', " + STUDENTS_COLUMN_LAST_NAME + " = '" + student.getLast_name() +"', " + STUDENTS_COLUMN_BIRTHDATE + " = '" + student.getBirthdate() + "', " + STUDENTS_COLUMN_ROOM_ID + " = "+ student.getRoom_id()+

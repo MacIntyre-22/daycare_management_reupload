@@ -1,8 +1,11 @@
 package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
+import com.example.daycaremanagement.pojo.GuardianStudentRelation;
 import com.example.daycaremanagement.pojo.Student;
+import com.example.daycaremanagement.pojo.display.DisplayStaff;
 import com.example.daycaremanagement.pojo.display.DisplayStudent;
+import com.example.daycaremanagement.tables.GuardianStudentRelationTable;
 import com.example.daycaremanagement.tables.StudentTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
@@ -12,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class StudentsPage extends CrudOverlay {
     private static StudentsPage instance;
@@ -52,6 +56,25 @@ public class StudentsPage extends CrudOverlay {
     @Override
     protected void bottomButtonBar() {
         // Define actions specific to Guardians’ CRUD buttons here
+
+
+        // Deletes the student and all of their relations (but doesn't delete the guardians connected to them)
+        delete.setOnAction(e->{
+            if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                DisplayStudent deleteStudent = (DisplayStudent) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                try {
+                    ArrayList<GuardianStudentRelation> deleteRelations = GuardianStudentRelationTable.getInstance().getRelationByEitherId(deleteStudent.getId(), false);
+                    for (GuardianStudentRelation deleteRelation : deleteRelations) {
+                        GuardianStudentRelationTable.getInstance().deleteRelation(deleteRelation);
+                    }
+                } catch (SQLException e2){
+                    e2.printStackTrace();
+                }
+
+                students.deleteStudent(students.getStudent(deleteStudent.getId()));
+                loadTable();
+            }
+        });
     }
 
     // Create Table

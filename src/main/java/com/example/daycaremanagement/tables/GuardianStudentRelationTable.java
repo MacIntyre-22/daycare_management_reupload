@@ -58,6 +58,31 @@ public class GuardianStudentRelationTable implements GuardianStudentRelationDAO 
         return null;
     }
 
+    // TODO: Rework this
+    // true if searching by guardian id, false if searching by student id
+    public ArrayList<GuardianStudentRelation> getRelationByEitherId(int searchId, boolean guardian) {
+        String searchCriteria;
+        relations = new ArrayList<>();
+        if (guardian) { searchCriteria = GUARDIAN_STUDENT_RELATION_COLUMN_GUARDIAN_ID; } else { searchCriteria = GUARDIAN_STUDENT_RELATION_COLUMN_STUDENT_ID; }
+        String query = "SELECT * FROM "+ TABLE_GUARDIAN_STUDENT_RELATION + " WHERE " + searchCriteria + " = " + searchId;
+        try{
+            Statement getRelation = db.getConnection().createStatement();
+            ResultSet data = getRelation.executeQuery(query);
+            while (data.next()){
+                GuardianStudentRelation relation = new GuardianStudentRelation(
+                        data.getInt(GUARDIAN_STUDENT_RELATION_COLUMN_ID),
+                        data.getInt(GUARDIAN_STUDENT_RELATION_COLUMN_GUARDIAN_ID),
+                        data.getInt(GUARDIAN_STUDENT_RELATION_COLUMN_STUDENT_ID)
+                );
+                relations.add(relation);
+            }
+            return relations;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public void updateRelation(GuardianStudentRelation relation) {
         String query = "UPDATE "+TABLE_GUARDIAN_STUDENT_RELATION + " SET " + GUARDIAN_STUDENT_RELATION_COLUMN_STUDENT_ID + " = " + relation.getStudent_id() + ", " + GUARDIAN_STUDENT_RELATION_COLUMN_GUARDIAN_ID + " = " + relation.getGuardian_id() + " WHERE " + GUARDIAN_STUDENT_RELATION_COLUMN_ID + " = " + relation.getId();

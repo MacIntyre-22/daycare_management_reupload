@@ -52,6 +52,14 @@ public class StaffPage extends CrudOverlay {
   @Override
   protected void bottomButtonBar() {
     // Define actions specific to Guardians’ CRUD buttons here
+
+      delete.setOnAction(e->{
+          if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+              DisplayStaff deleteStaff = (DisplayStaff) this.tableView.getSelectionModel().getSelectedItems().get(0);
+              staff.deleteStaff(staff.getStaff(deleteStaff.getId()));
+              loadTable();
+          }
+      });
   }
 
   @Override
