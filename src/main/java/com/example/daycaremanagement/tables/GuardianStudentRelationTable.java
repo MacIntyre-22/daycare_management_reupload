@@ -91,7 +91,7 @@ public class GuardianStudentRelationTable implements GuardianStudentRelationDAO 
         }
     }
 
-    private static GuardianStudentRelationTable getInstance() throws SQLException {
+    public static GuardianStudentRelationTable getInstance() throws SQLException {
         if (instance == null){
             instance = new GuardianStudentRelationTable();
         }

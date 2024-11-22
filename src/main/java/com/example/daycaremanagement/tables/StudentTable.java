@@ -96,7 +96,7 @@ public class StudentTable implements StudentDAO {
         }
     }
 
-    private static StudentTable getInstance() throws SQLException {
+    public static StudentTable getInstance() throws SQLException {
         if (instance == null){
             instance = new StudentTable();
         }

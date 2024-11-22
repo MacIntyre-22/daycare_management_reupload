@@ -90,7 +90,7 @@ public class RoomTable implements RoomDAO {
         }
     }
 
-    private static RoomTable getInstance() throws SQLException {
+    public static RoomTable getInstance() throws SQLException {
         if (instance == null){
             instance = new RoomTable();
         }

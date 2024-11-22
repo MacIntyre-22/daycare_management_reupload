@@ -102,7 +102,7 @@ public class GuardianTable implements GuardianDAO {
         }
     }
 
-    private static GuardianTable getInstance() throws SQLException {
+    public static GuardianTable getInstance() throws SQLException {
         if (instance == null){
             instance = new GuardianTable();
         }

@@ -100,7 +100,7 @@ public class StaffTable implements StaffDAO {
         }
     }
 
-    private static StaffTable getInstance() throws SQLException {
+    public static StaffTable getInstance() throws SQLException {
         if (instance == null){
             instance = new StaffTable();
         }

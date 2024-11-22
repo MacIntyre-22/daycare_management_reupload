@@ -90,7 +90,7 @@ public class PositionTable implements PositionDAO {
         }
     }
 
-    private static PositionTable getInstance() throws SQLException {
+    public static PositionTable getInstance() throws SQLException {
         if (instance == null){
             instance = new PositionTable();
         }

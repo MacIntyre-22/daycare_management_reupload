@@ -92,7 +92,7 @@ public class CityTable implements CityDAO {
         }
     }
 
-    private static CityTable getInstance() throws SQLException {
+    public static CityTable getInstance() throws SQLException {
         if (instance == null){
             instance = new CityTable();
         }
