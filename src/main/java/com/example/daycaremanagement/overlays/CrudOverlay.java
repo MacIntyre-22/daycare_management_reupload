@@ -106,10 +106,26 @@ public abstract class CrudOverlay extends BorderPane {
         return roomName;
     }
 
-    // Abstract methods for subclasses to define specific behavior
+    // Abstract methods for subclasses to define specific behavior\
+
+    /**
+     * Sets the actions and styling for the pop out buttons on the page.
+     */
     protected abstract void sideButtonBar();
+
+    /**
+     * Sets the actions and styling for the crud buttons on bottom of the page.
+     */
     protected abstract void bottomButtonBar();
+
+    /**
+     * Loads the table for that page into the content view.
+     */
     protected abstract void loadTable();
+
+    /**
+     * Loads basic info about the table to the page.
+     */
     protected abstract void loadInfo();
 
 

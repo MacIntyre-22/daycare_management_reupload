@@ -51,6 +51,8 @@ public class GuardiansPage extends CrudOverlay {
         graph1.setOnAction(e->{
             loadTable();
         });
+
+        // City Pie Chart
         graph2.setOnAction(e->{
             PieChart chart = new PieChart();
             chart.setTitle("Guardians City");
@@ -66,7 +68,7 @@ public class GuardiansPage extends CrudOverlay {
             // Creat guardian list
             ArrayList<Guardian> guardians = guardianTable.getAllGuardians();
 
-            // Count how many students have room id equal to room
+            // Count how many guardians have city id equal to their city id
             for(City city : cityArray){
                 double count = 0;
 
@@ -78,6 +80,7 @@ public class GuardiansPage extends CrudOverlay {
                 }
 
                 if(count > 0) {
+                    // Add count and city name to data
                     data.add(new PieChart.Data(city.getName(), count));
                 }
             }
@@ -90,6 +93,8 @@ public class GuardiansPage extends CrudOverlay {
             // Set the graph
             content.setCenter(chart);
         });
+
+        // Guardian Relation Table
         graph3.setText("Children");
         graph3.setOnAction(ex -> {
             TableView relationTable = new TableView();
@@ -170,6 +175,12 @@ public class GuardiansPage extends CrudOverlay {
         this.content.setBottom(pageInfo);
     }
 
+
+    /**
+     * Finds all the students that is related to the guardian id given.
+     * @param guardianId int
+     * @return a list as a String of student's names
+     */
     private String getChildren(int guardianId) {
         try {
             familyRelationTable = new GuardianStudentRelationTable();

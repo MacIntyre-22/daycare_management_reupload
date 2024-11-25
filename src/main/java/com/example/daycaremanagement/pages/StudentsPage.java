@@ -67,6 +67,8 @@ public class StudentsPage extends CrudOverlay {
         graph1.setOnAction(e->{
             loadTable();
         });
+
+        // Students per room bar Chart
         graph2.setOnAction(e->{
             PieChart chart = new PieChart();
             chart.setTitle("Students Per Room");
@@ -101,6 +103,8 @@ public class StudentsPage extends CrudOverlay {
             // Set the graph
             content.setCenter(chart);
         });
+
+        // Student Age per Room bar Chart
         graph3.setOnAction(e->{
             try {
                 students = new StudentTable();
@@ -122,7 +126,7 @@ public class StudentsPage extends CrudOverlay {
 
             // Series
             ArrayList<XYChart.Series<String, Number>> seriesArray = new ArrayList<>();
-            // Each Room is a series
+            // Each age group is a series
             String series0Name = "<1";
             XYChart.Series<String, Number> age0 = new XYChart.Series<>();
             age0.setName(series0Name);
@@ -162,6 +166,8 @@ public class StudentsPage extends CrudOverlay {
             content.setCenter(barChart);
 
         });
+
+        // Bubble Chart
         graph4.setOnAction(e->{
             try {
                 students = new StudentTable();
@@ -248,12 +254,12 @@ public class StudentsPage extends CrudOverlay {
 
     /**
      * Takes series for barchart and adds the data, from students table, based on a given room id.
-     * @param seriesArray
-     * @param roomId
+     * @param seriesArray XYChart.Series<String, Number>
+     * @param roomId int
      */
     private void setDataByRoom(ArrayList<XYChart.Series<String, Number>> seriesArray, int roomId) {
         ArrayList<Student> students = this.students.getAllStudents();
-        // Counts for each age
+        // Set counts for each age group
         int count0 = 0, count1 = 0, count2 = 0, count3 = 0, count4 = 0;
         // Sorted students by room
         ArrayList<Student> studentsList = new ArrayList<>();
