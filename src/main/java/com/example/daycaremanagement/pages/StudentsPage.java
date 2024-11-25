@@ -71,6 +71,7 @@ public class StudentsPage extends CrudOverlay {
             PieChart chart = new PieChart();
             chart.setTitle("Students Per Room");
             chart.setLegendVisible(true);
+            // Grab Tables
             try {
                 students = new StudentTable();
                 roomTable = new RoomTable();
@@ -79,11 +80,11 @@ public class StudentsPage extends CrudOverlay {
                 System.out.println("Could not get table.");
             }
 
+            // Grab list of rooms
             ArrayList<Room> roomArray = roomTable.getAllRooms();
-
             ArrayList<PieChart.Data> data = new ArrayList<>();
 
-
+            // Count how many students have room id equal to room
             for(Room room : roomArray){
                 double count = students.getItemCount(room.getId());
 
@@ -91,8 +92,10 @@ public class StudentsPage extends CrudOverlay {
                     data.add(new PieChart.Data(room.getName(), count));
                 }
             }
+            // Add data to piechart data
             ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList(data);
             chart.setLegendVisible(false);
+            // Set piechart data to ObservableList
             chart.setData(chartData);
 
             // Set the graph

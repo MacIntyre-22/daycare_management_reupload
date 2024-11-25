@@ -1,20 +1,25 @@
 package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
-import com.example.daycaremanagement.pojo.Guardian;
+import com.example.daycaremanagement.pojo.*;
 import com.example.daycaremanagement.tables.*;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
     private Label title = new Label("Guardians");
-    private GuardianTable guardians;
+    private GuardianTable guardianTable;
     private RoomTable roomTable;
     private CityTable cityTable;
     private GuardianStudentRelationTable familyRelationTable;
@@ -43,6 +48,77 @@ public class GuardiansPage extends CrudOverlay {
     @Override
     protected void sideButtonBar() {
         // Define actions specific to Guardians’ side buttons here
+        graph1.setOnAction(e->{
+            loadTable();
+        });
+        graph2.setOnAction(e->{
+            PieChart chart = new PieChart();
+            chart.setTitle("Guardians City");
+            chart.setLegendVisible(true);
+            // Grab Tables
+            guardianTable = new GuardianTable();
+            cityTable = new CityTable();
+
+            // Grab list of rooms
+            ArrayList<City> cityArray = cityTable.getAllCities();
+            ArrayList<PieChart.Data> data = new ArrayList<>();
+
+            // Creat guardian list
+            ArrayList<Guardian> guardians = guardianTable.getAllGuardians();
+
+            // Count how many students have room id equal to room
+            for(City city : cityArray){
+                double count = 0;
+
+                // Check all guardians
+                for (Guardian g : guardians){
+                    if (city.getId() == g.getCity_id()){
+                        count++;
+                    }
+                }
+
+                if(count > 0) {
+                    data.add(new PieChart.Data(city.getName(), count));
+                }
+            }
+            // Add data to piechart data
+            ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList(data);
+            chart.setLegendVisible(false);
+            // Set piechart data to ObservableList
+            chart.setData(chartData);
+
+            // Set the graph
+            content.setCenter(chart);
+        });
+        graph3.setText("Children");
+        graph3.setOnAction(ex -> {
+            TableView relationTable = new TableView();
+            // Grab table data
+            guardianTable = new GuardianTable();
+            familyRelationTable = new GuardianStudentRelationTable();
+
+            // Create Columns
+            TableColumn<Guardian, String> column1 = new TableColumn<>("First Name");
+            column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
+
+            TableColumn<Guardian, String> column2 = new TableColumn<>("Last Name");
+            column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
+
+            TableColumn<Guardian, String> column3 = new TableColumn<>("Children");
+            column3.setCellValueFactory(e -> new SimpleStringProperty(getChildren(e.getValue().getId())));// Pass array of kids
+
+
+            relationTable.getColumns().addAll(column1, column2, column3);
+            relationTable.getItems().addAll(guardianTable.getAllGuardians());
+            relationTable.setStyle("");
+
+            // Create a layout with a label and add to center
+            VBox layout = new VBox();
+            layout.autosize();
+            layout.getChildren().addAll(new Label("Guardian Relation"), relationTable);
+
+            this.content.setCenter(layout);
+        });
     }
 
     @Override
@@ -53,7 +129,7 @@ public class GuardiansPage extends CrudOverlay {
     @Override
     protected void loadTable() {
         this.tableView = new TableView();
-        guardians = new GuardianTable();
+        guardianTable = new GuardianTable();
 
         // Create Columns
         TableColumn<Guardian, String> column1 = new TableColumn<>("First Name");
@@ -79,7 +155,7 @@ public class GuardiansPage extends CrudOverlay {
 
 
         tableView.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7);
-        tableView.getItems().addAll(guardians.getAllGuardians());
+        tableView.getItems().addAll(guardianTable.getAllGuardians());
         tableView.setStyle("");
 
         this.content.setCenter(tableView);
@@ -92,5 +168,36 @@ public class GuardiansPage extends CrudOverlay {
         Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
         pageInfo.getChildren().addAll(testInfo, testInfo2);
         this.content.setBottom(pageInfo);
+    }
+
+    private String getChildren(int guardianId) {
+        try {
+            familyRelationTable = new GuardianStudentRelationTable();
+            studentTable = new StudentTable();
+        } catch (Exception e) {
+            System.out.println("Error in GuardiansPage.java, Line 174: Cannot get student Table.");
+        }
+
+        // Empty array to hold students that are the children of the given id
+        ArrayList<Student> childrenArray = new ArrayList<>();
+        // Get student table and relation table
+        ArrayList<Student> students = studentTable.getAllStudents();
+
+        // Grab each Child that belongs to the guardian
+        for (GuardianStudentRelation rel : familyRelationTable.getAllRelations()) {
+            if (rel.getGuardian_id() == guardianId) {
+                childrenArray.add(studentTable.getStudent(rel.getStudent_id()));
+            }
+        }
+
+        // Build a string to return
+        String result = "";
+        for (Student s : childrenArray) {
+            result += s.toString();
+            result += ", ";
+        }
+
+        // Return string of children
+        return result;
     }
 }
