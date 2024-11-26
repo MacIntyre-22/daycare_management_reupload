@@ -138,21 +138,7 @@ public class GuardiansPage extends CrudOverlay {
             relationTable.getItems().addAll(guardianTable.getAllGuardians());
             relationTable.setStyle("");
 
-            // Create a layout with a label and add to center
-            VBox layout = new VBox();
-            layout.autosize();
-            // Table label
-            Label tableLabel = new Label("Guardian Relation");
-            tableLabel.setFont(new Font(15));
-
-            // Border Pane for table
-            BorderPane tablePane = new BorderPane();
-            tablePane.setCenter(relationTable);
-            layout.getChildren().addAll(tableLabel, tablePane);
-            layout.setAlignment(Pos.TOP_CENTER);
-            layout.setSpacing(10);
-
-            this.content.setCenter(layout);
+            this.content.setCenter(relationTable);
         });
     }
 

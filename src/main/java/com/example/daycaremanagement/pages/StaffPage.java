@@ -92,6 +92,7 @@ public class StaffPage extends CrudOverlay {
       column4.setCellValueFactory(e -> new SimpleStringProperty(getRoomName(this.rooms,e.getValue().getRoom_id())));
 
       TableColumn<Staff, String> column5 = new TableColumn<>("Position");
+      // TODO CREATE getPositionName function, I can grab this info right out of the tbale because there isn't that much but if it were to grow it would be slow
       column5.setCellValueFactory(e -> new SimpleStringProperty(positionTable.getPosition(e.getValue().getPosition_id()).getName()));
 
       tableView.getColumns().addAll(column1, column2, column3, column4, column5);
