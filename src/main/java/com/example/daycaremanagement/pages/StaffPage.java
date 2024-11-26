@@ -7,12 +7,14 @@ import com.example.daycaremanagement.tables.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
+import javafx.geometry.Side;
+import javafx.scene.chart.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class StaffPage extends CrudOverlay {
@@ -110,6 +112,58 @@ public class StaffPage extends CrudOverlay {
           // Set the graph
           content.setCenter(chart);
       });
+
+      // Student Age per Room bar Chart
+      graph3.setOnAction(e->{
+          staffTable = new StaffTable();
+
+          //Defining the x axis
+          CategoryAxis xAxis = new CategoryAxis();
+          xAxis.setLabel("Positions");
+
+          //Defining the y axis
+          NumberAxis yAxis = new NumberAxis(0, 16, 2);
+          yAxis.setLabel("Staff");
+
+          //Creating the Bar chart
+          BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+          barChart.setTitle("Wage by Position");
+
+          // Series
+          ArrayList<XYChart.Series<String, Number>> seriesArray = new ArrayList<>();
+          // Each age group is a series
+          String series0Name = "<17.00";
+          XYChart.Series<String, Number> wage0 = new XYChart.Series<>();
+          wage0.setName(series0Name);
+          seriesArray.add(wage0);
+          // Set Data for all series for each room under here
+
+          String series1Name = "17.00+";
+          XYChart.Series<String, Number> wage1 = new XYChart.Series<>();
+          wage1.setName(series1Name);
+          seriesArray.add(wage1);
+
+          String series2Name = "18.00+";
+          XYChart.Series<String, Number> wage2 = new XYChart.Series<>();
+          wage2.setName(series2Name);
+          seriesArray.add(wage2);
+
+
+          // Add data using setDataByRoom()
+          setDataByPosition(seriesArray, 1);
+          setDataByPosition(seriesArray, 2);
+          setDataByPosition(seriesArray, 3);
+          setDataByPosition(seriesArray, 4);
+          setDataByPosition(seriesArray, 5);
+          setDataByPosition(seriesArray, 6);
+          setDataByPosition(seriesArray, 7);
+
+
+          barChart.getData().addAll(wage0, wage1, wage2);
+          barChart.setLegendSide(Side.LEFT);
+          content.setCenter(barChart);
+
+      });
   }
 
   @Override
@@ -160,6 +214,45 @@ public class StaffPage extends CrudOverlay {
         Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
         pageInfo.getChildren().addAll(testInfo, testInfo2);
         this.content.setBottom(pageInfo);
+    }
+
+    /**
+     * Takes series for barchart and adds the data, from staff table, based on a given position id.
+     * @param seriesArray XYChart.Series<String, Number>
+     * @param posId int
+     */
+    private void setDataByPosition(ArrayList<XYChart.Series<String, Number>> seriesArray, int posId) {
+        ArrayList<Staff> staff = this.staffTable.getAllStaff();
+        // Set counts for each wage group
+        int count0 = 0, count1 = 0, count2 = 0;
+        // Sorted staff by pos
+        ArrayList<Staff> staffList = new ArrayList<>();
+
+        // Populate staffList
+        for (Staff s : staff) {
+            if (s.getPosition_id() == posId) {
+                staffList.add(s);
+            }
+        }
+
+        // Get wage count for pos
+        for (Staff s : staffList) {
+            double wage = s.getWage();
+
+            if (wage < 17.00) {
+                count0++;
+            } else if (wage < 18.00) {
+                count1++;
+            } else if (wage >= 18.00) {
+                count2++;
+            }
+        }
+
+        // Add data to room
+        String posName = positionTable.getPosition(posId).getName();
+        seriesArray.get(0).getData().add(new XYChart.Data(posName, count0));
+        seriesArray.get(1).getData().add(new XYChart.Data(posName, count1));
+        seriesArray.get(2).getData().add(new XYChart.Data(posName, count2));
     }
 }
 
