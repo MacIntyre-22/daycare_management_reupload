@@ -1,6 +1,7 @@
 package com.example.daycaremanagement.overlays;
 
 import com.example.daycaremanagement.pojo.City;
+import com.example.daycaremanagement.pojo.Position;
 import com.example.daycaremanagement.pojo.Room;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -96,6 +97,12 @@ public abstract class CrudOverlay extends BorderPane {
         return crudButtons;
     }
 
+    /**
+     * Converts a Room id to a Room name
+     * @param rooms ArrayList<Room>
+     * @param roomId int
+     * @return a string of the name, of the room id given
+     */
     protected String getRoomName(ArrayList<Room> rooms, int roomId) {
         String roomName = "";
         for (Room room : rooms) {
@@ -106,6 +113,12 @@ public abstract class CrudOverlay extends BorderPane {
         return roomName;
     }
 
+    /**
+     * Converts a City id to a City name
+     * @param cities ArrayList<City>
+     * @param cityId int
+     * @return a string of the name, of the city id given
+     */
     protected String getCityName(ArrayList<City> cities, int cityId) {
         String cityName = "";
         for (City city : cities) {
@@ -115,6 +128,24 @@ public abstract class CrudOverlay extends BorderPane {
             }
         }
         return cityName;
+    }
+
+
+    /**
+     * Converts a Position id to a Position name
+     * @param positions ArrayList<Position>
+     * @param positionId int
+     * @return a string of the name, of the position id given
+     */
+    protected String getPositionName(ArrayList<Position> positions, int positionId) {
+        String posName = "";
+        for (Position pos : positions) {
+            if (positionId == pos.getId()) {
+                posName = pos.getName();
+                return posName;
+            }
+        }
+        return posName;
     }
 
     // Abstract methods for subclasses to define specific behavior\

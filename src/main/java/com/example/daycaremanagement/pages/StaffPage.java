@@ -2,9 +2,7 @@ package com.example.daycaremanagement.pages;
 
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
-import com.example.daycaremanagement.pojo.Room;
-import com.example.daycaremanagement.pojo.Staff;
-import com.example.daycaremanagement.pojo.Student;
+import com.example.daycaremanagement.pojo.*;
 import com.example.daycaremanagement.tables.PositionTable;
 import com.example.daycaremanagement.tables.RoomTable;
 import com.example.daycaremanagement.tables.StaffTable;
@@ -22,7 +20,12 @@ public class StaffPage extends CrudOverlay {
   private StaffTable staff;
   private RoomTable roomTable;
   private PositionTable positionTable;
-  private ArrayList<Room> rooms = new ArrayList<>();
+
+    // Pre Loaded Array of data
+    ArrayList<City> cities = new ArrayList<>();
+    ArrayList<Room> rooms = new ArrayList<>();
+    ArrayList<Position> positions = new ArrayList<>();
+
 
 
   /**
@@ -47,8 +50,10 @@ public class StaffPage extends CrudOverlay {
       try {
           roomTable = new RoomTable();
           rooms.addAll(roomTable.getAllRooms());
+          positionTable = new PositionTable();
+          positions.addAll(positionTable.getAllPositions());
       } catch (Exception e) {
-          System.out.println("Error From: StaffPage.java, line 51. Couldn't get Rooms Table.");
+          System.out.println("Error From: StaffPage.java, line 51. Couldn't get tables.");
       }
 
       loadTable();
@@ -92,8 +97,8 @@ public class StaffPage extends CrudOverlay {
       column4.setCellValueFactory(e -> new SimpleStringProperty(getRoomName(this.rooms,e.getValue().getRoom_id())));
 
       TableColumn<Staff, String> column5 = new TableColumn<>("Position");
-      // TODO CREATE getPositionName function, I can grab this info right out of the tbale because there isn't that much but if it were to grow it would be slow
-      column5.setCellValueFactory(e -> new SimpleStringProperty(positionTable.getPosition(e.getValue().getPosition_id()).getName()));
+      // TODO CREATE getPositionName function, I can grab this info right out of the table because there isn't that much but if it were to grow it would be slow
+      column5.setCellValueFactory(e -> new SimpleStringProperty(getPositionName(positions, e.getValue().getPosition_id())));
 
       tableView.getColumns().addAll(column1, column2, column3, column4, column5);
       tableView.getItems().addAll(staff.getAllStaff());
