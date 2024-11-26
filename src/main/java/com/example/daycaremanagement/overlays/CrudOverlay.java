@@ -1,12 +1,12 @@
 package com.example.daycaremanagement.overlays;
 
+import com.example.daycaremanagement.pojo.City;
 import com.example.daycaremanagement.pojo.Room;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -104,6 +104,16 @@ public abstract class CrudOverlay extends BorderPane {
             }
         }
         return roomName;
+    }
+
+    protected String getCityName(ArrayList<City> cities, int cityId) {
+        String cityName = "";
+        for (City city : cities) {
+            if (cityId == city.getId()) {
+                cityName = city.getName();
+            }
+        }
+        return cityName;
     }
 
     // Abstract methods for subclasses to define specific behavior\

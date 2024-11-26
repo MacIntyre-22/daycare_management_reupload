@@ -6,12 +6,16 @@ import com.example.daycaremanagement.tables.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -110,6 +114,7 @@ public class GuardiansPage extends CrudOverlay {
             column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
 
             TableColumn<Guardian, String> column3 = new TableColumn<>("Children");
+            // TODO MAKE TABLE LOAD FASTER, THIS LINE CAUSES SUPER SLOW LOAD
             column3.setCellValueFactory(e -> new SimpleStringProperty(getChildren(e.getValue().getId())));// Pass array of kids
 
 
@@ -120,7 +125,16 @@ public class GuardiansPage extends CrudOverlay {
             // Create a layout with a label and add to center
             VBox layout = new VBox();
             layout.autosize();
-            layout.getChildren().addAll(new Label("Guardian Relation"), relationTable);
+            // Table label
+            Label tableLabel = new Label("Guardian Relation");
+            tableLabel.setFont(new Font(15));
+
+            // Border Pane for table
+            BorderPane tablePane = new BorderPane();
+            tablePane.setCenter(relationTable);
+            layout.getChildren().addAll(tableLabel, tablePane);
+            layout.setAlignment(Pos.TOP_CENTER);
+            layout.setSpacing(10);
 
             this.content.setCenter(layout);
         });
@@ -135,6 +149,8 @@ public class GuardiansPage extends CrudOverlay {
     protected void loadTable() {
         this.tableView = new TableView();
         guardianTable = new GuardianTable();
+        cityTable = new CityTable();
+
 
         // Create Columns
         TableColumn<Guardian, String> column1 = new TableColumn<>("First Name");
