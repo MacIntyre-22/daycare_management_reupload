@@ -111,6 +111,7 @@ public abstract class CrudOverlay extends BorderPane {
         for (City city : cities) {
             if (cityId == city.getId()) {
                 cityName = city.getName();
+                return cityName;
             }
         }
         return cityName;
