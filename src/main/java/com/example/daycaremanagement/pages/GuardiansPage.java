@@ -75,8 +75,8 @@ public class GuardiansPage extends CrudOverlay {
         // City Pie Chart
         graph2.setOnAction(e->{
             PieChart chart = new PieChart();
-            chart.setTitle("Guardians City");
-            chart.setLegendVisible(true);
+            chart.setTitle("Guardians Location");
+
             // Grab Tables
             guardianTable = new GuardianTable();
             cityTable = new CityTable();

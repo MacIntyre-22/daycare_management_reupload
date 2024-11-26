@@ -3,10 +3,11 @@ package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.*;
-import com.example.daycaremanagement.tables.PositionTable;
-import com.example.daycaremanagement.tables.RoomTable;
-import com.example.daycaremanagement.tables.StaffTable;
+import com.example.daycaremanagement.tables.*;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Label;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
   private Label title = new Label("Staff");
-  private StaffTable staff;
+  private StaffTable staffTable;
   private RoomTable roomTable;
   private PositionTable positionTable;
 
@@ -63,6 +64,52 @@ public class StaffPage extends CrudOverlay {
   @Override
   protected void sideButtonBar() {
     // Define actions specific to Guardians’ side buttons here
+      // Define actions specific to Guardians’ side buttons here
+      graph1.setOnAction(e->{
+          loadTable();
+      });
+
+      // Position Piechart
+      graph2.setOnAction(e->{
+          PieChart chart = new PieChart();
+          chart.setTitle("Staff Positions");
+
+          // Grab Tables
+          staffTable = new StaffTable();
+          positionTable = new PositionTable();
+
+          // Grab list of positions
+          ArrayList<Position> posArray = positionTable.getAllPositions();
+          ArrayList<PieChart.Data> data = new ArrayList<>();
+
+          // Create staff list
+          ArrayList<Staff> staff = staffTable.getAllStaff();
+
+          // Count how many staff have pos id
+          for(Position pos : posArray){
+              double count = 0;
+
+              // Check all staff
+              for (Staff s : staff){
+                  if (pos.getId() == s.getPosition_id()){
+                      count++;
+                  }
+              }
+
+              if(count > 0) {
+                  // Add count and position to data
+                  data.add(new PieChart.Data(pos.getName(), count));
+              }
+          }
+          // Add data to piechart data
+          ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList(data);
+          chart.setLegendVisible(false);
+          // Set piechart data to ObservableList
+          chart.setData(chartData);
+
+          // Set the graph
+          content.setCenter(chart);
+      });
   }
 
   @Override
@@ -75,7 +122,7 @@ public class StaffPage extends CrudOverlay {
       this.tableView = new TableView();
 
       try {
-          staff = new StaffTable();
+          staffTable = new StaffTable();
           positionTable = new PositionTable();
       } catch (Exception e) {
           System.out.println("Could not get tables.");
@@ -101,7 +148,7 @@ public class StaffPage extends CrudOverlay {
       column5.setCellValueFactory(e -> new SimpleStringProperty(getPositionName(positions, e.getValue().getPosition_id())));
 
       tableView.getColumns().addAll(column1, column2, column3, column4, column5);
-      tableView.getItems().addAll(staff.getAllStaff());
+      tableView.getItems().addAll(staffTable.getAllStaff());
 
       this.content.setCenter(tableView);
   }

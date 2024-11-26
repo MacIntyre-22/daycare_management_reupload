@@ -72,7 +72,7 @@ public class StudentsPage extends CrudOverlay {
         graph2.setOnAction(e->{
             PieChart chart = new PieChart();
             chart.setTitle("Students Per Room");
-            chart.setLegendVisible(true);
+
             // Grab Tables
             try {
                 students = new StudentTable();
