@@ -8,11 +8,16 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.File;
 import java.util.ArrayList;
+
+import static com.example.daycaremanagement.overlays.ImageConst.*;
 
 public abstract class CrudOverlay extends BorderPane {
 
@@ -20,18 +25,18 @@ public abstract class CrudOverlay extends BorderPane {
     protected TableView tableView;
 
     // Shared buttons
-    protected Button graph1 = new Button("Table");
-    protected Button graph2 = new Button("Pie");
-    protected Button graph3 = new Button("Bar");
-    protected Button graph4 = new Button("Bubble");
+    protected Button graph1 = new Button();
+    protected Button graph2 = new Button();
+    protected Button graph3 = new Button();
+    protected Button graph4 = new Button();
 
     // Can be accessed by child classes now
     protected VBox NavButtons;
 
-    protected Button create = new Button("Create");
-    protected Button read = new Button("Read");
-    protected Button update = new Button("Update");
-    protected Button delete = new Button("Delete");
+    protected Button create = new Button();
+    protected Button read = new Button();
+    protected Button update = new Button();
+    protected Button delete = new Button();
 
     protected BorderPane content = new BorderPane();
 
@@ -48,33 +53,31 @@ public abstract class CrudOverlay extends BorderPane {
         Group closedNav = new Group(closedNavWords);
         closedNav.setTranslateY(50);
 
-        Label openedNavWords = new Label("Hide Display Options");
-        Label arrow = new Label("------------>");
-        VBox TopNavGroup = new VBox(openedNavWords, arrow);
-        TopNavGroup.setMinWidth(125);
-        TopNavGroup.setAlignment(Pos.CENTER);
-        TopNavGroup.setTranslateY(-200);
 
         NavButtons = new VBox(graph1, graph2, graph3, graph4);
-        stylebtns();
         NavButtons.setAlignment(Pos.CENTER);
         NavButtons.setSpacing(20);
 
         sideButtonBar();
 
+        // Create Side bar
         VBox sideBar = new VBox();
-        sideBar.setStyle("-fx-background-color: lightblue;");
-        sideBar.setSpacing(5);
+        sideBar.setStyle("-fx-padding: 50px 0 0 0; -fx-background-color: lightblue;");
         sideBar.getChildren().add(closedNav);
 
+
+        // Removed Closed Nav text
         sideBar.setOnMouseEntered(event -> {
             sideBar.getChildren().remove(closedNav);
-            sideBar.getChildren().addAll(TopNavGroup, NavButtons);
-            sideBar.setAlignment(Pos.CENTER);
+            sideBar.setMinWidth(60);
+            sideBar.getChildren().addAll(NavButtons);
+            sideBar.setAlignment(Pos.TOP_CENTER);
         });
 
+        // Removed Closed Nav text
         sideBar.setOnMouseExited(e -> {
-            sideBar.getChildren().removeAll(TopNavGroup, NavButtons);
+            sideBar.getChildren().removeAll(NavButtons);
+            sideBar.setMinWidth(0);
             sideBar.setAlignment(Pos.TOP_LEFT);
             sideBar.getChildren().add(closedNav);
         });
@@ -82,15 +85,13 @@ public abstract class CrudOverlay extends BorderPane {
         return sideBar;
     }
 
-    private void stylebtns() {
-        graph1.setStyle("-fx-min-width: 100px");
-        graph2.setStyle("-fx-min-width: 100px");
-        graph3.setStyle("-fx-min-width: 100px");
-        graph4.setStyle("-fx-min-width: 100px");
-    }
-
     private HBox createBottomBar() {
-        HBox crudButtons = new HBox(create, read, update, delete);
+        // Set Icons
+        create.setGraphic(setIcon(CREATE_ICON));
+        update.setGraphic(setIcon(UPDATE_ICON));
+        delete.setGraphic(setIcon(DELETE_ICON));
+
+        HBox crudButtons = new HBox(create, update, delete);
         bottomButtonBar();
         crudButtons.setAlignment(Pos.CENTER);
         crudButtons.setMinHeight(50);
@@ -98,6 +99,12 @@ public abstract class CrudOverlay extends BorderPane {
         crudButtons.setStyle("-fx-background-color: lightblue;");
         crudButtons.setSpacing(50);
         return crudButtons;
+    }
+
+    protected ImageView setIcon(ImageView icon) {
+        icon.setFitHeight(30);
+        icon.setFitWidth(30);
+        return icon;
     }
 
     /**

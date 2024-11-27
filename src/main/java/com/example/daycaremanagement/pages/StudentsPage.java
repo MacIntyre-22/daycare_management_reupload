@@ -14,16 +14,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.chrono.ChronoLocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 public class StudentsPage extends CrudOverlay {
     private static StudentsPage instance;
@@ -57,6 +57,10 @@ public class StudentsPage extends CrudOverlay {
         } catch (Exception e) {
             System.out.println("Error From: StudentsPage.java, line 56. Couldn't get Rooms Table.");
         }
+
+        // Set Icons for buttons we use
+
+
 
         loadTable();
         loadInfo();
