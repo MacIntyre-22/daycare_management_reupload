@@ -56,9 +56,9 @@ public class GuardiansPage extends CrudOverlay {
         }
 
         // Set Icons for buttons we use
-        graph1.setGraphic(setIcon(ICONS[0]));
-        graph2.setGraphic(setIcon(ICONS[1]));
-        graph3.setGraphic(setIcon(ICONS[6]));
+        graph1.setGraphic(setIcon(ICONS[0], 30));
+        graph2.setGraphic(setIcon(ICONS[1], 30));
+        graph3.setGraphic(setIcon(ICONS[6], 30));
 
         loadTable();
         loadInfo();

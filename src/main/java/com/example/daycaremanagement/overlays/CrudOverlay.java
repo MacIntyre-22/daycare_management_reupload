@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -43,7 +44,8 @@ public abstract class CrudOverlay extends BorderPane {
             new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/user_plus.png")))),
             new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/user_check.png")))),
             new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/user_x.png")))),
-            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/relation.png"))))
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/relation.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/x.png"))))
     };
 
 
@@ -94,11 +96,11 @@ public abstract class CrudOverlay extends BorderPane {
         return sideBar;
     }
 
-    private HBox createBottomBar() {
+    protected HBox createBottomBar() {
         // Set Icons
-        create.setGraphic(setIcon(ICONS[3]));
-        update.setGraphic(setIcon(ICONS[4]));
-        delete.setGraphic(setIcon(ICONS[5]));
+        create.setGraphic(setIcon(ICONS[3], 30));
+        update.setGraphic(setIcon(ICONS[4], 30));
+        delete.setGraphic(setIcon(ICONS[5], 30));
 
         HBox crudButtons = new HBox(create, update, delete);
         bottomButtonBar();
@@ -110,10 +112,21 @@ public abstract class CrudOverlay extends BorderPane {
         return crudButtons;
     }
 
-    protected ImageView setIcon(ImageView icon) {
-        icon.setFitHeight(30);
-        icon.setFitWidth(30);
+    protected ImageView setIcon(ImageView icon, double x) {
+        icon.setFitHeight(x);
+        icon.setFitWidth(x);
         return icon;
+    }
+
+    protected Button setEscape() {
+        // Create escape button
+        Button esc = new Button();
+        esc.setGraphic(setIcon(ICONS[7], 15));
+        esc.setOnAction(e1-> {
+            loadInfo();
+        });
+
+        return esc;
     }
 
     /**

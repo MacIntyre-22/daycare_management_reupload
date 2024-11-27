@@ -8,11 +8,11 @@ import com.example.daycaremanagement.tables.StudentTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.chart.*;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.sql.SQLException;
 import java.util.*;
@@ -51,9 +51,9 @@ public class StudentsPage extends CrudOverlay {
         }
 
         // Set Icons for buttons we use
-        graph1.setGraphic(setIcon(ICONS[0]));
-        graph2.setGraphic(setIcon(ICONS[1]));
-        graph3.setGraphic(setIcon(ICONS[2]));
+        graph1.setGraphic(setIcon(ICONS[0], 30));
+        graph2.setGraphic(setIcon(ICONS[1], 30));
+        graph3.setGraphic(setIcon(ICONS[2], 30));
 
         loadTable();
         loadInfo();
@@ -208,6 +208,44 @@ public class StudentsPage extends CrudOverlay {
     @Override
     protected void bottomButtonBar() {
         // Define actions specific to Guardians’ CRUD buttons here
+        create.setOnAction(e->{
+            Label firstName = new Label("First Name");
+            TextField fNameInput = new TextField();
+            VBox fNameGroup = new VBox(firstName, fNameInput);
+
+            Label lastName = new Label("Last Name");
+            TextField lNameInput = new TextField();
+            VBox lNameGroup = new VBox(lastName, lNameInput);
+
+            Label birthday = new Label("Birthday");
+            TextField birthdayInput = new TextField();
+            VBox birthdayGroup = new VBox(birthday, birthdayInput);
+
+            Label classroom = new Label("Classroom");
+            TextField classroomInput = new TextField();
+            VBox classroomGroup = new VBox(classroom, classroomInput);
+
+            Label behaviour = new Label("Behaviour");
+            TextField behaviourInput = new TextField();
+            VBox behaviourGroup = new VBox(behaviour, behaviourInput);
+
+            Label age = new Label("Age");
+            TextField ageInput = new TextField();
+            VBox ageGroup = new VBox(age, ageInput);
+
+            Button createInput = new Button("Create!");
+            createInput.setOnAction(e1->{
+                // Grabs the text in the fields
+            });
+
+            HBox createCollection = new HBox(fNameGroup, lNameGroup, birthdayGroup, classroomGroup, behaviourGroup, ageGroup);
+            createCollection.setSpacing(10);
+
+            VBox items = new VBox();
+            items.getChildren().addAll(setEscape(), createCollection, createInput);
+            items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+            this.content.setBottom(items);
+        });
     }
 
     // Create Table
