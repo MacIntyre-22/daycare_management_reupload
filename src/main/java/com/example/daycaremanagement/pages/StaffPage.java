@@ -11,6 +11,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
   private Label title = new Label("Staff");
