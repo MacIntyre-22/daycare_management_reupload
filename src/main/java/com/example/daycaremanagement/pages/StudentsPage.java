@@ -13,16 +13,8 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-
-import java.io.File;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class StudentsPage extends CrudOverlay {
@@ -59,8 +51,9 @@ public class StudentsPage extends CrudOverlay {
         }
 
         // Set Icons for buttons we use
-
-
+        graph1.setGraphic(setIcon(ICONS[0]));
+        graph2.setGraphic(setIcon(ICONS[1]));
+        graph3.setGraphic(setIcon(ICONS[2]));
 
         loadTable();
         loadInfo();

@@ -13,8 +13,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class StaffPage extends CrudOverlay {
@@ -58,6 +56,11 @@ public class StaffPage extends CrudOverlay {
       } catch (Exception e) {
           System.out.println("Error From: StaffPage.java, line 51. Couldn't get tables.");
       }
+
+      // Set Icons for buttons we use
+      graph1.setGraphic(setIcon(ICONS[0]));
+      graph2.setGraphic(setIcon(ICONS[1]));
+      graph3.setGraphic(setIcon(ICONS[2]));
 
       loadTable();
       loadInfo();

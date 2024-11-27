@@ -13,11 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import java.io.File;
 import java.util.ArrayList;
-
-import static com.example.daycaremanagement.overlays.ImageConst.*;
+import java.util.Objects;
 
 public abstract class CrudOverlay extends BorderPane {
 
@@ -37,6 +34,18 @@ public abstract class CrudOverlay extends BorderPane {
     protected Button read = new Button();
     protected Button update = new Button();
     protected Button delete = new Button();
+
+    // Icons
+    public final ImageView[] ICONS = {
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/table.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/pie.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/bar.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/user_plus.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/user_check.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/user_x.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/relation.png"))))
+    };
+
 
     protected BorderPane content = new BorderPane();
 
@@ -87,9 +96,9 @@ public abstract class CrudOverlay extends BorderPane {
 
     private HBox createBottomBar() {
         // Set Icons
-        create.setGraphic(setIcon(CREATE_ICON));
-        update.setGraphic(setIcon(UPDATE_ICON));
-        delete.setGraphic(setIcon(DELETE_ICON));
+        create.setGraphic(setIcon(ICONS[3]));
+        update.setGraphic(setIcon(ICONS[4]));
+        delete.setGraphic(setIcon(ICONS[5]));
 
         HBox crudButtons = new HBox(create, update, delete);
         bottomButtonBar();

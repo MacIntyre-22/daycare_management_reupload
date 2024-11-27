@@ -6,19 +6,13 @@ import com.example.daycaremanagement.tables.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
+
 
 public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
@@ -60,6 +54,11 @@ public class GuardiansPage extends CrudOverlay {
         } catch (Exception e) {
             System.out.println("Error From: StudentsPage.java, line 56. Couldn't get Rooms Table.");
         }
+
+        // Set Icons for buttons we use
+        graph1.setGraphic(setIcon(ICONS[0]));
+        graph2.setGraphic(setIcon(ICONS[1]));
+        graph3.setGraphic(setIcon(ICONS[6]));
 
         loadTable();
         loadInfo();
@@ -115,7 +114,6 @@ public class GuardiansPage extends CrudOverlay {
         });
 
         // Guardian Relation Table
-        graph3.setText("Children");
         graph3.setOnAction(ex -> {
             TableView relationTable = new TableView();
             // Grab table data
