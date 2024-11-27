@@ -140,6 +140,9 @@ public class GuardiansPage extends CrudOverlay {
 
             this.content.setCenter(relationTable);
         });
+
+        // Remove buttons here
+        NavButtons.getChildren().remove(graph4);
     }
 
     @Override

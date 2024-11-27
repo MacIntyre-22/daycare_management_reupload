@@ -164,6 +164,9 @@ public class StaffPage extends CrudOverlay {
           content.setCenter(barChart);
 
       });
+
+      // Remove buttons here
+      NavButtons.getChildren().remove(graph4);
   }
 
   @Override

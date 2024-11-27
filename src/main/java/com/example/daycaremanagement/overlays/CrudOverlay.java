@@ -25,6 +25,9 @@ public abstract class CrudOverlay extends BorderPane {
     protected Button graph3 = new Button("Bar");
     protected Button graph4 = new Button("Bubble");
 
+    // Can be accessed by child classes now
+    protected VBox NavButtons;
+
     protected Button create = new Button("Create");
     protected Button read = new Button("Read");
     protected Button update = new Button("Update");
@@ -52,7 +55,7 @@ public abstract class CrudOverlay extends BorderPane {
         TopNavGroup.setAlignment(Pos.CENTER);
         TopNavGroup.setTranslateY(-200);
 
-        VBox NavButtons = new VBox(graph1, graph2, graph3, graph4);
+        NavButtons = new VBox(graph1, graph2, graph3, graph4);
         stylebtns();
         NavButtons.setAlignment(Pos.CENTER);
         NavButtons.setSpacing(20);

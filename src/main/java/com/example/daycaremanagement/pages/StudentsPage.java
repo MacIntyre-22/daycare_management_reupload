@@ -203,6 +203,9 @@ public class StudentsPage extends CrudOverlay {
             bubbleChart.getData().add(series);
             content.setCenter(bubbleChart);
         });
+
+        // Remove buttons here
+        NavButtons.getChildren().remove(graph4);
     }
 
     @Override
