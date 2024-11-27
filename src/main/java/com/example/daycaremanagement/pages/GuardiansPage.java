@@ -180,7 +180,6 @@ public class GuardiansPage extends CrudOverlay {
 
         tableView.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7);
         tableView.getItems().addAll(guardianTable.getAllGuardians());
-        tableView.setStyle("");
 
         this.content.setCenter(tableView);
     }

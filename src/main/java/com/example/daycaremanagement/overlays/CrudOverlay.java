@@ -55,7 +55,7 @@ public abstract class CrudOverlay extends BorderPane {
         this.setLeft(createSideBar());
         this.setBottom(createBottomBar());
         this.setCenter(content);
-        content.setStyle("-fx-padding: 10px 50px 50px 50px;");
+        content.setStyle("-fx-padding: 10px 50px 0px 50px;");
     }
 
     private VBox createSideBar() {
