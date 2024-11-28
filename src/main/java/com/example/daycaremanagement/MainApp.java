@@ -33,10 +33,13 @@ public class MainApp extends Application {
         // Login Page Logic
 
         if (loginExists()) {
-            loginPage.connectToDatabase();
-        }else {
-            primaryStage.setScene(loginPageScene);
+            // Checks the Connection Before trying to make a connection
+            if (Database.checkConnection()) {
+                loginPage.connectToDatabase();
+            }
+
         }
+        primaryStage.setScene(loginPageScene);
 
 
         primaryStage.show();

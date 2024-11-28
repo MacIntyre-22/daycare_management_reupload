@@ -177,9 +177,29 @@ public class LoginPage extends BorderPane {
         });
 
 
+        // This only will Test the connection to the database
         testConnectionButton.setOnAction(e -> {
+            // This is to make the password still work even if its visible
+            if(!visiblePassInput.getText().isEmpty()){
+                hiddenPassInput.setText(visiblePassInput.getText());
+            }
+
+            // This saves the user input
+            if(saveLoginInfo(usernameInput, usernameInput, hiddenPassInput)) {
+                if(setConst()){
+                    // And then it test to see if there is a good connection
+                    if(Database.checkConnection()){
+                        messageLabel.setText("Connection is Good!");
+                    // If there isn't a good connection then it gives a slight idea what it is
+                    } else {
+                        messageLabel.setText("Username or Passwords is incorrect");
+                    }
+                }
+
+            }
+
             // This is test the Db Connection
-            if (messageLabel.getText().equals("Error Connecting to Database")){
+            if (messageLabel.getText().equals("Error Connecting to Database") || messageLabel.getText().equals("Username or Passwords is incorrect")) {
                 shadow.setColor(Color.RED);
                 inputs.setEffect(shadow);
                 messageLabel.setTextFill(Color.RED);
@@ -187,6 +207,10 @@ public class LoginPage extends BorderPane {
                 shadow.setColor(Color.YELLOW);
                 inputs.setEffect(shadow);
                 messageLabel.setTextFill(Color.YELLOW);
+            } else if (messageLabel.getText().equals("Connection is Good!")) {
+                shadow.setColor(Color.LIMEGREEN);
+                inputs.setEffect(shadow);
+                messageLabel.setTextFill(Color.LIMEGREEN);
             } else {
                 shadow.setColor(Color.BLACK);
                 inputs.setEffect(shadow);
@@ -219,7 +243,10 @@ public class LoginPage extends BorderPane {
         });
 
         loginButton.setOnAction(e -> {
-            if(this.saveLoginInfo(usernameInput, usernameInput, hiddenPassInput)) {
+            if(!visiblePassInput.getText().isEmpty()){
+                hiddenPassInput.setText(visiblePassInput.getText());
+            }
+            if(saveLoginInfo(usernameInput, usernameInput, hiddenPassInput)) {
                 connectToDatabase();
             }
         });
