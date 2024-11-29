@@ -189,6 +189,34 @@ public class GuardiansPage extends CrudOverlay {
             items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
             this.content.setBottom(items);
         });
+
+        update.setOnAction(e-> {
+            Label idNum = new Label("Id");
+            TextField idNumInput = new TextField();
+            VBox idNumGroup = new VBox(idNum, idNumInput);
+
+            Label columnName = new Label("Column");
+            ComboBox<String> columnNameChoice = new ComboBox<>();
+            columnNameChoice.getItems().addAll("Name1", "Name2", "Name3");
+            VBox columnNameGroup = new VBox(columnName, columnNameChoice);
+
+            Label updateName = new Label("New");
+            TextField updateNameInput = new TextField();
+            VBox updateNameGroup = new VBox(updateName, updateNameInput);
+
+            Button updateInput = new Button("Update!");
+            updateInput.setOnAction(e1->{
+                // Grabs the text in the fields
+            });
+
+            HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
+            updateCollection.setSpacing(10);
+
+            VBox items = new VBox();
+            items.getChildren().addAll(setEscape(), updateCollection, updateInput);
+            items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+            this.content.setBottom(items);
+        });
     }
 
     @Override

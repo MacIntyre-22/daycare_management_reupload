@@ -274,49 +274,6 @@ public class StudentsPage extends CrudOverlay {
             items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
             this.content.setBottom(items);
         });
-
-        delete.setOnAction(e->{
-            Label idNum = new Label("Id");
-            TextField idNumInput = new TextField();
-            VBox idNumGroup = new VBox(idNum, idNumInput);
-
-            Button deleteInput = new Button("Delete!");
-
-            // If we want more in here
-            HBox updateCollection = new HBox(idNumGroup);
-            updateCollection.setSpacing(10);
-
-            VBox items = new VBox(setEscape(), updateCollection, deleteInput);
-            items.setStyle("-fx-spacing: 10");
-            HBox form = new HBox();
-            form.getChildren().addAll(items);
-            form.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
-
-            deleteInput.setOnAction(e1 -> {
-                Label twoStep = new Label("Are you sure you want to delete this row?");
-                Label twostep2 = new Label("Once you delete there is no way of getting it back!");
-                Button yesButton = new Button("Yes");
-                yesButton.setOnAction(e2-> {
-                    // Grabs the text in the fields
-                });
-                Button noButton = new Button("No!");
-                noButton.setOnAction(e2-> {
-                    // Removes the text in the fields
-                });
-
-                HBox buttons = new HBox(yesButton, noButton);
-                buttons.setSpacing(10);
-                buttons.setAlignment(Pos.CENTER);
-
-                VBox twoStepCheck = new VBox(twoStep, twostep2, buttons);
-                twoStepCheck.setAlignment(Pos.CENTER);
-
-                form.getChildren().addAll(twoStepCheck);
-            });
-
-
-            this.content.setBottom(form);
-        });
     }
 
     // Create Table
