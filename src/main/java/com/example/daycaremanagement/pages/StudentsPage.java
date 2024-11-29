@@ -63,9 +63,9 @@ public class StudentsPage extends CrudOverlay {
         }
 
         // Set Icons for buttons we use
-        graph1.setGraphic(setIcon(ICONS[0], 30));
-        graph2.setGraphic(setIcon(ICONS[1], 30));
-        graph3.setGraphic(setIcon(ICONS[2], 30));
+        graph1.setGraphic(createBtn(setIcon(ICONS[0], 30), "Table"));
+        graph2.setGraphic(createBtn(setIcon(ICONS[1], 30), "Room"));
+        graph3.setGraphic(createBtn(setIcon(ICONS[2], 30), "Ages"));
 
         loadTable();
         loadInfo();
@@ -340,16 +340,6 @@ public class StudentsPage extends CrudOverlay {
         tableView.getItems().addAll(students.getAllDisplayStudents());
 
         this.content.setCenter(tableView);
-    }
-
-    @Override
-    protected void loadInfo() {
-        VBox pageInfo = new VBox();
-        Label testInfo = new Label("Test info: Will hold information on table");
-        Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
-        pageInfo.getChildren().addAll(testInfo, testInfo2);
-        pageInfo.setStyle("-fx-padding: 30 0 30 0");
-        this.content.setBottom(pageInfo);
     }
 
     /**
