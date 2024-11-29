@@ -36,6 +36,7 @@ public class LoginPage extends BorderPane {
     // Main Page Scene
     private MainTablesOverlay root;
     private Scene mainPageScene;
+    public boolean firstLogin = true;
 
 
     /**
@@ -43,9 +44,8 @@ public class LoginPage extends BorderPane {
      * then signs the user in, If their credentials are right
      */
     public LoginPage(){
-
     // Heading Text
-        Label title = new Label("(Daycare Name) Login Page");
+        Label title = new Label("Login");
 
     //Input Fields
         TextField usernameInput = new TextField();
@@ -342,8 +342,10 @@ public class LoginPage extends BorderPane {
                 root = new MainTablesOverlay();
                 mainPageScene = new Scene(root, 1024, 768);
                 primaryStage.setScene(mainPageScene);
-            } else {
+            } else if (!firstLogin) {
                 messageLabel.setText("Error Connecting to Database");
+            } else {
+                firstLogin = false;
             }
         } else {
             messageLabel.setText("Error Setting Constants");
