@@ -204,7 +204,14 @@ public class GuardiansPage extends CrudOverlay {
 
             Button createInput = new Button("Create!");
             createInput.setOnAction(e1->{
-                // Grabs the text in the fields
+                try{
+                    Guardian createGuardian = new Guardian(0, fNameInput.getText(), lNameInput.getText(), phoneTF.getText(), emailTF.getText(), Integer.parseInt(cityTF.getText()), Integer.parseInt(streetNumTF.getText()), streetNameTF.getText());
+                    guardians.createGuardian(createGuardian);
+                    loadTable();
+                } catch (Exception e3){
+                    System.out.println("Input error");
+                    e3.printStackTrace();
+                }
             });
 
             HBox createCollection = new HBox(fNameGroup, lNameGroup, emailGroup, phoneGroup, cityGroup, streetNumGroup, streetNameGroup);
@@ -223,9 +230,13 @@ public class GuardiansPage extends CrudOverlay {
 
             Label columnName = new Label("Column");
             ComboBox<String> columnNameChoice = new ComboBox<>();
-            // Temporary Options
-            // Grab Columns
-            columnNameChoice.getItems().addAll("Name1", "Name2", "Name3");
+
+            if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                DisplayGuardian getIdGuardian = (DisplayGuardian) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                idNumInput.setText(""+getIdGuardian.getId());
+            }
+
+            columnNameChoice.getItems().addAll("First Name", "Last Name", "Phone", "Email", "City ID", "Street Number", "Street Name");
             VBox columnNameGroup = new VBox(columnName, columnNameChoice);
 
             Label updateName = new Label("New");
@@ -234,7 +245,33 @@ public class GuardiansPage extends CrudOverlay {
 
             Button updateInput = new Button("Update!");
             updateInput.setOnAction(e1->{
-                // Grabs the text in the fields
+                Guardian updateGuardian = guardians.getGuardian(Integer.parseInt(idNumInput.getText()));
+                if (updateGuardian != null) {
+                    switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                        case ("First Name"):
+                            updateGuardian.setFirst_name(updateNameInput.getText());
+                            break;
+                        case ("Last Name"):
+                            updateGuardian.setLast_name(updateNameInput.getText());
+                            break;
+                        case ("Phone"):
+                            updateGuardian.setPhone(updateNameInput.getText());
+                            break;
+                        case ("Email"):
+                            updateGuardian.setEmail(updateNameInput.getText());
+                            break;
+                        case ("City ID"):
+                            updateGuardian.setCity_id(Integer.parseInt(updateNameInput.getText()));
+                            break;
+                        case ("Street Number"):
+                            updateGuardian.setStreet_num(Integer.parseInt(updateNameInput.getText()));
+                            break;
+                        case ("Street Name"):
+                            updateGuardian.setStreet_name(updateNameInput.getText());
+                    }
+                    guardians.updateGuardian(updateGuardian);
+                    loadTable();
+                }
             });
 
             HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
