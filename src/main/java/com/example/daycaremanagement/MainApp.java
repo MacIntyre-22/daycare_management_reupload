@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static com.example.daycaremanagement.database.DBConst.*;
+
 
 public class MainApp extends Application {
     public static Stage primaryStage;
@@ -33,13 +35,15 @@ public class MainApp extends Application {
         // Login Page Logic
 
         if (loginExists()) {
-            // Checks the Connection Before trying to make a connection
-            if (Database.checkConnection()) {
-                loginPage.connectToDatabase();
-            }
-
+                // Checks the Connection Before trying to make a connection
+                if (Database.checkConnection()) {
+                    loginPage.connectToDatabase();
+                } else {
+                    primaryStage.setScene(loginPageScene);
+                }
+        } else {
+            primaryStage.setScene(loginPageScene);
         }
-        primaryStage.setScene(loginPageScene);
 
 
         primaryStage.show();

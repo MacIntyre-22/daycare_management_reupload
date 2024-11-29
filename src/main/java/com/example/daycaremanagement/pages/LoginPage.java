@@ -299,7 +299,7 @@ public class LoginPage extends BorderPane {
      *
      * @return true if constants were set, false otherwise
      * */
-    private boolean setConst() {
+    public boolean setConst() {
         // Read const.txt file for creds
         try (Scanner scanner = new Scanner(new File("login/const.txt"))) {
             String[] fileConst = new String[3];

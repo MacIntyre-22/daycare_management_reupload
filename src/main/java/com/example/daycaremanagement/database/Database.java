@@ -60,10 +60,14 @@ public class Database {
             }
             return instance;
         } catch (Exception e){
-            System.out.println("Database Failed");
+            System.out.println("Database creation Failed");
             return null;
 
         }
+    }
+
+    public static void clearInstance(){
+        instance = null;
     }
 
     /**
