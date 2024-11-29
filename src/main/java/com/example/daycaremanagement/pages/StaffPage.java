@@ -3,6 +3,7 @@ package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.*;
+import com.example.daycaremanagement.pojo.display.DisplayStudent;
 import com.example.daycaremanagement.tables.*;
 import com.example.daycaremanagement.pojo.Staff;
 import com.example.daycaremanagement.pojo.Student;
@@ -194,6 +195,7 @@ public class StaffPage extends CrudOverlay {
   protected void bottomButtonBar() {
     // Define actions specific to Guardians’ CRUD buttons here
 
+
       delete.setOnAction(e->{
           if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
               DisplayStaff deleteStaff = (DisplayStaff) this.tableView.getSelectionModel().getSelectedItems().get(0);
@@ -226,7 +228,14 @@ public class StaffPage extends CrudOverlay {
 
           Button createInput = new Button("Create!");
           createInput.setOnAction(e1->{
-              // Grabs the text in the fields
+              try{
+                  Staff createStaff = new Staff(0, fNameInput.getText(), lNameInput.getText(), Double.parseDouble(wageTF.getText()), Integer.parseInt(classroomInput.getText()), Integer.parseInt(posTF.getText()));
+                  staff.createStaff(createStaff);
+                  loadTable();
+              } catch (Exception e3){
+                  System.out.println("Input error");
+                  e3.printStackTrace();
+              }
           });
 
           HBox createCollection = new HBox(fNameGroup, lNameGroup, wageGroup, classroomGroup, posGroup);
@@ -245,9 +254,13 @@ public class StaffPage extends CrudOverlay {
 
           Label columnName = new Label("Column");
           ComboBox<String> columnNameChoice = new ComboBox<>();
-          // Temporary Options
-          // Grab Columns
-          columnNameChoice.getItems().addAll("Name1", "Name2", "Name3");
+
+          if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+              DisplayStaff getIdStaff = (DisplayStaff) this.tableView.getSelectionModel().getSelectedItems().get(0);
+              idNumInput.setText(""+getIdStaff.getId());
+          }
+
+          columnNameChoice.getItems().addAll("First Name", "Last Name", "Wage", "Room ID", "Position ID");
           VBox columnNameGroup = new VBox(columnName, columnNameChoice);
 
           Label updateName = new Label("New");
@@ -256,7 +269,28 @@ public class StaffPage extends CrudOverlay {
 
           Button updateInput = new Button("Update!");
           updateInput.setOnAction(e1->{
-              // Grabs the text in the fields
+              Staff updateStaff = staff.getStaff(Integer.parseInt(idNumInput.getText()));
+              if (updateStaff != null) {
+                  switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                      case ("First Name"):
+                          updateStaff.setFirst_name(updateNameInput.getText());
+                          break;
+                      case ("Last Name"):
+                          updateStaff.setLast_name(updateNameInput.getText());
+                          break;
+                      case ("Wage"):
+                          updateStaff.setWage(Double.parseDouble(updateNameInput.getText()));
+                          break;
+                      case ("Room ID"):
+                          updateStaff.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                          break;
+                      case ("Position ID"):
+                          updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
+                          break;
+                  }
+                  staff.updateStaff(updateStaff);
+                  loadTable();
+              }
           });
 
           HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
