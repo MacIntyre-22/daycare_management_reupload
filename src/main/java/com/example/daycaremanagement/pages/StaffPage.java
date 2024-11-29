@@ -4,6 +4,10 @@ import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.*;
 import com.example.daycaremanagement.tables.*;
+import com.example.daycaremanagement.pojo.Staff;
+import com.example.daycaremanagement.pojo.Student;
+import com.example.daycaremanagement.pojo.display.DisplayStaff;
+import com.example.daycaremanagement.tables.StaffTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,10 +18,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 
+import java.sql.SQLException;
+
 public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
   private Label title = new Label("Staff");
-  private StaffTable staffTable;
+  private StaffTable staff;
   private RoomTable roomTable;
   private PositionTable positionTable;
 
@@ -39,7 +45,12 @@ public class StaffPage extends CrudOverlay {
     return instance;
   }
 
-
+    /**
+     * This Pages Displays the Students Page.
+     * With the Table data
+     * and with the CRUD overlay
+     * and a some low level table info at the bottom of the table
+     */
   private StaffPage() {
       super();
       title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
@@ -79,7 +90,7 @@ public class StaffPage extends CrudOverlay {
           chart.setTitle("Staff Positions");
 
           // Grab Tables
-          staffTable = new StaffTable();
+          staff = new StaffTable.getInstance();
           positionTable = new PositionTable();
 
           // Grab list of positions
@@ -87,14 +98,14 @@ public class StaffPage extends CrudOverlay {
           ArrayList<PieChart.Data> data = new ArrayList<>();
 
           // Create staff list
-          ArrayList<Staff> staff = staffTable.getAllStaff();
+          ArrayList<Staff> staffList = staff.getAllStaff();
 
           // Count how many staff have pos id
           for(Position pos : posArray){
               double count = 0;
 
               // Check all staff
-              for (Staff s : staff){
+              for (Staff s : staffList){
                   if (pos.getId() == s.getPosition_id()){
                       count++;
                   }
@@ -117,7 +128,11 @@ public class StaffPage extends CrudOverlay {
 
       // Student Age per Room bar Chart
       graph3.setOnAction(e->{
-          staffTable = new StaffTable();
+          try {
+              staff = new StaffTable.getInstance();
+          } catch (SQLException ex) {
+              throw new RuntimeException(ex);
+          }
 
           //Defining the x axis
           CategoryAxis xAxis = new CategoryAxis();
@@ -173,6 +188,15 @@ public class StaffPage extends CrudOverlay {
 
   @Override
   protected void bottomButtonBar() {
+    // Define actions specific to Guardians’ CRUD buttons here
+
+      delete.setOnAction(e->{
+          if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+              DisplayStaff deleteStaff = (DisplayStaff) this.tableView.getSelectionModel().getSelectedItems().get(0);
+              staff.deleteStaff(staff.getStaff(deleteStaff.getId()));
+              loadTable();
+          }
+      });
 
 
       create.setOnAction(e->{
@@ -244,34 +268,31 @@ public class StaffPage extends CrudOverlay {
   @Override
   protected void loadTable() {
       this.tableView = new TableView();
-
       try {
-          staffTable = new StaffTable();
-          positionTable = new PositionTable();
-      } catch (Exception e) {
-          System.out.println("Could not get tables.");
+          staff = StaffTable.getInstance();
+      } catch (SQLException e){
           e.printStackTrace();
+          System.out.println("Could not get table.");
       }
 
-
       // Create Columns
-      TableColumn<Staff, String> column1 = new TableColumn<>("First Name");
+      TableColumn<DisplayStaff, String> column1 = new TableColumn<>("First Name");
       column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
-      TableColumn<Staff, String> column2 = new TableColumn<>("Last Name");
+      TableColumn<DisplayStaff, String> column2 = new TableColumn<>("Last Name");
       column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
 
-      TableColumn<Staff, String> column3 = new TableColumn<>("Wage");
-      column3.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getWage())));
+      TableColumn<DisplayStaff, String> column3 = new TableColumn<>("Wage");
+      column3.setCellValueFactory(e -> new SimpleStringProperty(String.format("$%.2f", e.getValue().getWage())));
 
-      TableColumn<Staff, String> column4 = new TableColumn<>("Room");
-      column4.setCellValueFactory(e -> new SimpleStringProperty(getRoomName(this.rooms,e.getValue().getRoom_id())));
+      TableColumn<DisplayStaff, String> column4 = new TableColumn<>("Room");
+      column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom())));
 
-      TableColumn<Staff, String> column5 = new TableColumn<>("Position");
-      column5.setCellValueFactory(e -> new SimpleStringProperty(getPositionName(positions, e.getValue().getPosition_id())));
+      TableColumn<DisplayStaff, String> column5 = new TableColumn<>("Position");
+      column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getPosition())));
 
       tableView.getColumns().addAll(column1, column2, column3, column4, column5);
-      tableView.getItems().addAll(staffTable.getAllStaff());
+      tableView.getItems().addAll(staff.getAllDisplayStaff());
 
       this.content.setCenter(tableView);
   }

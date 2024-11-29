@@ -12,15 +12,9 @@ import java.util.ArrayList;
 import static com.example.daycaremanagement.database.DBConst.*;
 
 public class PositionTable implements PositionDAO {
+    private static PositionTable instance;
+    private PositionTable() throws SQLException { db = Database.getInstance(); }
     Database db;
-    {
-        try {
-            db = Database.getInstance();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     ArrayList<Position> positions;
 
 
@@ -94,5 +88,12 @@ public class PositionTable implements PositionDAO {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static PositionTable getInstance() throws SQLException {
+        if (instance == null){
+            instance = new PositionTable();
+        }
+        return instance;
     }
 }

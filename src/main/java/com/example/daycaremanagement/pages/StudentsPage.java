@@ -2,8 +2,12 @@ package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Room;
+import com.example.daycaremanagement.pojo.GuardianStudentRelation;
 import com.example.daycaremanagement.pojo.Student;
 import com.example.daycaremanagement.tables.RoomTable;
+import com.example.daycaremanagement.pojo.display.DisplayStaff;
+import com.example.daycaremanagement.pojo.display.DisplayStudent;
+import com.example.daycaremanagement.tables.GuardianStudentRelationTable;
 import com.example.daycaremanagement.tables.StudentTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -16,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.ArrayList;
 
 public class StudentsPage extends CrudOverlay {
     private static StudentsPage instance;
@@ -36,7 +41,12 @@ public class StudentsPage extends CrudOverlay {
         return instance;
     }
 
-
+    /**
+     * This Pages Displays the Students Page.
+     * With the Table data
+     * and with the CRUD overlay
+     * and a some low level table info at the bottom of the table
+     */
     private StudentsPage() {
         super();
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
@@ -276,6 +286,25 @@ public class StudentsPage extends CrudOverlay {
             items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
             this.content.setBottom(items);
         });
+
+
+        // Deletes the student and all of their relations (but doesn't delete the guardians connected to them)
+        delete.setOnAction(e->{
+            if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                DisplayStudent deleteStudent = (DisplayStudent) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                try {
+                    ArrayList<GuardianStudentRelation> deleteRelations = GuardianStudentRelationTable.getInstance().getRelationByEitherId(deleteStudent.getId(), false);
+                    for (GuardianStudentRelation deleteRelation : deleteRelations) {
+                        GuardianStudentRelationTable.getInstance().deleteRelation(deleteRelation);
+                    }
+                } catch (SQLException e2){
+                    e2.printStackTrace();
+                }
+
+                students.deleteStudent(students.getStudent(deleteStudent.getId()));
+                loadTable();
+            }
+        });
     }
 
     // Create Table
@@ -283,27 +312,27 @@ public class StudentsPage extends CrudOverlay {
     protected void loadTable() {
         this.tableView = new TableView();
         try {
-            students = new StudentTable();
+            students = StudentTable.getInstance();
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Could not get table.");
         }
 
         // Create Columns
-        TableColumn<Student, String> column1 = new TableColumn<>("First Name");
+        TableColumn<DisplayStudent, String> column1 = new TableColumn<>("First Name");
         column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
-        TableColumn<Student, String> column2 = new TableColumn<>("Last Name");
+        TableColumn<DisplayStudent, String> column2 = new TableColumn<>("Last Name");
         column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
 
-        TableColumn<Student, String> column3 = new TableColumn<>("Birth Date");
+        TableColumn<DisplayStudent, String> column3 = new TableColumn<>("Birthday");
         column3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBirthdate()));
 
-        TableColumn<Student, String> column4 = new TableColumn<>("Age");
+        TableColumn<DisplayStudent, String> column4 = new TableColumn<>("Age");
         column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf((int) e.getValue().getAge())));
 
-        TableColumn<Student, String> column5 = new TableColumn<>("Room");
-        column5.setCellValueFactory(e -> new SimpleStringProperty(getRoomName(this.rooms,e.getValue().getRoom_id())));
+        TableColumn<DisplayStudent, String> column5 = new TableColumn<>("Room");
+        column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom())));
 
         tableView.getColumns().addAll(column1, column2, column3, column4, column5);
         tableView.getItems().addAll(students.getAllStudents());

@@ -14,6 +14,9 @@ public class MainTablesOverlay extends BorderPane {
   private StudentsPage studentDisplay = StudentsPage.getInstance();
 
 
+  /**
+   * This Overlay is the way the user can switch to each class type
+   */
   public MainTablesOverlay() {
     // Left Side Navigation (VBox)
     VBox vbox = new VBox(10);

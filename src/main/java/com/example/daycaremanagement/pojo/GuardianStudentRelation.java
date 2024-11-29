@@ -14,7 +14,7 @@ public class GuardianStudentRelation {
     }
 
     public GuardianStudentRelation(int id, int guardian_id, int student_id) {
-
+        this.id = id;
         this.guardian_id = guardian_id;
         this.student_id = student_id;
     }

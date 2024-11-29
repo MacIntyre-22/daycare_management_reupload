@@ -13,14 +13,9 @@ import java.util.ArrayList;
 import static com.example.daycaremanagement.database.DBConst.*;
 
 public class RoomTable implements RoomDAO {
+    private static RoomTable instance;
+    private RoomTable() throws SQLException { db = Database.getInstance(); }
     Database db;
-    {
-        try {
-            db = Database.getInstance();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     ArrayList<Room> rooms;
 
@@ -94,5 +89,12 @@ public class RoomTable implements RoomDAO {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static RoomTable getInstance() throws SQLException {
+        if (instance == null){
+            instance = new RoomTable();
+        }
+        return instance;
     }
 }

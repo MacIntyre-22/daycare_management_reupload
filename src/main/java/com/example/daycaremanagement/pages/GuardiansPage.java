@@ -3,6 +3,13 @@ import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.*;
 import com.example.daycaremanagement.tables.*;
+import com.example.daycaremanagement.pojo.Guardian;
+import com.example.daycaremanagement.pojo.GuardianStudentRelation;
+import com.example.daycaremanagement.pojo.display.DisplayGuardian;
+import com.example.daycaremanagement.pojo.display.DisplayStaff;
+import com.example.daycaremanagement.pojo.display.DisplayStudent;
+import com.example.daycaremanagement.tables.GuardianStudentRelationTable;
+import com.example.daycaremanagement.tables.GuardianTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,10 +21,13 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
     private Label title = new Label("Guardians");
-    private GuardianTable guardianTable;
+    private GuardianTable guardians;
     private RoomTable roomTable;
     private CityTable cityTable;
     private GuardianStudentRelationTable familyRelationTable;
@@ -39,8 +49,15 @@ public class GuardiansPage extends CrudOverlay {
     }
 
 
+    /**
+     * This Pages Displays the Guardians Page.
+     * With the Table data
+     * and with the CRUD overlay
+     * and a some low level table info at the bottom of the table
+     */
     private GuardiansPage() {
         super();
+
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         content.setTop(title);
 
@@ -63,6 +80,7 @@ public class GuardiansPage extends CrudOverlay {
         loadTable();
         loadInfo();
     }
+
 
     @Override
     protected void sideButtonBar() {
@@ -117,8 +135,13 @@ public class GuardiansPage extends CrudOverlay {
         graph3.setOnAction(ex -> {
             TableView relationTable = new TableView();
             // Grab table data
-            guardianTable = new GuardianTable();
-            familyRelationTable = new GuardianStudentRelationTable();
+            try {
+                guardians = new GuardianTable();
+                familyRelationTable = new GuardianStudentRelationTable();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
 
             // Create Columns
             TableColumn<Guardian, String> column1 = new TableColumn<>("First Name");
@@ -133,7 +156,7 @@ public class GuardiansPage extends CrudOverlay {
 
 
             relationTable.getColumns().addAll(column1, column2, column3);
-            relationTable.getItems().addAll(guardianTable.getAllGuardians());
+            relationTable.getItems().addAll(guardians.getAllGuardians());
             relationTable.setStyle("");
 
             this.content.setCenter(relationTable);
@@ -219,43 +242,68 @@ public class GuardiansPage extends CrudOverlay {
             items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
             this.content.setBottom(items);
         });
+
+        // Deletes the guardian and all of their relations
+        // Does not delete the students connected to them (in-case the student has other guardians)
+        delete.setOnAction(e->{
+            if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                DisplayGuardian deleteGuardian = (DisplayGuardian) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                try {
+                    ArrayList<GuardianStudentRelation> deleteRelations = GuardianStudentRelationTable.getInstance().getRelationByEitherId(deleteGuardian.getId(), true);
+                    for (GuardianStudentRelation deleteRelation : deleteRelations) {
+                        GuardianStudentRelationTable.getInstance().deleteRelation(deleteRelation);
+                    }
+                } catch (SQLException e2) {
+                    e2.printStackTrace();
+                }
+
+                guardians.deleteGuardian(guardians.getGuardian(deleteGuardian.getId()));
+                loadTable();
+            }
+        });
     }
 
     @Override
     protected void loadTable() {
         this.tableView = new TableView();
-        guardianTable = new GuardianTable();
-        cityTable = new CityTable();
-
+        try {
+            guardians = GuardianTable.getInstance();
+        } catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Could not get table.");
+        }
 
         // Create Columns
-        TableColumn<Guardian, String> column1 = new TableColumn<>("First Name");
+        TableColumn<DisplayGuardian, String> column1 = new TableColumn<>("First Name");
         column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
-        TableColumn<Guardian, String> column2 = new TableColumn<>("Last Name");
+        TableColumn<DisplayGuardian, String> column2 = new TableColumn<>("Last Name");
         column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
 
-        TableColumn<Guardian, String> column3 = new TableColumn<>("Phone");
-        column3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getPhone()));
+        TableColumn<DisplayGuardian, String> column3 = new TableColumn<>("Phone");
+        column3.setCellValueFactory(e -> new SimpleStringProperty(String.format("(%s) %s-%s", e.getValue().getPhone().substring(0, 3), e.getValue().getPhone().substring(3, 6),
+                e.getValue().getPhone().substring(6, 10))));
 
-        TableColumn<Guardian, String> column4 = new TableColumn<>("Email");
+        TableColumn<DisplayGuardian, String> column4 = new TableColumn<>("Email");
         column4.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getEmail()));
 
-        TableColumn<Guardian, String> column5 = new TableColumn<>("City");
-        column5.setCellValueFactory(e -> new SimpleStringProperty(getCityName(cities, e.getValue().getCity_id())));
+        TableColumn<DisplayGuardian, String> column5 = new TableColumn<>("City");
+        column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getCity())));
 
-        TableColumn<Guardian, String> column6 = new TableColumn<>("Street Number");
+        TableColumn<DisplayGuardian, String> column6 = new TableColumn<>("Street Number");
         column6.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getStreet_num())));
 
-        TableColumn<Guardian, String> column7 = new TableColumn<>("Street Name");
+        TableColumn<DisplayGuardian, String> column7 = new TableColumn<>("Street Name");
         column7.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getStreet_name()));
 
 
         tableView.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7);
-        tableView.getItems().addAll(guardianTable.getAllGuardians());
+        tableView.getItems().addAll(guardians.getAllDisplayGuardians());
+        tableView.setStyle("");
 
         this.content.setCenter(tableView);
     }
+
 
     @Override
     protected void loadInfo() {

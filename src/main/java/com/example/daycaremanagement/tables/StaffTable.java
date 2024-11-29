@@ -3,6 +3,7 @@ package com.example.daycaremanagement.tables;
 import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.pojo.Staff;
 import com.example.daycaremanagement.dao.StaffDAO;
+import com.example.daycaremanagement.pojo.display.DisplayStaff;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,14 +13,9 @@ import java.util.ArrayList;
 import static com.example.daycaremanagement.database.DBConst.*;
 
 public class StaffTable implements StaffDAO {
+    private static StaffTable instance;
+    private StaffTable() throws SQLException { db = Database.getInstance(); }
     Database db;
-    {
-        try {
-            db = Database.getInstance();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     ArrayList<Staff> staff;
 
@@ -46,6 +42,39 @@ public class StaffTable implements StaffDAO {
             e.printStackTrace();
         }
         return staff;
+    }
+
+    public ArrayList<DisplayStaff> getAllDisplayStaff(){
+        ArrayList<DisplayStaff> displayStaff = new ArrayList<>();
+        //pain
+        String query = "SELECT "+TABLE_STAFF+"."+STAFF_COLUMN_ID+" as id, "
+                + TABLE_STAFF+"."+STAFF_COLUMN_FIRST_NAME+" as first_name, "
+                + TABLE_STAFF+"."+STAFF_COLUMN_LAST_NAME+" as last_name, "
+                + TABLE_STAFF+"."+STAFF_COLUMN_WAGE+" as wage,"
+                + TABLE_ROOMS+"."+ROOMS_COLUMN_NAME+" as room, "
+                + TABLE_POSITIONS+"."+POSITIONS_COLUMN_NAME+" as position "
+                + " from "+TABLE_STAFF
+                + " JOIN "+TABLE_POSITIONS+" on "+TABLE_STAFF+"."+STAFF_COLUMN_POSITION_ID+" = "+TABLE_POSITIONS+"."+POSITIONS_COLUMN_ID
+                + " JOIN "+TABLE_ROOMS+" on "+TABLE_STAFF+"."+STAFF_COLUMN_ROOM_ID+" = "+TABLE_ROOMS+"."+ROOMS_COLUMN_ID
+                + " ORDER BY id ASC";
+
+        try {
+            Statement getStaff = db.getConnection().createStatement();
+            ResultSet data = getStaff.executeQuery(query);
+            while(data.next()) {
+                displayStaff.add(new DisplayStaff(data.getInt("id"),
+                        data.getString("first_name"),
+                        data.getString("last_name"),
+                        data.getDouble("wage"),
+                        data.getString("room"),
+                        data.getString("position")));
+            }
+            getStaff.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return displayStaff;
     }
 
     @Override
@@ -103,5 +132,12 @@ public class StaffTable implements StaffDAO {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static StaffTable getInstance() throws SQLException {
+        if (instance == null){
+            instance = new StaffTable();
+        }
+        return instance;
     }
 }
