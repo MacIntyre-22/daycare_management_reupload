@@ -33,16 +33,10 @@ public class MainApp extends Application {
         // Has to grab the button in main app for the ability to change the primary stage to test page
 
         // Login Page Logic
-
+        primaryStage.setScene(loginPageScene);
         if (loginExists()) {
                 // Checks the Connection Before trying to make a connection
-                if (Database.checkConnection()) {
-                    loginPage.connectToDatabase();
-                } else {
-                    primaryStage.setScene(loginPageScene);
-                }
-        } else {
-            primaryStage.setScene(loginPageScene);
+            loginPage.connectToDatabase();
         }
 
 
