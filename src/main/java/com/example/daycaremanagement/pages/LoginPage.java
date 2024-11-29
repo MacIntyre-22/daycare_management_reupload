@@ -64,79 +64,24 @@ public class LoginPage extends BorderPane {
         VBox inputs = new VBox(title, inputFields, otherButtons, messageLabel, mainButtons, exitButton);
 
     // Title Styling
-        title.setFont(Font.font("Courier New", FontWeight.BOLD, 30));
+        //title.setFont(Font.font("Courier New", FontWeight.BOLD, 30));
+        title.getStyleClass().add("title");
 
     // Input Field styling
         usernameInput.setPromptText("Username");
-        usernameInput.setStyle("-fx-prompt-text-fill: rgb(100, 100, 100)");
-        usernameInput.setMaxWidth(200);
-
         hiddenPassInput.setPromptText("Password");
-        hiddenPassInput.setStyle("-fx-prompt-text-fill: rgb(100, 100, 100)");
-        hiddenPassInput.setMaxWidth(200);
 
-        visiblePassInput.setMaxWidth(200);
+
 
 
     // Grouping Styling
-        title.setTextFill(Color.LIGHTBLUE);
-        messageLabel.setTextFill(Color.LIGHTBLUE);
 
-
-        otherButtons.setSpacing(10);
-        otherButtons.setAlignment(Pos.CENTER);
-
-        inputs.setSpacing(10);
-        inputs.setAlignment(Pos.CENTER);
-        inputs.setMaxSize(475, 500);
-        inputs.setStyle("-fx-background-radius: 50;"+
-                        "-fx-border-radius: 50;" +
-                        "-fx-border-width: 5;" +
-                        "-fx-background-color: #001C55;");
+        inputs.getStyleClass().add("inputs");
         DropShadow shadow = new DropShadow();
+
         shadow.setBlurType(BlurType.THREE_PASS_BOX);
         shadow.setRadius(100);
-        shadow.setColor(Color.BLACK);
-        inputs.setEffect(shadow);
 
-        mainButtons.setAlignment(Pos.CENTER);
-        mainButtons.setSpacing(10);
-        loginButton.setMinSize(75, 25);
-        loginButton.setStyle("-fx-background-radius: 50;" +
-                            "-fx-background-color: #0E6BA8;" +
-                            "-fx-color: white;");
-        loginButton.setOnMouseEntered(e->{
-            loginButton.setStyle("-fx-background-radius: 50;" +
-                    "-fx-background-color: #A6E1FA;" +
-                    "-fx-color: white;");
-        });
-        loginButton.setOnMouseExited(e->{
-            loginButton.setStyle("-fx-background-radius: 50;" +
-                    "-fx-background-color: #0E6BA8;" +
-                    "-fx-color: white;");
-        });
-
-        resetButton.setMinSize(75, 25);
-        resetButton.setStyle("-fx-background-radius: 50;" +
-                            "-fx-background-color: #0E6BA8;" +
-                            "-fx-color: white;");
-        resetButton.setOnMouseEntered(e->{
-            resetButton.setStyle("-fx-background-radius: 50;" +
-                    "-fx-background-color: #A6E1FA;" +
-                    "-fx-color: white;");
-        });
-        resetButton.setOnMouseExited(e->{
-            resetButton.setStyle("-fx-background-radius: 50;" +
-                    "-fx-background-color: #0E6BA8;" +
-                    "-fx-color: white;");
-        });
-
-
-        inputFields.setAlignment(Pos.CENTER);
-        inputFields.setSpacing(10);
-
-    // Styling the pane
-        this.setStyle("-fx-background-color: #0E6BA8");
 
     // Button Actions
         showPass.setOnAction(e -> {

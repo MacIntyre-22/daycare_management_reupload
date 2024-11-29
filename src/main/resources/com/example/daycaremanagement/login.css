@@ -1,0 +1,45 @@
+.button:hover {
+    -fx-background-radius: 50;
+    -fx-background-color: #A6E1FA;
+    -fx-color: white;
+}
+.button {
+    -fx-background-radius: 50;
+    -fx-background-color: #0E6BA8;
+    -fx-color: white;
+    -fx-min-height: 25;
+    -fx-min-width: 75;
+}
+.root {
+    -fx-background-color: #0E6BA8;
+}
+.text-field{
+    -fx-prompt-text-fill: rgb(100, 100, 100);
+    -fx-max-width: 200;
+}
+.label {
+    -fx-text-fill: lightblue;
+}
+HBox, VBox {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+
+.inputs {
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-border-width: 5;
+    -fx-background-color: #001C55;
+    -fx-effect: dropshadow(three-pass-box, black, 100, 0, 0, 0);
+    -fx-max-width: 500;
+    -fx-max-height: 475;
+    -fx-spacing: 15;
+}
+
+.title {
+    -fx-font-family: "Courier New";
+    -fx-font-size: 30;
+    -fx-font-weight: bold;
+
+}
