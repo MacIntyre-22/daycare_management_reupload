@@ -197,6 +197,8 @@ public class GuardiansPage extends CrudOverlay {
 
             Label columnName = new Label("Column");
             ComboBox<String> columnNameChoice = new ComboBox<>();
+            // Temporary Options
+            // Grab Columns
             columnNameChoice.getItems().addAll("Name1", "Name2", "Name3");
             VBox columnNameGroup = new VBox(columnName, columnNameChoice);
 

@@ -9,9 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Side;
 import javafx.scene.chart.*;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 
@@ -174,7 +173,72 @@ public class StaffPage extends CrudOverlay {
 
   @Override
   protected void bottomButtonBar() {
-    // Define actions specific to Guardians’ CRUD buttons here
+
+
+      create.setOnAction(e->{
+          Label firstName = new Label("First Name");
+          TextField fNameInput = new TextField();
+          VBox fNameGroup = new VBox(firstName, fNameInput);
+
+          Label lastName = new Label("Last Name");
+          TextField lNameInput = new TextField();
+          VBox lNameGroup = new VBox(lastName, lNameInput);
+
+          Label wage = new Label("Wage");
+          TextField wageTF = new TextField();
+          VBox wageGroup = new VBox(wage, wageTF);
+
+          Label classroom = new Label("Classroom");
+          TextField classroomInput = new TextField();
+          VBox classroomGroup = new VBox(classroom, classroomInput);
+
+          Label pos = new Label("Position");
+          TextField posTF = new TextField();
+          VBox posGroup = new VBox(pos, posTF);
+
+          Button createInput = new Button("Create!");
+          createInput.setOnAction(e1->{
+              // Grabs the text in the fields
+          });
+
+          HBox createCollection = new HBox(fNameGroup, lNameGroup, wageGroup, classroomGroup, posGroup);
+          createCollection.setSpacing(10);
+
+          VBox items = new VBox();
+          items.getChildren().addAll(setEscape(), createCollection, createInput);
+          items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+          this.content.setBottom(items);
+      });
+
+      update.setOnAction(e-> {
+          Label idNum = new Label("Id");
+          TextField idNumInput = new TextField();
+          VBox idNumGroup = new VBox(idNum, idNumInput);
+
+          Label columnName = new Label("Column");
+          ComboBox<String> columnNameChoice = new ComboBox<>();
+          // Temporary Options
+          // Grab Columns
+          columnNameChoice.getItems().addAll("Name1", "Name2", "Name3");
+          VBox columnNameGroup = new VBox(columnName, columnNameChoice);
+
+          Label updateName = new Label("New");
+          TextField updateNameInput = new TextField();
+          VBox updateNameGroup = new VBox(updateName, updateNameInput);
+
+          Button updateInput = new Button("Update!");
+          updateInput.setOnAction(e1->{
+              // Grabs the text in the fields
+          });
+
+          HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
+          updateCollection.setSpacing(10);
+
+          VBox items = new VBox();
+          items.getChildren().addAll(setEscape(), updateCollection, updateInput);
+          items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+          this.content.setBottom(items);
+      });
   }
 
   @Override
@@ -204,7 +268,6 @@ public class StaffPage extends CrudOverlay {
       column4.setCellValueFactory(e -> new SimpleStringProperty(getRoomName(this.rooms,e.getValue().getRoom_id())));
 
       TableColumn<Staff, String> column5 = new TableColumn<>("Position");
-      // TODO CREATE getPositionName function, I can grab this info right out of the table because there isn't that much but if it were to grow it would be slow
       column5.setCellValueFactory(e -> new SimpleStringProperty(getPositionName(positions, e.getValue().getPosition_id())));
 
       tableView.getColumns().addAll(column1, column2, column3, column4, column5);
