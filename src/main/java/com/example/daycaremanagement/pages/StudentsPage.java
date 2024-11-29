@@ -231,26 +231,26 @@ public class StudentsPage extends CrudOverlay {
 
             Label birthday = new Label("Birthday");
             TextField birthdayInput = new TextField();
+            birthdayInput.setPromptText("YYYY-MM-DD");
             VBox birthdayGroup = new VBox(birthday, birthdayInput);
 
             Label classroom = new Label("Classroom");
             TextField classroomInput = new TextField();
             VBox classroomGroup = new VBox(classroom, classroomInput);
 
-            Label behaviour = new Label("Behaviour");
-            TextField behaviourInput = new TextField();
-            VBox behaviourGroup = new VBox(behaviour, behaviourInput);
-
-            Label age = new Label("Age");
-            TextField ageInput = new TextField();
-            VBox ageGroup = new VBox(age, ageInput);
-
             Button createInput = new Button("Create!");
             createInput.setOnAction(e1->{
-                // Grabs the text in the fields
+                try{
+                    Student createStudent = new Student(0, fNameInput.getText(), lNameInput.getText(), birthdayInput.getText(), Integer.parseInt(classroomInput.getText()));
+                    students.createStudent(createStudent);
+                    loadTable();
+                } catch (Exception e3){
+                    System.out.println("Input error");
+                    e3.printStackTrace();
+                }
             });
 
-            HBox createCollection = new HBox(fNameGroup, lNameGroup, birthdayGroup, classroomGroup, behaviourGroup, ageGroup);
+            HBox createCollection = new HBox(fNameGroup, lNameGroup, birthdayGroup, classroomGroup);
             createCollection.setSpacing(10);
 
             VBox items = new VBox();
@@ -260,24 +260,50 @@ public class StudentsPage extends CrudOverlay {
         });
 
         update.setOnAction(e-> {
-            Label idNum = new Label("Id");
+            Label idNum = new Label("ID");
             TextField idNumInput = new TextField();
             VBox idNumGroup = new VBox(idNum, idNumInput);
+            if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                DisplayStudent getIdStudent = (DisplayStudent) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                idNumInput.setText(""+getIdStudent.getId());
+            }
 
             Label columnName = new Label("Column");
             ComboBox<String> columnNameChoice = new ComboBox<>();
             // Temporary Options
             // Grab Columns
-            columnNameChoice.getItems().addAll("Name1", "Name2", "Name3");
+            columnNameChoice.getItems().addAll("First Name", "Last Name", "Birthday", "Classroom ID");
             VBox columnNameGroup = new VBox(columnName, columnNameChoice);
+
+
 
             Label updateName = new Label("New");
             TextField updateNameInput = new TextField();
             VBox updateNameGroup = new VBox(updateName, updateNameInput);
 
             Button updateInput = new Button("Update!");
+
+
             updateInput.setOnAction(e1->{
-                // Grabs the text in the fields
+                Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
+                if (updateStudent != null) {
+                    switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                        case ("First Name"):
+                            updateStudent.setFirst_name(updateNameInput.getText());
+                            break;
+                        case ("Last Name"):
+                            updateStudent.setLast_name(updateNameInput.getText());
+                            break;
+                        case ("Birthday"):
+                            updateStudent.setBirthdate(updateNameInput.getText());
+                            break;
+                        case ("Classroom ID"):
+                            updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                            break;
+                    }
+                    students.updateStudent(updateStudent);
+                    loadTable();
+                }
             });
 
             HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);

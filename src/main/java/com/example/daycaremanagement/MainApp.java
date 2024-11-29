@@ -25,7 +25,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // Initalization
+        // Initialization
         primaryStage = stage;
         primaryStage.setTitle("Daycare Management");
 
