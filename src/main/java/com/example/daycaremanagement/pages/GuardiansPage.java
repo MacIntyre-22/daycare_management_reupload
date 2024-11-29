@@ -6,10 +6,10 @@ import com.example.daycaremanagement.tables.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 
@@ -146,6 +146,49 @@ public class GuardiansPage extends CrudOverlay {
     @Override
     protected void bottomButtonBar() {
         // Define actions specific to Guardians’ CRUD buttons here
+        // TODO Build form for Guardian
+        create.setOnAction(e->{
+            Label firstName = new Label("First Name");
+            TextField fNameInput = new TextField();
+            VBox fNameGroup = new VBox(firstName, fNameInput);
+
+            Label lastName = new Label("Last Name");
+            TextField lNameInput = new TextField();
+            VBox lNameGroup = new VBox(lastName, lNameInput);
+
+            Label phone = new Label("Phone");
+            TextField phoneTF = new TextField();
+            VBox phoneGroup = new VBox(phone, phoneTF);
+
+            Label email = new Label("Email");
+            TextField emailTF = new TextField();
+            VBox emailGroup = new VBox(email, emailTF);
+
+            Label city = new Label("City Id");
+            TextField cityTF = new TextField();
+            VBox cityGroup = new VBox(city, cityTF);
+
+            Label streetNum = new Label("Street Number");
+            TextField streetNumTF = new TextField();
+            VBox streetNumGroup = new VBox(streetNum, streetNumTF);
+
+            Label streetName = new Label("Street name");
+            TextField streetNameTF = new TextField();
+            VBox streetNameGroup = new VBox(streetName, streetNameTF);
+
+            Button createInput = new Button("Create!");
+            createInput.setOnAction(e1->{
+                // Grabs the text in the fields
+            });
+
+            HBox createCollection = new HBox(fNameGroup, lNameGroup, emailGroup, phoneGroup, cityGroup, streetNumGroup, streetNameGroup);
+            createCollection.setSpacing(10);
+
+            VBox items = new VBox();
+            items.getChildren().addAll(setEscape(), createCollection, createInput);
+            items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+            this.content.setBottom(items);
+        });
     }
 
     @Override
