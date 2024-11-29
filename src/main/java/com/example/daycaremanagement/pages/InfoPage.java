@@ -6,10 +6,11 @@ import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
-
-
-
+import java.util.Objects;
 
 
 public class InfoPage extends BorderPane {
@@ -22,19 +23,26 @@ public class InfoPage extends BorderPane {
 
 
 
-    Image logo = new Image("file:resources/images/Day.jpeg");
-    ImageView logoView = new ImageView(logo);
-    logoView.setFitWidth(200); // Set width to fit
+    //Image logo = new Image(getClass().getResourceAsStream("images/Day.jpeg"));
+   // ImageView logoView = new ImageView(logo);
+   // logoView.setFitWidth(200); // Set width to fit
 
-    root.getChildren().add(logoView);
+   // root.getChildren().add(logoView);
 
+    //Image background=new Image(Objects.requireNonNull(getClass().getResourceAsStream("Day.jpeg")));
+   //BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
+   //root.setBackground(new Background(new BackgroundImage(background, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, backgroundSize)));
 
 
 
 
     Label title = new Label("Project:Daycare Management ");
+    //title.setTranslateY(-300);
+    //title.setFont(Font.font("Comic Sans MS", 20));
+    //title.setTextFill(Color.RED);
     title.setStyle("-fx-font-size: 35px; -fx-font-weight: bold; -fx-font-family: 'Cooper';-fx-padding: 5px 20px;");
     root.getChildren().add(title);
+
 
 
 
