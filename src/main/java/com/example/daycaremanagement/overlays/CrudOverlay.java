@@ -5,6 +5,7 @@ import com.example.daycaremanagement.pojo.Position;
 import com.example.daycaremanagement.pojo.Room;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -109,9 +110,9 @@ public abstract class CrudOverlay extends BorderPane {
      */
     protected HBox createBottomBar() {
         // Set Icons
-        create.setGraphic(setIcon(ICONS[3], 30));
-        update.setGraphic(setIcon(ICONS[4], 30));
-        delete.setGraphic(setIcon(ICONS[5], 30));
+        create.setGraphic(createBtn(setIcon(ICONS[3], 30), "Create"));
+        update.setGraphic(createBtn(setIcon(ICONS[4], 30), "Update"));
+        delete.setGraphic(createBtn(setIcon(ICONS[5], 30), "Delete"));
 
         HBox crudButtons = new HBox(create, update, delete);
         bottomButtonBar();
@@ -123,12 +124,35 @@ public abstract class CrudOverlay extends BorderPane {
         return crudButtons;
     }
 
+    /**
+     * Creates a button with an icon and text
+     * @param icon ImageView
+     * @param text String
+     * @return Node with icon and text to put in a button
+     */
+    protected Node createBtn(ImageView icon, String text) {
+        VBox layout = new VBox(icon, new Label(text));
+        layout.setAlignment(Pos.CENTER);
+        layout.setSpacing(2);
+        return layout;
+    }
+
+    /**
+     * Sets the height and width of an image, Used mainly for setting icons.
+     * @param icon ImageView
+     * @param x double
+     * @return ImageView set to given size
+     */
     protected ImageView setIcon(ImageView icon, double x) {
         icon.setFitHeight(x);
         icon.setFitWidth(x);
         return icon;
     }
 
+    /**
+     * Creates an escape button for crud forms
+     * @return a button that loadsInfo() on click
+     */
     protected Button setEscape() {
         // Create escape button
         Button esc = new Button();
