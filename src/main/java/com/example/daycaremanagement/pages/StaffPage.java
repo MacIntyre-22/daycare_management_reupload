@@ -59,9 +59,9 @@ public class StaffPage extends CrudOverlay {
       // Add rooms to array
       // Significantly increases the load speed and lagginess of the tableView
       try {
-          roomTable = new RoomTable();
+          roomTable = RoomTable.getInstance();
           rooms.addAll(roomTable.getAllRooms());
-          positionTable = new PositionTable();
+          positionTable = PositionTable.getInstance();
           positions.addAll(positionTable.getAllPositions());
       } catch (Exception e) {
           System.out.println("Error From: StaffPage.java, line 51. Couldn't get tables.");
@@ -90,8 +90,12 @@ public class StaffPage extends CrudOverlay {
           chart.setTitle("Staff Positions");
 
           // Grab Tables
-          staff = new StaffTable.getInstance();
-          positionTable = new PositionTable();
+          try {
+              staff = StaffTable.getInstance();
+              positionTable = PositionTable.getInstance();
+          } catch (SQLException ex) {
+              throw new RuntimeException(ex);
+          }
 
           // Grab list of positions
           ArrayList<Position> posArray = positionTable.getAllPositions();
@@ -129,7 +133,7 @@ public class StaffPage extends CrudOverlay {
       // Student Age per Room bar Chart
       graph3.setOnAction(e->{
           try {
-              staff = new StaffTable.getInstance();
+              staff = StaffTable.getInstance();
           } catch (SQLException ex) {
               throw new RuntimeException(ex);
           }
@@ -312,7 +316,7 @@ public class StaffPage extends CrudOverlay {
      * @param posId int
      */
     private void setDataByPosition(ArrayList<XYChart.Series<String, Number>> seriesArray, int posId) {
-        ArrayList<Staff> staff = this.staffTable.getAllStaff();
+        ArrayList<Staff> staff = this.staff.getAllStaff();
         // Set counts for each wage group
         int count0 = 0, count1 = 0, count2 = 0;
         // Sorted staff by pos

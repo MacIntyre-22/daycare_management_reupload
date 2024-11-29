@@ -107,16 +107,13 @@ public abstract class CrudOverlay extends BorderPane {
      * This is the creation of the Bottom bar with the main CRUD operations
      * @return crudButtons
      */
-    private HBox createBottomBar() {
-        HBox crudButtons = new HBox(create, read, update, delete);
     protected HBox createBottomBar() {
         // Set Icons
         create.setGraphic(setIcon(ICONS[3], 30));
         update.setGraphic(setIcon(ICONS[4], 30));
-        // Removed delete
-        //delete.setGraphic(setIcon(ICONS[5], 30));
+        delete.setGraphic(setIcon(ICONS[5], 30));
 
-        HBox crudButtons = new HBox(create, update);
+        HBox crudButtons = new HBox(create, update, delete);
         bottomButtonBar();
         crudButtons.setAlignment(Pos.CENTER);
         crudButtons.setMinHeight(50);

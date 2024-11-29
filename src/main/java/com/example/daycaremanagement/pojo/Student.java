@@ -58,25 +58,6 @@ public class Student {
         this.room_id = room_id;
     }
 
-    /**
-     * Gets the students age by getting the difference between their birthdate and today.
-     * @return age as double
-     */
-    public double getAge() {
-        // Get student birthday
-        // YYYY-MM-DD
-        String birthday = this.getBirthdate();
-        String[] birthdaySplit = birthday.split("-");
-        LocalDate birthdayDate = LocalDate.of(Integer.parseInt(birthdaySplit[0]), Integer.parseInt(birthdaySplit[1]), Integer.parseInt(birthdaySplit[2]));
-        LocalDate now = LocalDate.now();
-        double age;
-
-        // Get the difference to find age
-        age = (double) ChronoUnit.YEARS.between(birthdayDate, now);
-        // Return age
-        return age;
-    }
-
     @Override
     public String toString(){
         return first_name + " " + last_name;

@@ -19,6 +19,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.ArrayList;
 
@@ -54,7 +56,7 @@ public class StudentsPage extends CrudOverlay {
         // Add rooms to array
         // Significantly increases the load speed and lagginess of the tableView
         try {
-            roomTable = new RoomTable();
+            roomTable = RoomTable.getInstance();
             rooms.addAll(roomTable.getAllRooms());
         } catch (Exception e) {
             System.out.println("Error From: StudentsPage.java, line 56. Couldn't get Rooms Table.");
@@ -82,8 +84,8 @@ public class StudentsPage extends CrudOverlay {
 
             // Grab Tables
             try {
-                students = new StudentTable();
-                roomTable = new RoomTable();
+                students = StudentTable.getInstance();
+                roomTable = RoomTable.getInstance();
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 System.out.println("Could not get table.");
@@ -114,7 +116,7 @@ public class StudentsPage extends CrudOverlay {
         // Student Age per Room bar Chart
         graph3.setOnAction(e->{
             try {
-                students = new StudentTable();
+                students = StudentTable.getInstance();
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 System.out.println("Could not get table.");
@@ -177,7 +179,7 @@ public class StudentsPage extends CrudOverlay {
         // Bubble Chart
         graph4.setOnAction(e->{
             try {
-                students = new StudentTable();
+                students = StudentTable.getInstance();
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 System.out.println("Could not get table.");
@@ -329,13 +331,13 @@ public class StudentsPage extends CrudOverlay {
         column3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBirthdate()));
 
         TableColumn<DisplayStudent, String> column4 = new TableColumn<>("Age");
-        column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf((int) e.getValue().getAge())));
+        column4.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf((int) getAge(e.getValue().getBirthdate()))));
 
         TableColumn<DisplayStudent, String> column5 = new TableColumn<>("Room");
         column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom())));
 
         tableView.getColumns().addAll(column1, column2, column3, column4, column5);
-        tableView.getItems().addAll(students.getAllStudents());
+        tableView.getItems().addAll(students.getAllDisplayStudents());
 
         this.content.setCenter(tableView);
     }
@@ -371,7 +373,7 @@ public class StudentsPage extends CrudOverlay {
 
         // Get age count for room
         for (Student student : studentsList) {
-            int age = (int) student.getAge();
+            int age = (int) getAge(student.getBirthdate());
 
             if (age < 0) {
                 count0++;
@@ -392,5 +394,23 @@ public class StudentsPage extends CrudOverlay {
         seriesArray.get(2).getData().add(new XYChart.Data(roomTable.getRoom(roomId).getName(), count2));
         seriesArray.get(3).getData().add(new XYChart.Data(roomTable.getRoom(roomId).getName(), count3));
         seriesArray.get(4).getData().add(new XYChart.Data(roomTable.getRoom(roomId).getName(), count4));
+    }
+
+    /**
+     * Gets the students age by getting the difference between their birthdate and today.
+     * @return age as double
+     */
+    public double getAge(String dob) {
+        // Get student birthday
+        // YYYY-MM-DD
+        String[] birthdaySplit = dob.split("-");
+        LocalDate birthdayDate = LocalDate.of(Integer.parseInt(birthdaySplit[0]), Integer.parseInt(birthdaySplit[1]), Integer.parseInt(birthdaySplit[2]));
+        LocalDate now = LocalDate.now();
+        double age;
+
+        // Get the difference to find age
+        age = (double) ChronoUnit.YEARS.between(birthdayDate, now);
+        // Return age
+        return age;
     }
 }

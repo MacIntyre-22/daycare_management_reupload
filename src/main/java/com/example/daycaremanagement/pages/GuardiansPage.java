@@ -64,9 +64,9 @@ public class GuardiansPage extends CrudOverlay {
         // Add rooms to array
         // Significantly increases the load speed and lagginess of the tableView
         try {
-            roomTable = new RoomTable();
+            roomTable = RoomTable.getInstance();
             rooms.addAll(roomTable.getAllRooms());
-            cityTable = new CityTable();
+            cityTable = CityTable.getInstance();
             cities.addAll(cityTable.getAllCities());
         } catch (Exception e) {
             System.out.println("Error From: StudentsPage.java, line 56. Couldn't get Rooms Table.");
@@ -95,22 +95,27 @@ public class GuardiansPage extends CrudOverlay {
             chart.setTitle("Guardians Location");
 
             // Grab Tables
-            guardianTable = new GuardianTable();
-            cityTable = new CityTable();
+            try {
+                guardians = GuardianTable.getInstance();
+                cityTable = CityTable.getInstance();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
 
             // Grab list of rooms
             ArrayList<City> cityArray = cityTable.getAllCities();
             ArrayList<PieChart.Data> data = new ArrayList<>();
 
             // Creat guardian list
-            ArrayList<Guardian> guardians = guardianTable.getAllGuardians();
+            ArrayList<Guardian> guardianList = guardians.getAllGuardians();
 
             // Count how many guardians have city id equal to their city id
             for(City city : cityArray){
                 double count = 0;
 
                 // Check all guardians
-                for (Guardian g : guardians){
+                for (Guardian g : guardianList){
                     if (city.getId() == g.getCity_id()){
                         count++;
                     }
@@ -136,8 +141,8 @@ public class GuardiansPage extends CrudOverlay {
             TableView relationTable = new TableView();
             // Grab table data
             try {
-                guardians = new GuardianTable();
-                familyRelationTable = new GuardianStudentRelationTable();
+                guardians = GuardianTable.getInstance();
+                familyRelationTable = GuardianStudentRelationTable.getInstance();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -151,7 +156,6 @@ public class GuardiansPage extends CrudOverlay {
             column2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getLast_name()));
 
             TableColumn<Guardian, String> column3 = new TableColumn<>("Children");
-            // TODO MAKE TABLE LOAD FASTER, THIS LINE CAUSES SUPER SLOW LOAD
             column3.setCellValueFactory(e -> new SimpleStringProperty(getChildren(e.getValue().getId())));// Pass array of kids
 
 
@@ -169,7 +173,6 @@ public class GuardiansPage extends CrudOverlay {
     @Override
     protected void bottomButtonBar() {
         // Define actions specific to Guardians’ CRUD buttons here
-        // TODO Build form for Guardian
         create.setOnAction(e->{
             Label firstName = new Label("First Name");
             TextField fNameInput = new TextField();
@@ -322,8 +325,8 @@ public class GuardiansPage extends CrudOverlay {
      */
     private String getChildren(int guardianId) {
         try {
-            familyRelationTable = new GuardianStudentRelationTable();
-            studentTable = new StudentTable();
+            familyRelationTable = GuardianStudentRelationTable.getInstance();
+            studentTable = StudentTable.getInstance();
         } catch (Exception e) {
             System.out.println("Error in GuardiansPage.java, Line 174: Cannot get student Table.");
         }
