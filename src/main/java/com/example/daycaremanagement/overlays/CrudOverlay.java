@@ -110,16 +110,16 @@ public abstract class CrudOverlay extends BorderPane {
      */
     protected HBox createBottomBar() {
         // Set Icons
-        create.setGraphic(createBtn(setIcon(ICONS[3], 30), "Create"));
-        update.setGraphic(createBtn(setIcon(ICONS[4], 30), "Update"));
-        delete.setGraphic(createBtn(setIcon(ICONS[5], 30), "Delete"));
+        create.setGraphic(createBtn(setIcon(ICONS[3], 30), ""));
+        update.setGraphic(createBtn(setIcon(ICONS[4], 30), ""));
+        delete.setGraphic(createBtn(setIcon(ICONS[5], 30), ""));
 
         HBox crudButtons = new HBox(create, update, delete);
         bottomButtonBar();
         crudButtons.setAlignment(Pos.CENTER);
         crudButtons.setMinHeight(50);
         crudButtons.setMinWidth(100);
-        crudButtons.setStyle("-fx-background-color: lightblue;");
+        crudButtons.setStyle("-fx-background-color: lightblue; -fx-padding: 10;");
         crudButtons.setSpacing(50);
         return crudButtons;
     }
@@ -134,6 +134,9 @@ public abstract class CrudOverlay extends BorderPane {
         VBox layout = new VBox(icon, new Label(text));
         layout.setAlignment(Pos.CENTER);
         layout.setSpacing(2);
+        if (Objects.equals(text, "")) {
+            layout.getChildren().remove(1);
+        }
         return layout;
     }
 
@@ -236,7 +239,15 @@ public abstract class CrudOverlay extends BorderPane {
     /**
      * Loads basic info about the table to the page.
      */
-    protected abstract void loadInfo();
+    protected void loadInfo() {
+        VBox pageInfo = new VBox();
+        Label testInfo = new Label("Test info: Will hold information on table");
+        testInfo.setStyle("-fx-padding: 30 0 0 0;");
+        Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
+        testInfo2.setStyle("-fx-padding: 0 0 20 0;");
+        pageInfo.getChildren().addAll(testInfo, testInfo2);
+        this.content.setBottom(pageInfo);
+    };
 
 
 }
