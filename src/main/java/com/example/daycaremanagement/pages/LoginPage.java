@@ -4,6 +4,7 @@ import com.example.daycaremanagement.MainApp;
 import com.example.daycaremanagement.database.DBConst;
 import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.overlays.MainTablesOverlay;
+import com.example.daycaremanagement.database.Database;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
@@ -21,6 +22,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import static com.example.daycaremanagement.MainApp.primaryStage;
@@ -34,6 +36,7 @@ public class LoginPage extends BorderPane {
     // Main Page Scene
     private MainTablesOverlay root;
     private Scene mainPageScene;
+    public boolean firstLogin = true;
 
 
     /**
@@ -41,9 +44,8 @@ public class LoginPage extends BorderPane {
      * then signs the user in, If their credentials are right
      */
     public LoginPage(){
-
     // Heading Text
-        Label title = new Label("(Daycare Name) Login Page");
+        Label title = new Label("Login");
 
     //Input Fields
         TextField usernameInput = new TextField();
@@ -244,7 +246,7 @@ public class LoginPage extends BorderPane {
      *
      * @return true if constants were set, false otherwise
      * */
-    private boolean setConst() {
+    public boolean setConst() {
         // Read const.txt file for creds
         try (Scanner scanner = new Scanner(new File("login/const.txt"))) {
             String[] fileConst = new String[3];
@@ -285,8 +287,10 @@ public class LoginPage extends BorderPane {
                 root = new MainTablesOverlay();
                 mainPageScene = new Scene(root, 1024, 768);
                 primaryStage.setScene(mainPageScene);
-            } else {
+            } else if (!firstLogin) {
                 messageLabel.setText("Error Connecting to Database");
+            } else {
+                firstLogin = false;
             }
         } else {
             messageLabel.setText("Error Setting Constants");

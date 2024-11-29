@@ -15,6 +15,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static com.example.daycaremanagement.database.DBConst.*;
+
 
 public class MainApp extends Application {
     public static Stage primaryStage;
@@ -40,14 +42,13 @@ public class MainApp extends Application {
         primaryStage.setScene(loginPageScene);
         if (loginExists()) {
             loginPage.connectToDatabase();
-
         }
+
 
         loginPageScene.getStylesheets().add(this.getClass().getResource("login.css").toExternalForm());
 
 
         primaryStage.show();
-
     }
 
     public static void main(String[] args) {launch();}

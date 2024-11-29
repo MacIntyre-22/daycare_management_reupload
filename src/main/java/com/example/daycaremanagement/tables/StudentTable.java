@@ -6,6 +6,7 @@ import com.example.daycaremanagement.dao.StudentDAO;
 import com.example.daycaremanagement.pojo.display.DisplayStaff;
 import com.example.daycaremanagement.pojo.display.DisplayStudent;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -153,5 +154,23 @@ public class StudentTable implements StudentDAO {
             instance = new StudentTable();
         }
         return instance;
+    }
+
+    // Get Student Count
+    public int getItemCount(int room) {
+        int count = -1;
+        try {
+            PreparedStatement getCount = db.getConnection()
+                    .prepareStatement("SELECT * FROM " + TABLE_STUDENTS + " WHERE "
+                                    + STUDENTS_COLUMN_ROOM_ID + " = '" + room + "'", ResultSet.TYPE_SCROLL_SENSITIVE,
+                            ResultSet.CONCUR_UPDATABLE);
+            ResultSet data = getCount.executeQuery();
+            data.last();
+            count = data.getRow();
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 }
