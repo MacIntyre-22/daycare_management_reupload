@@ -26,8 +26,7 @@ public class Database {
                 createTable(TABLE_STUDENTS, CREATE_TABLE_STUDENTS, connection, INSERT_STUDENTS);
                 createTable(TABLE_GUARDIAN_STUDENT_RELATION, CREATE_TABLE_GUARDIAN_STUDENT_RELATIONS, connection, INSERT_GUARDIAN_STUDENT_RELATION);
             } else {
-                System.out.println("no connection");
-                System.out.println(connection);
+                System.out.println("Error creating database connection");
             }
 
         } catch (Exception e){

@@ -2,6 +2,7 @@ package com.example.daycaremanagement.pages;
 
 import com.example.daycaremanagement.overlays.CrudOverlay;
 import com.example.daycaremanagement.pojo.*;
+import com.example.daycaremanagement.pojo.display.DisplayStaff;
 import com.example.daycaremanagement.pojo.display.DisplayStudent;
 import com.example.daycaremanagement.tables.*;
 import javafx.beans.property.SimpleStringProperty;
@@ -139,6 +140,16 @@ public class OtherTablesPage extends CrudOverlay {
         switch (active) {
             // Forms for Relation Table
             case 0:
+
+                delete.setOnAction(e->{
+                    if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                        GuardianStudentRelation deleteRelation = (GuardianStudentRelation) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                        relationTable.deleteRelation(deleteRelation);
+                        loadTable();
+                    }
+                });
+
+
                 create.setOnAction(e-> {
                     Label parentId = new Label("Parent ID");
                     TextField parentIdInput = new TextField();
@@ -156,7 +167,7 @@ public class OtherTablesPage extends CrudOverlay {
 
                         parentIdInput.setText("");
                         studentIdInput.setText("");
-
+                        loadTable();
                     });
 
                     HBox createCollection = new HBox(parentIdGroup, studentIdGroup);
@@ -173,12 +184,16 @@ public class OtherTablesPage extends CrudOverlay {
                     TextField idNumInput = new TextField();
                     VBox idNumGroup = new VBox(idNum, idNumInput);
                     // Get col here
+                    if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                        GuardianStudentRelation getIdRelation = (GuardianStudentRelation) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                        idNumInput.setText(""+getIdRelation.getId());
+                    }
 
                     Label columnName = new Label("Column");
                     ComboBox<String> columnNameChoice = new ComboBox<>();
                     // Temporary Options
                     // Grab Columns
-                    columnNameChoice.getItems().addAll();
+                    columnNameChoice.getItems().addAll("Parent ID", "Student ID");
                     VBox columnNameGroup = new VBox(columnName, columnNameChoice);
 
                     Label updateName = new Label("New");
@@ -187,8 +202,20 @@ public class OtherTablesPage extends CrudOverlay {
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
-                        // Update Here
-
+                        GuardianStudentRelation updateRelation = relationTable.getRelation(Integer.parseInt(idNumInput.getText()));
+                        switch (columnNameChoice.getSelectionModel().getSelectedItem()){
+                            case "Parent ID":
+                                updateRelation.setGuardian_id(Integer.parseInt(updateNameInput.getText()));
+                                break;
+                            case "Student ID":
+                                updateRelation.setStudent_id(Integer.parseInt(updateNameInput.getText()));
+                                break;
+                            default:
+                                break;
+                        }
+                        relationTable.updateRelation(updateRelation);
+                        updateNameInput.setText("");
+                        loadTable();
                     });
 
                     HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
@@ -213,6 +240,7 @@ public class OtherTablesPage extends CrudOverlay {
                         roomTable.createRoom(createRoom);
 
                         nameInput.setText("");
+                        loadTable();
                     });
 
                     HBox createCollection = new HBox(nameGroup);
@@ -269,6 +297,7 @@ public class OtherTablesPage extends CrudOverlay {
                         posTable.createPosition(createPosition);
 
                         nameInput.setText("");
+                        loadTable();
                     });
 
                     HBox createCollection = new HBox(nameGroup);
