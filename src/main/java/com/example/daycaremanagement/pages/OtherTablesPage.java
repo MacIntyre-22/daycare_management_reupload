@@ -151,6 +151,11 @@ public class OtherTablesPage extends CrudOverlay {
                     Button createInput = new Button("Create!");
                     createInput.setOnAction(e1->{
                         // Create Here
+                        GuardianStudentRelation createRelation = new GuardianStudentRelation(0, Integer.parseInt(parentIdInput.getText()), Integer.parseInt(studentIdInput.getText()));
+                        relationTable.createRelation(createRelation);
+
+                        parentIdInput.setText("");
+                        studentIdInput.setText("");
 
                     });
 
@@ -204,7 +209,10 @@ public class OtherTablesPage extends CrudOverlay {
 
                     Button createInput = new Button("Create!");
                     createInput.setOnAction(e1->{
+                        Room createRoom = new Room(0, nameInput.getText());
+                        roomTable.createRoom(createRoom);
 
+                        nameInput.setText("");
                     });
 
                     HBox createCollection = new HBox(nameGroup);
@@ -257,7 +265,10 @@ public class OtherTablesPage extends CrudOverlay {
 
                     Button createInput = new Button("Create!");
                     createInput.setOnAction(e1->{
+                        Position createPosition = new Position(0, nameInput.getText());
+                        posTable.createPosition(createPosition);
 
+                        nameInput.setText("");
                     });
 
                     HBox createCollection = new HBox(nameGroup);
