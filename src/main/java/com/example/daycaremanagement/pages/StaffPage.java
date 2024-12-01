@@ -193,8 +193,6 @@ public class StaffPage extends CrudOverlay {
 
   @Override
   protected void bottomButtonBar() {
-    // Define actions specific to Guardians’ CRUD buttons here
-
 
       delete.setOnAction(e->{
           if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
@@ -228,14 +226,16 @@ public class StaffPage extends CrudOverlay {
 
           Button createInput = new Button("Create!");
           createInput.setOnAction(e1->{
-              try{
+              if (isNumeric(wageTF.getText()) && isNumeric(classroomInput.getText()) && isNumeric(posTF.getText())) {
                   Staff createStaff = new Staff(0, fNameInput.getText(), lNameInput.getText(), Double.parseDouble(wageTF.getText()), Integer.parseInt(classroomInput.getText()), Integer.parseInt(posTF.getText()));
                   staff.createStaff(createStaff);
                   loadTable();
-              } catch (Exception e3){
-                  System.out.println("Input error");
-                  e3.printStackTrace();
               }
+              fNameInput.setText("");
+              lNameInput.setText("");
+              classroomInput.setText("");
+              wageTF.setText("");
+              posTF.setText("");
           });
 
           HBox createCollection = new HBox(fNameGroup, lNameGroup, wageGroup, classroomGroup, posGroup);
@@ -282,12 +282,17 @@ public class StaffPage extends CrudOverlay {
                           updateStaff.setWage(Double.parseDouble(updateNameInput.getText()));
                           break;
                       case ("Room ID"):
-                          updateStaff.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                          if (isNumeric(updateNameInput.getText())) {
+                              updateStaff.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                          }
                           break;
                       case ("Position ID"):
-                          updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
+                          if (isNumeric(updateNameInput.getText())){
+                              updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
+                          }
                           break;
                   }
+                  updateNameInput.setText("");
                   staff.updateStaff(updateStaff);
                   loadTable();
               }
