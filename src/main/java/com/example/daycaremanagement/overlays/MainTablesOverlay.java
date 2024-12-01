@@ -20,6 +20,7 @@ public class MainTablesOverlay extends BorderPane {
   private StaffPage staffPageDisplay = StaffPage.getInstance();
   private GuardiansPage guardiansPageDisplay = GuardiansPage.getInstance();
   private StudentsPage studentDisplay = StudentsPage.getInstance();
+  private OtherTablesPage otherTablesDisplay = OtherTablesPage.getInstance();
 
 
   /**
@@ -34,12 +35,14 @@ public class MainTablesOverlay extends BorderPane {
     Button studentsButton = new Button("Students");
     Button guardiansButton = new Button("Guardians");
     Button staffButton = new Button("Staff ");
+    Button otherTablesButton = new Button("Tables");
     Button infoButton = new Button("Info ");
     Button logoutButton = new Button("Logout");
 
     studentsButton.setMaxWidth(Double.MAX_VALUE);
     guardiansButton.setMaxWidth(Double.MAX_VALUE);
     staffButton.setMaxWidth(Double.MAX_VALUE);
+    otherTablesButton.setMaxWidth(Double.MAX_VALUE);
     infoButton.setMaxWidth(Double.MAX_VALUE);
     logoutButton.setMaxWidth(Double.MAX_VALUE);
 
@@ -57,6 +60,10 @@ public class MainTablesOverlay extends BorderPane {
     // Placeholder action for Staff button
     staffButton.setOnAction(e -> {
       this.setCenter(staffPageDisplay);
+    });
+
+    otherTablesButton.setOnAction(e -> {
+      this.setCenter(otherTablesDisplay);
     });
 
     studentsButton.setOnAction(e -> {
