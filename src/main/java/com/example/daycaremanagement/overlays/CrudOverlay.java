@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 public abstract class CrudOverlay extends BorderPane {
@@ -290,9 +291,20 @@ public abstract class CrudOverlay extends BorderPane {
 
     public double roundToTwo(double num){
         num*=100;
-        num = Math.round(num);
+        num = (double) Math.round(num);
         num/= 100;
         return num;
+    }
+
+    public boolean isValidDateFormat(String date){
+        try{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            dateFormat.setLenient(false);
+            dateFormat.parse(date);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
 }

@@ -237,16 +237,15 @@ public class StudentsPage extends CrudOverlay {
             Label classroom = new Label("Classroom");
             TextField classroomInput = new TextField();
             VBox classroomGroup = new VBox(classroom, classroomInput);
-            // TODO: Validate birthdate format
 
             Button createInput = new Button("Create!");
             createInput.setOnAction(e1->{
-                if (isValidId(classroomInput.getText(), "room")) {
+                if (isValidId(classroomInput.getText(), "room") && isValidDateFormat(birthdayInput.getText())) {
                     Student createStudent = new Student(0, fNameInput.getText(), lNameInput.getText(), birthdayInput.getText(), Integer.parseInt(classroomInput.getText()));
                     students.createStudent(createStudent);
                     loadTable();
                 } else {
-                    System.out.println("Invalid Room ID");
+                    System.out.println("Invalid Room ID or birthdate");
                 }
             });
 
@@ -290,7 +289,12 @@ public class StudentsPage extends CrudOverlay {
                     switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
                         case ("First Name") -> updateStudent.setFirst_name(updateNameInput.getText());
                         case ("Last Name") -> updateStudent.setLast_name(updateNameInput.getText());
-                        case ("Birthday") -> updateStudent.setBirthdate(updateNameInput.getText());
+                        case ("Birthday") -> { if (isValidDateFormat(updateNameInput.getText())) {
+                                updateStudent.setBirthdate(updateNameInput.getText());
+                            } else {
+                                System.out.println("Invalid date format. Please use YYYY-MM-DD");
+                            }
+                        }
                         case ("Classroom ID") -> {
                             if (isValidId(updateNameInput.getText(), "room")) {
                                 updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));

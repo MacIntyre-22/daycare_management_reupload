@@ -222,7 +222,6 @@ public class StaffPage extends CrudOverlay {
           TextField posTF = new TextField();
           VBox posGroup = new VBox(pos, posTF);
 
-          // TODO: Limit wage to 2 decimal places
           Button createInput = new Button("Create!");
           createInput.setOnAction(e1->{
               if (isDouble(wageTF.getText()) && isValidId(classroomInput.getText(), "room") && isValidId(posTF.getText(), "position")) {
