@@ -225,10 +225,12 @@ public class StaffPage extends CrudOverlay {
           // TODO: Limit wage to 2 decimal places
           Button createInput = new Button("Create!");
           createInput.setOnAction(e1->{
-              if (isDouble(wageTF.getText()) && isInteger(classroomInput.getText()) && isInteger(posTF.getText())) {
+              if (isDouble(wageTF.getText()) && isValidId(classroomInput.getText(), "room") && isValidId(posTF.getText(), "position")) {
                   Staff createStaff = new Staff(0, fNameInput.getText(), lNameInput.getText(), Double.parseDouble(wageTF.getText()), Integer.parseInt(classroomInput.getText()), Integer.parseInt(posTF.getText()));
                   staff.createStaff(createStaff);
                   loadTable();
+              } else {
+                  System.out.println("Invalid input");
               }
               fNameInput.setText("");
               lNameInput.setText("");
@@ -281,17 +283,17 @@ public class StaffPage extends CrudOverlay {
                           }
                       }
                       case ("Room ID") -> {
-                          if (isInteger(updateNameInput.getText())) {
+                          if (isValidId(updateNameInput.getText(), "room")) {
                               updateStaff.setRoom_id(Integer.parseInt(updateNameInput.getText()));
                           } else {
-                              System.out.println("Room ID must be an integer");
+                              System.out.println("Invalid Room ID");
                           }
                       }
                       case ("Position ID") -> {
-                          if (isInteger(updateNameInput.getText())) {
+                          if (isValidId(updateNameInput.getText(), "position")) {
                               updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
                           } else {
-                              System.out.println("Position ID must be an integer");
+                              System.out.println("Invalid Position ID");
                           }
                       }
                       default -> System.out.println("Category not selected");
