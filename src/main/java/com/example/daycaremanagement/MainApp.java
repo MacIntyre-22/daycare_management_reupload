@@ -21,8 +21,8 @@ import static com.example.daycaremanagement.database.DBConst.*;
 public class MainApp extends Application {
     public static Stage primaryStage;
     // Test Page for login
-    private LoginPage loginPage = new LoginPage();
-    private Scene loginPageScene = new Scene(loginPage, 1024, 768);
+    private static LoginPage loginPage = new LoginPage();
+    public static Scene loginPageScene = new Scene(loginPage, 1024, 768);
 
 
     @Override
@@ -45,7 +45,7 @@ public class MainApp extends Application {
         }
 
 
-        loginPageScene.getStylesheets().add(this.getClass().getResource("login.css").toExternalForm());
+        loginPageScene.getStylesheets().add(this.getClass().getResource("Styles/login.css").toExternalForm());
 
 
         primaryStage.show();

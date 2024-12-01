@@ -286,6 +286,7 @@ public class LoginPage extends BorderPane {
             if (Database.checkConnection()) {
                 root = new MainTablesOverlay();
                 mainPageScene = new Scene(root, 1024, 768);
+                mainPageScene.getStylesheets().add(MainApp.class.getResource("Styles/mainTablesOverlay.css").toExternalForm());
                 primaryStage.setScene(mainPageScene);
             } else if (!firstLogin) {
                 messageLabel.setText("Error Connecting to Database");
