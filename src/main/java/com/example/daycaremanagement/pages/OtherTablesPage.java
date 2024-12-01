@@ -80,7 +80,7 @@ public class OtherTablesPage extends CrudOverlay {
 
 
             // Create Columns
-            TableColumn<Room, String> column1 = new TableColumn<>("Room Id");
+            TableColumn<Room, String> column1 = new TableColumn<>("Room ID");
             column1.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getId())));
 
             TableColumn<Room, String> column2 = new TableColumn<>("Room Name");
@@ -113,7 +113,7 @@ public class OtherTablesPage extends CrudOverlay {
 
 
             // Create Columns
-            TableColumn<Position, String> column1 = new TableColumn<>("Position Id");
+            TableColumn<Position, String> column1 = new TableColumn<>("Position ID");
             column1.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getId())));
 
             TableColumn<Position, String> column2 = new TableColumn<>("Position Name");
@@ -357,7 +357,7 @@ public class OtherTablesPage extends CrudOverlay {
     protected void loadTable() {
         // Set active table to 0
         active = 0;
-        title.setText("Single Parent - Student Relation");
+        title.setText("Guardian - Student Relations");
 
         TableView tableView = new TableView();
         // Grab table data
@@ -369,17 +369,16 @@ public class OtherTablesPage extends CrudOverlay {
 
 
         // Create Columns
+
+        // TODO: update to showing them by name
         TableColumn<GuardianStudentRelation, String> column1 = new TableColumn<>("Parent Id");
         column1.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getGuardian_id())));
 
-        TableColumn<GuardianStudentRelation, String> column2 = new TableColumn<>("Parent Id");
-        column2.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getGuardian_id())));
-
-        TableColumn<GuardianStudentRelation, String> column3 = new TableColumn<>("Student Id");
-        column3.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getStudent_id())));
+        TableColumn<GuardianStudentRelation, String> column2 = new TableColumn<>("Student Id");
+        column2.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getStudent_id())));
 
 
-        tableView.getColumns().addAll(column1, column2, column3);
+        tableView.getColumns().addAll(column1, column2);
         tableView.getItems().addAll(relationTable.getAllRelations());
         tableView.setStyle("");
 
