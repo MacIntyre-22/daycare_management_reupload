@@ -288,24 +288,17 @@ public class StudentsPage extends CrudOverlay {
                 Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
                 if (updateStudent != null) {
                     switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
-                        case ("First Name"):
-                            updateStudent.setFirst_name(updateNameInput.getText());
-                            break;
-                        case ("Last Name"):
-                            updateStudent.setLast_name(updateNameInput.getText());
-                            break;
-                        case ("Birthday"):
-                            updateStudent.setBirthdate(updateNameInput.getText());
-                            break;
-                        case ("Classroom ID"):
+                        case ("First Name") -> updateStudent.setFirst_name(updateNameInput.getText());
+                        case ("Last Name") -> updateStudent.setLast_name(updateNameInput.getText());
+                        case ("Birthday") -> updateStudent.setBirthdate(updateNameInput.getText());
+                        case ("Classroom ID") -> {
                             if (isInteger(updateNameInput.getText())) {
                                 updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
                             } else {
                                 System.out.println("Input error, Room ID was not numeric");
                             }
-                            break;
-                        default:
-                            System.out.println("Category was not selected");
+                        }
+                        default -> System.out.println("Category was not selected");
                     }
                     students.updateStudent(updateStudent);
                     loadTable();

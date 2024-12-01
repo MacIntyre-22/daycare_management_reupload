@@ -271,29 +271,30 @@ public class StaffPage extends CrudOverlay {
               Staff updateStaff = staff.getStaff(Integer.parseInt(idNumInput.getText()));
               if (updateStaff != null) {
                   switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
-                      case ("First Name"):
-                          updateStaff.setFirst_name(updateNameInput.getText());
-                          break;
-                      case ("Last Name"):
-                          updateStaff.setLast_name(updateNameInput.getText());
-                          break;
-                      case ("Wage"):
+                      case ("First Name") -> updateStaff.setFirst_name(updateNameInput.getText());
+                      case ("Last Name") -> updateStaff.setLast_name(updateNameInput.getText());
+                      case ("Wage") -> {
                           if (isDouble(updateNameInput.getText())) {
                               updateStaff.setWage(Double.parseDouble(updateNameInput.getText()));
+                          } else {
+                              System.out.println("Wage input was not numeric");
                           }
-                          break;
-                      case ("Room ID"):
+                      }
+                      case ("Room ID") -> {
                           if (isInteger(updateNameInput.getText())) {
                               updateStaff.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                          } else {
+                              System.out.println("Room ID must be an integer");
                           }
-                          break;
-                      case ("Position ID"):
-                          if (isInteger(updateNameInput.getText())){
+                      }
+                      case ("Position ID") -> {
+                          if (isInteger(updateNameInput.getText())) {
                               updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
+                          } else {
+                              System.out.println("Position ID must be an integer");
                           }
-                          break;
-                      default:
-                          System.out.println("Category not selected");
+                      }
+                      default -> System.out.println("Category not selected");
                   }
                   updateNameInput.setText("");
                   staff.updateStaff(updateStaff);

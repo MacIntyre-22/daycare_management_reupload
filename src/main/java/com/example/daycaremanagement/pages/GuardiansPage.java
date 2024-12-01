@@ -252,41 +252,32 @@ public class GuardiansPage extends CrudOverlay {
                     Guardian updateGuardian = guardians.getGuardian(Integer.parseInt(idNumInput.getText()));
                     if (updateGuardian != null) {
                         switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
-                            case ("First Name"):
-                                updateGuardian.setFirst_name(updateNameInput.getText());
-                                break;
-                            case ("Last Name"):
-                                updateGuardian.setLast_name(updateNameInput.getText());
-                                break;
-                            case ("Phone"):
+                            case ("First Name") -> updateGuardian.setFirst_name(updateNameInput.getText());
+                            case ("Last Name") -> updateGuardian.setLast_name(updateNameInput.getText());
+                            case ("Phone") -> {
                                 if (isInteger(updateNameInput.getText())) {
                                     updateGuardian.setPhone(updateNameInput.getText());
                                 } else {
                                     System.out.println("Please enter a valid phone number, with no spaces or hyphens");
                                 }
-                                break;
-                            case ("Email"):
-                                updateGuardian.setEmail(updateNameInput.getText());
-                                break;
-                            case ("City ID"):
+                            }
+                            case ("Email") -> updateGuardian.setEmail(updateNameInput.getText());
+                            case ("City ID") -> {
                                 if (isInteger(updateNameInput.getText())) {
                                     updateGuardian.setCity_id(Integer.parseInt(updateNameInput.getText()));
                                 } else {
                                     System.out.println("Input error, enter a number");
                                 }
-                                break;
-                            case ("Street Number"):
-                                if (isInteger(updateNameInput.getText())){
+                            }
+                            case ("Street Number") -> {
+                                if (isInteger(updateNameInput.getText())) {
                                     updateGuardian.setStreet_num(Integer.parseInt(updateNameInput.getText()));
                                 } else {
                                     System.out.println("Input error, enter a number");
                                 }
-                                break;
-                            case ("Street Name"):
-                                updateGuardian.setStreet_name(updateNameInput.getText());
-                                break;
-                            default:
-                                System.out.println("Category not selected");
+                            }
+                            case ("Street Name") -> updateGuardian.setStreet_name(updateNameInput.getText());
+                            default -> System.out.println("Category not selected");
                         }
                         updateNameInput.setText("");
                         guardians.updateGuardian(updateGuardian);
