@@ -346,6 +346,9 @@ public class StudentsPage extends CrudOverlay {
         }
 
         // Create Columns
+        TableColumn<DisplayStudent, String> columnId = new TableColumn<>("ID");
+        columnId.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getId())));
+
         TableColumn<DisplayStudent, String> column1 = new TableColumn<>("First Name");
         column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
@@ -361,7 +364,7 @@ public class StudentsPage extends CrudOverlay {
         TableColumn<DisplayStudent, String> column5 = new TableColumn<>("Room");
         column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom())));
 
-        tableView.getColumns().addAll(column1, column2, column3, column4, column5);
+        tableView.getColumns().addAll(columnId, column1, column2, column3, column4, column5);
         tableView.getItems().addAll(students.getAllDisplayStudents());
 
         this.content.setCenter(tableView);

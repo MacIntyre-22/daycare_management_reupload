@@ -326,6 +326,9 @@ public class GuardiansPage extends CrudOverlay {
         }
 
         // Create Columns
+        TableColumn<DisplayGuardian, String> columnId = new TableColumn<>("ID");
+        columnId.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getId())));
+
         TableColumn<DisplayGuardian, String> column1 = new TableColumn<>("First Name");
         column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
@@ -349,7 +352,7 @@ public class GuardiansPage extends CrudOverlay {
         column7.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getStreet_name()));
 
 
-        tableView.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7);
+        tableView.getColumns().addAll(columnId, column1, column2, column3, column4, column5, column6, column7);
         tableView.getItems().addAll(guardians.getAllDisplayGuardians());
         tableView.setStyle("");
 
