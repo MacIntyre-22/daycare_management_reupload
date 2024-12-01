@@ -374,8 +374,57 @@ public class OtherTablesPage extends CrudOverlay {
                     items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
                     this.content.setBottom(items);
                 });
+            // Cities table
+            case 3:
+                delete.setOnAction(e->{
 
+                });
 
+                create.setOnAction(e-> {
+                    Label name = new Label("Name");
+                    TextField nameInput = new TextField();
+                    VBox nameGroup = new VBox(name, nameInput);
+
+                    Button createInput = new Button("Create!");
+                    createInput.setOnAction(e1->{
+                        Room createRoom = new Room(0, nameInput.getText());
+                        roomTable.createRoom(createRoom);
+
+                        nameInput.setText("");
+                        loadTable();
+                    });
+
+                    HBox createCollection = new HBox(nameGroup);
+                    createCollection.setSpacing(10);
+
+                    VBox items = new VBox();
+                    items.getChildren().addAll(setEscape(), createCollection, createInput);
+                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    this.content.setBottom(items);
+                });
+
+                update.setOnAction(e-> {
+                    Label idNum = new Label("ID");
+                    TextField idNumInput = new TextField();
+                    VBox idNumGroup = new VBox(idNum, idNumInput);
+
+                    Label updateName = new Label("New City Name");
+                    TextField updateNameInput = new TextField();
+                    VBox updateNameGroup = new VBox(updateName, updateNameInput);
+
+                    Button updateInput = new Button("Update!");
+                    updateInput.setOnAction(e1-> {
+
+                    });
+
+                    HBox updateCollection = new HBox(idNumGroup, updateNameGroup);
+                    updateCollection.setSpacing(10);
+
+                    VBox items = new VBox();
+                    items.getChildren().addAll(setEscape(), updateCollection, updateInput);
+                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    this.content.setBottom(items);
+                });
         }
     }
 
