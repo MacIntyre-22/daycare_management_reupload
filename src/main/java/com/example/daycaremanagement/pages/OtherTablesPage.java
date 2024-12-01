@@ -275,6 +275,7 @@ public class OtherTablesPage extends CrudOverlay {
                         updateRoom.setName(updateNameInput.getText());
                         roomTable.updateRoom(updateRoom);
                         updateNameInput.setText("");
+                        loadTable();
                     });
 
                     HBox updateCollection = new HBox(idNumGroup, updateNameGroup);
@@ -288,6 +289,14 @@ public class OtherTablesPage extends CrudOverlay {
 
             // Forms for Position Table
             case 2:
+                delete.setOnAction(e->{
+                    if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                        Position deletePosition = (Position) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                        posTable.deletePosition(deletePosition);
+                        loadTable();
+                    }
+                });
+
                 create.setOnAction(e-> {
                     Label name = new Label("Name");
                     TextField nameInput = new TextField();
@@ -316,25 +325,22 @@ public class OtherTablesPage extends CrudOverlay {
                     Label idNum = new Label("ID");
                     TextField idNumInput = new TextField();
                     VBox idNumGroup = new VBox(idNum, idNumInput);
-                    // Get col here
 
-                    Label columnName = new Label("Column");
-                    ComboBox<String> columnNameChoice = new ComboBox<>();
-                    // Temporary Options
-                    // Grab Columns
-                    columnNameChoice.getItems().addAll();
-                    VBox columnNameGroup = new VBox(columnName, columnNameChoice);
 
-                    Label updateName = new Label("New");
+                    Label updateName = new Label("New Position name");
                     TextField updateNameInput = new TextField();
                     VBox updateNameGroup = new VBox(updateName, updateNameInput);
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
-
+                        Position updatePosition = posTable.getPosition(Integer.parseInt(idNumInput.getText()));
+                        updatePosition.setName(updateNameInput.getText());
+                        posTable.updatePosition(updatePosition);
+                        updateNameInput.setText("");
+                        loadTable();
                     });
 
-                    HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
+                    HBox updateCollection = new HBox(idNumGroup, updateNameGroup);
                     updateCollection.setSpacing(10);
 
                     VBox items = new VBox();
