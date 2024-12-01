@@ -1,5 +1,6 @@
 package com.example.daycaremanagement.overlays;
 
+import com.example.daycaremanagement.tables.*;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -214,6 +215,77 @@ public abstract class CrudOverlay extends BorderPane {
         } catch (Exception e1){
             return false;
         }
+    }
+
+    // Checks if a string is 10 digits long and an integer
+    public boolean isValidPhone(String i){
+        if (isInteger(i)){
+            return i.length() == 10;
+        }
+        return false;
+    }
+
+    public boolean isValidId(String input, String table){
+        if (isInteger(input)){
+            int intInput = Integer.parseInt(input);
+            switch (table.toLowerCase()) {
+                case "room" -> {
+                    try {
+                        return RoomTable.getInstance().getRoom(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "city" -> {
+                    try {
+                        return CityTable.getInstance().getCity(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "position" -> {
+                    try {
+                        return PositionTable.getInstance().getPosition(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "student" -> {
+                    try {
+                        return StudentTable.getInstance().getStudent(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "guardian" -> {
+                    try {
+                        return GuardianTable.getInstance().getGuardian(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "relation" -> {
+                    try {
+                        return GuardianStudentRelationTable.getInstance().getRelation(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "staff" -> {
+                    try {
+                        return StaffTable.getInstance().getStaff(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                default -> {
+                    System.out.println("Invalid table input. Options are: room, city, position, student, guardian, relation, and staff");
+                    return false;
+                }
+            }
+        }
+        System.out.println("Input ID was not an integer");
+        return false;
     }
 
 }

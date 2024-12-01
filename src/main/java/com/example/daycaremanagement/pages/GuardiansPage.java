@@ -199,9 +199,9 @@ public class GuardiansPage extends CrudOverlay {
             VBox streetNameGroup = new VBox(streetName, streetNameTF);
 
             Button createInput = new Button("Create!");
-            // TODO: validate email & validate phone number formats
+            // TODO: validate email format
             createInput.setOnAction(e1->{
-                if (isInteger(cityTF.getText()) && isInteger(streetNumTF.getText())) {
+                if (isInteger(cityTF.getText()) && isInteger(streetNumTF.getText()) && isValidPhone(phoneTF.getText())) {
                     Guardian createGuardian = new Guardian(0, fNameInput.getText(), lNameInput.getText(), phoneTF.getText(), emailTF.getText(), Integer.parseInt(cityTF.getText()), Integer.parseInt(streetNumTF.getText()), streetNameTF.getText());
                     guardians.createGuardian(createGuardian);
                     loadTable();
@@ -255,10 +255,10 @@ public class GuardiansPage extends CrudOverlay {
                             case ("First Name") -> updateGuardian.setFirst_name(updateNameInput.getText());
                             case ("Last Name") -> updateGuardian.setLast_name(updateNameInput.getText());
                             case ("Phone") -> {
-                                if (isInteger(updateNameInput.getText())) {
+                                if (isValidPhone(updateNameInput.getText())) {
                                     updateGuardian.setPhone(updateNameInput.getText());
                                 } else {
-                                    System.out.println("Please enter a valid phone number, with no spaces or hyphens");
+                                    System.out.println("Please enter a valid 10 digit phone number, with no spaces or hyphens");
                                 }
                             }
                             case ("Email") -> updateGuardian.setEmail(updateNameInput.getText());
