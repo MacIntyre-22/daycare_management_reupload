@@ -203,15 +203,25 @@ public class GuardiansPage extends CrudOverlay {
             VBox streetNameGroup = new VBox(streetName, streetNameTF);
 
             Button createInput = new Button("Create!");
+            // TODO: validate email, validate phone number
             createInput.setOnAction(e1->{
-                try{
-                    Guardian createGuardian = new Guardian(0, fNameInput.getText(), lNameInput.getText(), phoneTF.getText(), emailTF.getText(), Integer.parseInt(cityTF.getText()), Integer.parseInt(streetNumTF.getText()), streetNameTF.getText());
-                    guardians.createGuardian(createGuardian);
-                    loadTable();
-                } catch (Exception e3){
-                    System.out.println("Input error");
-                    e3.printStackTrace();
+                if (isNumeric(cityTF.getText()) && isNumeric(streetNumTF.getText())) {
+                    try {
+                        Guardian createGuardian = new Guardian(0, fNameInput.getText(), lNameInput.getText(), phoneTF.getText(), emailTF.getText(), Integer.parseInt(cityTF.getText()), Integer.parseInt(streetNumTF.getText()), streetNameTF.getText());
+                        guardians.createGuardian(createGuardian);
+                        loadTable();
+                    } catch (Exception e3) {
+                        System.out.println("Input error");
+                        e3.printStackTrace();
+                    }
                 }
+                fNameInput.setText("");
+                lNameInput.setText("");
+                phoneTF.setText("");
+                emailTF.setText("");
+                cityTF.setText("");
+                streetNumTF.setText("");
+                streetNameTF.setText("");
             });
 
             HBox createCollection = new HBox(fNameGroup, lNameGroup, emailGroup, phoneGroup, cityGroup, streetNumGroup, streetNameGroup);
@@ -245,32 +255,50 @@ public class GuardiansPage extends CrudOverlay {
 
             Button updateInput = new Button("Update!");
             updateInput.setOnAction(e1->{
-                Guardian updateGuardian = guardians.getGuardian(Integer.parseInt(idNumInput.getText()));
-                if (updateGuardian != null) {
-                    switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
-                        case ("First Name"):
-                            updateGuardian.setFirst_name(updateNameInput.getText());
-                            break;
-                        case ("Last Name"):
-                            updateGuardian.setLast_name(updateNameInput.getText());
-                            break;
-                        case ("Phone"):
-                            updateGuardian.setPhone(updateNameInput.getText());
-                            break;
-                        case ("Email"):
-                            updateGuardian.setEmail(updateNameInput.getText());
-                            break;
-                        case ("City ID"):
-                            updateGuardian.setCity_id(Integer.parseInt(updateNameInput.getText()));
-                            break;
-                        case ("Street Number"):
-                            updateGuardian.setStreet_num(Integer.parseInt(updateNameInput.getText()));
-                            break;
-                        case ("Street Name"):
-                            updateGuardian.setStreet_name(updateNameInput.getText());
+                if (isNumeric(idNumInput.getText())){
+                    Guardian updateGuardian = guardians.getGuardian(Integer.parseInt(idNumInput.getText()));
+                    if (updateGuardian != null) {
+                        switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                            case ("First Name"):
+                                updateGuardian.setFirst_name(updateNameInput.getText());
+                                break;
+                            case ("Last Name"):
+                                updateGuardian.setLast_name(updateNameInput.getText());
+                                break;
+                            case ("Phone"):
+                                if (isNumeric(updateNameInput.getText())) {
+                                    updateGuardian.setPhone(updateNameInput.getText());
+                                } else {
+                                    System.out.println("Please enter a valid phone number, with no spaces or hyphens");
+                                }
+                                break;
+                            case ("Email"):
+                                updateGuardian.setEmail(updateNameInput.getText());
+                                break;
+                            case ("City ID"):
+                                if (isNumeric(updateNameInput.getText())) {
+                                    updateGuardian.setCity_id(Integer.parseInt(updateNameInput.getText()));
+                                } else {
+                                    System.out.println("Input error, enter a number");
+                                }
+                                break;
+                            case ("Street Number"):
+                                if (isNumeric(updateNameInput.getText())){
+                                    updateGuardian.setStreet_num(Integer.parseInt(updateNameInput.getText()));
+                                } else {
+                                    System.out.println("Input error, enter a number");
+                                }
+                                break;
+                            case ("Street Name"):
+                                updateGuardian.setStreet_name(updateNameInput.getText());
+                                break;
+                            default:
+                                System.out.println("Category not selected");
+                        }
+                        updateNameInput.setText("");
+                        guardians.updateGuardian(updateGuardian);
+                        loadTable();
                     }
-                    guardians.updateGuardian(updateGuardian);
-                    loadTable();
                 }
             });
 

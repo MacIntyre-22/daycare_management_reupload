@@ -201,6 +201,7 @@ public abstract class CrudOverlay extends BorderPane {
 
 
     // Tests if a string is an integer or a double
+    // TODO: separate int and double into separate functions (for ids)
     public boolean isNumeric(String i){
         try{
             Integer.parseInt(i);
