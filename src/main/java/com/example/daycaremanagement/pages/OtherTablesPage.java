@@ -58,6 +58,9 @@ public class OtherTablesPage extends CrudOverlay {
         // Load Relation Tbale
         graph1.setOnAction(e->{
             loadTable();
+
+            // Reset Form
+            this.setBottom(createBottomBar());
         });
 
         // load Room Table
@@ -88,6 +91,9 @@ public class OtherTablesPage extends CrudOverlay {
             tableView.setStyle("");
 
             this.content.setCenter(tableView);
+
+            // Reset Form
+            this.setBottom(createBottomBar());
         });
 
         // Position Table
@@ -118,6 +124,9 @@ public class OtherTablesPage extends CrudOverlay {
             tableView.setStyle("");
 
             this.content.setCenter(tableView);
+
+            // Reset Form
+            this.setBottom(createBottomBar());
         });
 
         // Remove buttons here
