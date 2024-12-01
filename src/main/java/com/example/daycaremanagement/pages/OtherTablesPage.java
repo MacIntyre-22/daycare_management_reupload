@@ -161,11 +161,11 @@ public class OtherTablesPage extends CrudOverlay {
 
                     Button createInput = new Button("Create!");
                     createInput.setOnAction(e1->{
-                        if (isInteger(parentIdInput.getText()) && isInteger(studentIdInput.getText())) {
+                        if (isValidId(parentIdInput.getText(), "guardian") && isValidId(studentIdInput.getText(), "student")) {
                             GuardianStudentRelation createRelation = new GuardianStudentRelation(0, Integer.parseInt(parentIdInput.getText()), Integer.parseInt(studentIdInput.getText()));
                             relationTable.createRelation(createRelation);
                         } else {
-                            System.out.println("One or more IDs were not numeric");
+                            System.out.println("One or more IDs were not valid");
                         }
                         parentIdInput.setText("");
                         studentIdInput.setText("");
@@ -205,13 +205,23 @@ public class OtherTablesPage extends CrudOverlay {
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
                         GuardianStudentRelation updateRelation = relationTable.getRelation(Integer.parseInt(idNumInput.getText()));
-                        if (isInteger(updateNameInput.getText()) && updateRelation != null){
+                        if (updateRelation != null){
                             switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
-                                case "Parent ID" ->
+                                case "Parent ID" -> {
+                                    if (isValidId(updateNameInput.getText(), "guardian")) {
                                         updateRelation.setGuardian_id(Integer.parseInt(updateNameInput.getText()));
-                                case "Student ID" ->
+                                    } else {
+                                        System.out.println("Invalid Guardian ID");
+                                    }
+                                }
+                                case "Student ID" -> {
+                                    if (isValidId(updateNameInput.getText(), "student")) {
                                         updateRelation.setStudent_id(Integer.parseInt(updateNameInput.getText()));
-                                default -> System.out.println("");
+                                    } else {
+                                        System.out.println("Invalid Student ID");
+                                    }
+                                }
+                                default -> System.out.println("Category not selected");
                             }
                             relationTable.updateRelation(updateRelation);
                         } else {

@@ -201,7 +201,7 @@ public class GuardiansPage extends CrudOverlay {
             Button createInput = new Button("Create!");
             // TODO: validate email format
             createInput.setOnAction(e1->{
-                if (isInteger(cityTF.getText()) && isInteger(streetNumTF.getText()) && isValidPhone(phoneTF.getText())) {
+                if (isValidId(cityTF.getText(), "city") && isInteger(streetNumTF.getText()) && isValidPhone(phoneTF.getText())) {
                     Guardian createGuardian = new Guardian(0, fNameInput.getText(), lNameInput.getText(), phoneTF.getText(), emailTF.getText(), Integer.parseInt(cityTF.getText()), Integer.parseInt(streetNumTF.getText()), streetNameTF.getText());
                     guardians.createGuardian(createGuardian);
                     loadTable();
@@ -263,10 +263,10 @@ public class GuardiansPage extends CrudOverlay {
                             }
                             case ("Email") -> updateGuardian.setEmail(updateNameInput.getText());
                             case ("City ID") -> {
-                                if (isInteger(updateNameInput.getText())) {
+                                if (isValidId(updateNameInput.getText(), "city")) {
                                     updateGuardian.setCity_id(Integer.parseInt(updateNameInput.getText()));
                                 } else {
-                                    System.out.println("Input error, enter a number");
+                                    System.out.println("Invalid City ID");
                                 }
                             }
                             case ("Street Number") -> {
