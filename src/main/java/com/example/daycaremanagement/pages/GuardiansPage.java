@@ -199,14 +199,14 @@ public class GuardiansPage extends CrudOverlay {
             VBox streetNameGroup = new VBox(streetName, streetNameTF);
 
             Button createInput = new Button("Create!");
-            // TODO: validate email format
+
             createInput.setOnAction(e1->{
-                if (isValidId(cityTF.getText(), "city") && isInteger(streetNumTF.getText()) && isValidPhone(phoneTF.getText())) {
+                if (isValidId(cityTF.getText(), "city") && isInteger(streetNumTF.getText()) && isValidPhone(phoneTF.getText()) && isValidEmail(emailTF.getText())) {
                     Guardian createGuardian = new Guardian(0, fNameInput.getText(), lNameInput.getText(), phoneTF.getText(), emailTF.getText(), Integer.parseInt(cityTF.getText()), Integer.parseInt(streetNumTF.getText()), streetNameTF.getText());
                     guardians.createGuardian(createGuardian);
                     loadTable();
                 } else {
-                    System.out.println("Input error");
+                    System.out.println("Input error. Potential causes: Invalid City ID, non-numeric street number, invalid phone number, invalid email.");
                 }
                 fNameInput.setText("");
                 lNameInput.setText("");
@@ -261,7 +261,14 @@ public class GuardiansPage extends CrudOverlay {
                                     System.out.println("Please enter a valid 10 digit phone number, with no spaces or hyphens");
                                 }
                             }
-                            case ("Email") -> updateGuardian.setEmail(updateNameInput.getText());
+                            case ("Email") -> {
+                                if (isValidEmail(updateNameInput.getText())){
+                                    updateGuardian.setEmail(updateNameInput.getText());
+                                } else {
+                                    System.out.println("Invalid email");
+                                }
+                            }
+
                             case ("City ID") -> {
                                 if (isValidId(updateNameInput.getText(), "city")) {
                                     updateGuardian.setCity_id(Integer.parseInt(updateNameInput.getText()));

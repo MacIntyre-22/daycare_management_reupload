@@ -15,6 +15,8 @@ import javafx.scene.layout.VBox;
 
 import java.text.SimpleDateFormat;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class CrudOverlay extends BorderPane {
 
@@ -306,5 +308,12 @@ public abstract class CrudOverlay extends BorderPane {
             return false;
         }
     }
+
+    public boolean isValidEmail(String email){
+        Pattern pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
 
 }
