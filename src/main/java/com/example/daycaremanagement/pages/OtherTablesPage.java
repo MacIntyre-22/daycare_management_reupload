@@ -131,14 +131,21 @@ public class OtherTablesPage extends CrudOverlay {
             // Forms for Relation Table
             case 0:
                 create.setOnAction(e-> {
+                    Label parentId = new Label("Parent ID");
+                    TextField parentIdInput = new TextField();
+                    VBox parentIdGroup = new VBox(parentId, parentIdInput);
 
+                    Label studentId = new Label("Student ID");
+                    TextField studentIdInput = new TextField();
+                    VBox studentIdGroup = new VBox(studentId, studentIdInput);
 
                     Button createInput = new Button("Create!");
                     createInput.setOnAction(e1->{
+                        // Create Here
 
                     });
 
-                    HBox createCollection = new HBox();
+                    HBox createCollection = new HBox(parentIdGroup, studentIdGroup);
                     createCollection.setSpacing(10);
 
                     VBox items = new VBox();
@@ -166,6 +173,7 @@ public class OtherTablesPage extends CrudOverlay {
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
+                        // Update Here
 
                     });
 
@@ -181,14 +189,16 @@ public class OtherTablesPage extends CrudOverlay {
             // Forms for Rooms Table
             case 1:
                 create.setOnAction(e-> {
-
+                    Label name = new Label("Name");
+                    TextField nameInput = new TextField();
+                    VBox nameGroup = new VBox(name, nameInput);
 
                     Button createInput = new Button("Create!");
                     createInput.setOnAction(e1->{
 
                     });
 
-                    HBox createCollection = new HBox();
+                    HBox createCollection = new HBox(nameGroup);
                     createCollection.setSpacing(10);
 
                     VBox items = new VBox();
@@ -231,6 +241,9 @@ public class OtherTablesPage extends CrudOverlay {
             // Forms for Position Table
             case 2:
                 create.setOnAction(e-> {
+                    Label name = new Label("Name");
+                    TextField nameInput = new TextField();
+                    VBox nameGroup = new VBox(name, nameInput);
 
 
                     Button createInput = new Button("Create!");
@@ -238,7 +251,7 @@ public class OtherTablesPage extends CrudOverlay {
 
                     });
 
-                    HBox createCollection = new HBox();
+                    HBox createCollection = new HBox(nameGroup);
                     createCollection.setSpacing(10);
 
                     VBox items = new VBox();
