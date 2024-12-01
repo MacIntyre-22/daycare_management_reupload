@@ -237,16 +237,16 @@ public class StudentsPage extends CrudOverlay {
             Label classroom = new Label("Classroom");
             TextField classroomInput = new TextField();
             VBox classroomGroup = new VBox(classroom, classroomInput);
+            // TODO: Validate birthdate format
 
             Button createInput = new Button("Create!");
             createInput.setOnAction(e1->{
-                try{
+                if (isInteger(classroomInput.getText())) {
                     Student createStudent = new Student(0, fNameInput.getText(), lNameInput.getText(), birthdayInput.getText(), Integer.parseInt(classroomInput.getText()));
                     students.createStudent(createStudent);
                     loadTable();
-                } catch (Exception e3){
-                    System.out.println("Input error");
-                    e3.printStackTrace();
+                } else {
+                    System.out.println("Input error, Room ID was not numeric");
                 }
             });
 
@@ -298,8 +298,14 @@ public class StudentsPage extends CrudOverlay {
                             updateStudent.setBirthdate(updateNameInput.getText());
                             break;
                         case ("Classroom ID"):
-                            updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                            if (isInteger(updateNameInput.getText())) {
+                                updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                            } else {
+                                System.out.println("Input error, Room ID was not numeric");
+                            }
                             break;
+                        default:
+                            System.out.println("Category was not selected");
                     }
                     students.updateStudent(updateStudent);
                     loadTable();

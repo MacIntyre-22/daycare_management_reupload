@@ -199,17 +199,14 @@ public class GuardiansPage extends CrudOverlay {
             VBox streetNameGroup = new VBox(streetName, streetNameTF);
 
             Button createInput = new Button("Create!");
-            // TODO: validate email, validate phone number
+            // TODO: validate email & validate phone number formats
             createInput.setOnAction(e1->{
                 if (isInteger(cityTF.getText()) && isInteger(streetNumTF.getText())) {
-                    try {
-                        Guardian createGuardian = new Guardian(0, fNameInput.getText(), lNameInput.getText(), phoneTF.getText(), emailTF.getText(), Integer.parseInt(cityTF.getText()), Integer.parseInt(streetNumTF.getText()), streetNameTF.getText());
-                        guardians.createGuardian(createGuardian);
-                        loadTable();
-                    } catch (Exception e3) {
-                        System.out.println("Input error");
-                        e3.printStackTrace();
-                    }
+                    Guardian createGuardian = new Guardian(0, fNameInput.getText(), lNameInput.getText(), phoneTF.getText(), emailTF.getText(), Integer.parseInt(cityTF.getText()), Integer.parseInt(streetNumTF.getText()), streetNameTF.getText());
+                    guardians.createGuardian(createGuardian);
+                    loadTable();
+                } else {
+                    System.out.println("Input error");
                 }
                 fNameInput.setText("");
                 lNameInput.setText("");
