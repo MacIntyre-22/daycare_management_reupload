@@ -222,6 +222,7 @@ public class StaffPage extends CrudOverlay {
           TextField posTF = new TextField();
           VBox posGroup = new VBox(pos, posTF);
 
+          // TODO: Limit wage to 2 decimal places
           Button createInput = new Button("Create!");
           createInput.setOnAction(e1->{
               if (isDouble(wageTF.getText()) && isInteger(classroomInput.getText()) && isInteger(posTF.getText())) {
@@ -277,7 +278,9 @@ public class StaffPage extends CrudOverlay {
                           updateStaff.setLast_name(updateNameInput.getText());
                           break;
                       case ("Wage"):
-                          updateStaff.setWage(Double.parseDouble(updateNameInput.getText()));
+                          if (isDouble(updateNameInput.getText())) {
+                              updateStaff.setWage(Double.parseDouble(updateNameInput.getText()));
+                          }
                           break;
                       case ("Room ID"):
                           if (isInteger(updateNameInput.getText())) {
@@ -289,6 +292,8 @@ public class StaffPage extends CrudOverlay {
                               updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
                           }
                           break;
+                      default:
+                          System.out.println("Category not selected");
                   }
                   updateNameInput.setText("");
                   staff.updateStaff(updateStaff);
