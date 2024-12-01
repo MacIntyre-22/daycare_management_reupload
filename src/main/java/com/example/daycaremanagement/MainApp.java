@@ -27,7 +27,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // Initalization
+        // Initialization
         primaryStage = stage;
         primaryStage.setTitle("Daycare Management");
         // If we want the window to have rounded corners than we would have to make new buttons to close the thing thing
