@@ -288,4 +288,11 @@ public abstract class CrudOverlay extends BorderPane {
         return false;
     }
 
+    public double roundToTwo(double num){
+        num*=100;
+        num = Math.round(num);
+        num/= 100;
+        return num;
+    }
+
 }
