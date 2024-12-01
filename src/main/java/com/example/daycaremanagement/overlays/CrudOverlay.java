@@ -1,8 +1,5 @@
 package com.example.daycaremanagement.overlays;
 
-import com.example.daycaremanagement.pojo.City;
-import com.example.daycaremanagement.pojo.Position;
-import com.example.daycaremanagement.pojo.Room;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -13,9 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import java.util.ArrayList;
+
 import java.util.Objects;
 
 public abstract class CrudOverlay extends BorderPane {
@@ -200,19 +196,23 @@ public abstract class CrudOverlay extends BorderPane {
     };
 
 
-    // Tests if a string is an integer or a double
-    // TODO: separate int and double into separate functions (for ids)
-    public boolean isNumeric(String i){
+    // Tests if a string is an integer
+    public boolean isInteger(String i){
         try{
             Integer.parseInt(i);
             return true;
         } catch (Exception e){
-            try{
-                Double.parseDouble(i);
-                return true;
-            } catch (Exception e1){
-                return false;
-            }
+            return false;
+        }
+    }
+
+    // Tests if a string is a double
+    public boolean isDouble(String i){
+        try{
+            Double.parseDouble(i);
+            return true;
+        } catch (Exception e1){
+            return false;
         }
     }
 

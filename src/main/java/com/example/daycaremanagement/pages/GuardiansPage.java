@@ -6,14 +6,11 @@ import com.example.daycaremanagement.tables.*;
 import com.example.daycaremanagement.pojo.Guardian;
 import com.example.daycaremanagement.pojo.GuardianStudentRelation;
 import com.example.daycaremanagement.pojo.display.DisplayGuardian;
-import com.example.daycaremanagement.pojo.display.DisplayStaff;
-import com.example.daycaremanagement.pojo.display.DisplayStudent;
 import com.example.daycaremanagement.tables.GuardianStudentRelationTable;
 import com.example.daycaremanagement.tables.GuardianTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -22,7 +19,6 @@ import java.util.ArrayList;
 
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
@@ -205,7 +201,7 @@ public class GuardiansPage extends CrudOverlay {
             Button createInput = new Button("Create!");
             // TODO: validate email, validate phone number
             createInput.setOnAction(e1->{
-                if (isNumeric(cityTF.getText()) && isNumeric(streetNumTF.getText())) {
+                if (isInteger(cityTF.getText()) && isInteger(streetNumTF.getText())) {
                     try {
                         Guardian createGuardian = new Guardian(0, fNameInput.getText(), lNameInput.getText(), phoneTF.getText(), emailTF.getText(), Integer.parseInt(cityTF.getText()), Integer.parseInt(streetNumTF.getText()), streetNameTF.getText());
                         guardians.createGuardian(createGuardian);
@@ -255,7 +251,7 @@ public class GuardiansPage extends CrudOverlay {
 
             Button updateInput = new Button("Update!");
             updateInput.setOnAction(e1->{
-                if (isNumeric(idNumInput.getText())){
+                if (isInteger(idNumInput.getText())){
                     Guardian updateGuardian = guardians.getGuardian(Integer.parseInt(idNumInput.getText()));
                     if (updateGuardian != null) {
                         switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
@@ -266,7 +262,7 @@ public class GuardiansPage extends CrudOverlay {
                                 updateGuardian.setLast_name(updateNameInput.getText());
                                 break;
                             case ("Phone"):
-                                if (isNumeric(updateNameInput.getText())) {
+                                if (isInteger(updateNameInput.getText())) {
                                     updateGuardian.setPhone(updateNameInput.getText());
                                 } else {
                                     System.out.println("Please enter a valid phone number, with no spaces or hyphens");
@@ -276,14 +272,14 @@ public class GuardiansPage extends CrudOverlay {
                                 updateGuardian.setEmail(updateNameInput.getText());
                                 break;
                             case ("City ID"):
-                                if (isNumeric(updateNameInput.getText())) {
+                                if (isInteger(updateNameInput.getText())) {
                                     updateGuardian.setCity_id(Integer.parseInt(updateNameInput.getText()));
                                 } else {
                                     System.out.println("Input error, enter a number");
                                 }
                                 break;
                             case ("Street Number"):
-                                if (isNumeric(updateNameInput.getText())){
+                                if (isInteger(updateNameInput.getText())){
                                     updateGuardian.setStreet_num(Integer.parseInt(updateNameInput.getText()));
                                 } else {
                                     System.out.println("Input error, enter a number");

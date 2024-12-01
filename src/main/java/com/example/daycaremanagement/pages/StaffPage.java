@@ -3,10 +3,8 @@ package com.example.daycaremanagement.pages;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.*;
-import com.example.daycaremanagement.pojo.display.DisplayStudent;
 import com.example.daycaremanagement.tables.*;
 import com.example.daycaremanagement.pojo.Staff;
-import com.example.daycaremanagement.pojo.Student;
 import com.example.daycaremanagement.pojo.display.DisplayStaff;
 import com.example.daycaremanagement.tables.StaffTable;
 import javafx.beans.property.SimpleStringProperty;
@@ -226,7 +224,7 @@ public class StaffPage extends CrudOverlay {
 
           Button createInput = new Button("Create!");
           createInput.setOnAction(e1->{
-              if (isNumeric(wageTF.getText()) && isNumeric(classroomInput.getText()) && isNumeric(posTF.getText())) {
+              if (isDouble(wageTF.getText()) && isInteger(classroomInput.getText()) && isInteger(posTF.getText())) {
                   Staff createStaff = new Staff(0, fNameInput.getText(), lNameInput.getText(), Double.parseDouble(wageTF.getText()), Integer.parseInt(classroomInput.getText()), Integer.parseInt(posTF.getText()));
                   staff.createStaff(createStaff);
                   loadTable();
@@ -282,12 +280,12 @@ public class StaffPage extends CrudOverlay {
                           updateStaff.setWage(Double.parseDouble(updateNameInput.getText()));
                           break;
                       case ("Room ID"):
-                          if (isNumeric(updateNameInput.getText())) {
+                          if (isInteger(updateNameInput.getText())) {
                               updateStaff.setRoom_id(Integer.parseInt(updateNameInput.getText()));
                           }
                           break;
                       case ("Position ID"):
-                          if (isNumeric(updateNameInput.getText())){
+                          if (isInteger(updateNameInput.getText())){
                               updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
                           }
                           break;
