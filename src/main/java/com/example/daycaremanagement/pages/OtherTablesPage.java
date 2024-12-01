@@ -131,7 +131,28 @@ public class OtherTablesPage extends CrudOverlay {
         });
 
         // Remove buttons here
-        NavButtons.getChildren().remove(graph4);
+        graph4.setOnAction(e-> {
+            active = 3;
+            title.setText("Cities Table");
+            TableView tableView = new TableView();
+
+            // Create Columns
+            TableColumn<City, String> column1 = new TableColumn<>("City Id");
+            column1.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getId())));
+
+            TableColumn<City, String> column2 = new TableColumn<>("City Name");
+            column2.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getName())));
+
+
+            tableView.getColumns().addAll(column1, column2);
+            tableView.getItems().addAll(cityTable.getAllCities());
+            tableView.setStyle("");
+
+            this.content.setCenter(tableView);
+
+            // Reset Form
+            this.setBottom(createBottomBar());
+        });
     }
 
     @Override
