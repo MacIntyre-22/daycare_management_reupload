@@ -241,12 +241,12 @@ public class StudentsPage extends CrudOverlay {
 
             Button createInput = new Button("Create!");
             createInput.setOnAction(e1->{
-                if (isInteger(classroomInput.getText())) {
+                if (isValidId(classroomInput.getText(), "room")) {
                     Student createStudent = new Student(0, fNameInput.getText(), lNameInput.getText(), birthdayInput.getText(), Integer.parseInt(classroomInput.getText()));
                     students.createStudent(createStudent);
                     loadTable();
                 } else {
-                    System.out.println("Input error, Room ID was not numeric");
+                    System.out.println("Invalid Room ID");
                 }
             });
 
@@ -292,10 +292,10 @@ public class StudentsPage extends CrudOverlay {
                         case ("Last Name") -> updateStudent.setLast_name(updateNameInput.getText());
                         case ("Birthday") -> updateStudent.setBirthdate(updateNameInput.getText());
                         case ("Classroom ID") -> {
-                            if (isInteger(updateNameInput.getText())) {
+                            if (isValidId(updateNameInput.getText(), "room")) {
                                 updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
                             } else {
-                                System.out.println("Input error, Room ID was not numeric");
+                                System.out.println("Invalid Room ID");
                             }
                         }
                         default -> System.out.println("Category was not selected");
