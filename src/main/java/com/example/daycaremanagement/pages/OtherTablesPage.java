@@ -229,6 +229,13 @@ public class OtherTablesPage extends CrudOverlay {
 
             // Forms for Rooms Table
             case 1:
+                delete.setOnAction(e->{
+                    if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                        Room deleteRoom = (Room) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                        roomTable.deleteRoom(deleteRoom);
+                        loadTable();
+                    }
+                });
                 create.setOnAction(e-> {
                     Label name = new Label("Name");
                     TextField nameInput = new TextField();
@@ -258,23 +265,19 @@ public class OtherTablesPage extends CrudOverlay {
                     VBox idNumGroup = new VBox(idNum, idNumInput);
                     // Get col here
 
-                    Label columnName = new Label("Column");
-                    ComboBox<String> columnNameChoice = new ComboBox<>();
-                    // Temporary Options
-                    // Grab Columns
-                    columnNameChoice.getItems().addAll();
-                    VBox columnNameGroup = new VBox(columnName, columnNameChoice);
-
-                    Label updateName = new Label("New");
+                    Label updateName = new Label("New Room name");
                     TextField updateNameInput = new TextField();
                     VBox updateNameGroup = new VBox(updateName, updateNameInput);
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
-
+                        Room updateRoom = roomTable.getRoom(Integer.parseInt(idNumInput.getText()));
+                        updateRoom.setName(updateNameInput.getText());
+                        roomTable.updateRoom(updateRoom);
+                        updateNameInput.setText("");
                     });
 
-                    HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
+                    HBox updateCollection = new HBox(idNumGroup, updateNameGroup);
                     updateCollection.setSpacing(10);
 
                     VBox items = new VBox();
