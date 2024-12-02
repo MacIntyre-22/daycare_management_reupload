@@ -284,28 +284,35 @@ public class StudentsPage extends CrudOverlay {
 
 
             updateInput.setOnAction(e1->{
-                Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
-                if (updateStudent != null) {
-                    switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
-                        case ("First Name") -> updateStudent.setFirst_name(updateNameInput.getText());
-                        case ("Last Name") -> updateStudent.setLast_name(updateNameInput.getText());
-                        case ("Birthday") -> { if (isValidDateFormat(updateNameInput.getText())) {
-                                updateStudent.setBirthdate(updateNameInput.getText());
-                            } else {
-                                System.out.println("Invalid date format. Please use YYYY-MM-DD");
+                if (isInteger(idNumInput.getText())) {
+                    Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
+                    if (updateStudent != null) {
+                        switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                            case ("First Name") -> updateStudent.setFirst_name(updateNameInput.getText());
+                            case ("Last Name") -> updateStudent.setLast_name(updateNameInput.getText());
+                            case ("Birthday") -> {
+                                if (isValidDateFormat(updateNameInput.getText())) {
+                                    updateStudent.setBirthdate(updateNameInput.getText());
+                                } else {
+                                    System.out.println("Invalid date format. Please use YYYY-MM-DD");
+                                }
                             }
-                        }
-                        case ("Classroom ID") -> {
-                            if (isValidId(updateNameInput.getText(), "room")) {
-                                updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
-                            } else {
-                                System.out.println("Invalid Room ID");
+                            case ("Classroom ID") -> {
+                                if (isValidId(updateNameInput.getText(), "room")) {
+                                    updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                                } else {
+                                    System.out.println("Invalid Room ID");
+                                }
                             }
+                            default -> System.out.println("Category was not selected");
                         }
-                        default -> System.out.println("Category was not selected");
+                        students.updateStudent(updateStudent);
+                        loadTable();
+                    } else {
+                        System.out.println("Specified ID does not exist");
                     }
-                    students.updateStudent(updateStudent);
-                    loadTable();
+                } else {
+                    System.out.println("Invalid ID");
                 }
             });
 

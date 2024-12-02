@@ -289,7 +289,11 @@ public class GuardiansPage extends CrudOverlay {
                         updateNameInput.setText("");
                         guardians.updateGuardian(updateGuardian);
                         loadTable();
+                    } else {
+                        System.out.println("Specified ID does not exist");
                     }
+                } else {
+                    System.out.println("Invalid ID");
                 }
             });
 

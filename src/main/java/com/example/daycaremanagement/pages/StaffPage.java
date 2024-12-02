@@ -269,37 +269,43 @@ public class StaffPage extends CrudOverlay {
 
           Button updateInput = new Button("Update!");
           updateInput.setOnAction(e1->{
-              Staff updateStaff = staff.getStaff(Integer.parseInt(idNumInput.getText()));
-              if (updateStaff != null) {
-                  switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
-                      case ("First Name") -> updateStaff.setFirst_name(updateNameInput.getText());
-                      case ("Last Name") -> updateStaff.setLast_name(updateNameInput.getText());
-                      case ("Wage") -> {
-                          if (isDouble(updateNameInput.getText())) {
-                              updateStaff.setWage(roundToTwo(Double.parseDouble(updateNameInput.getText())));
-                          } else {
-                              System.out.println("Wage input was not numeric");
+              if (isInteger(idNumInput.getText())) {
+                  Staff updateStaff = staff.getStaff(Integer.parseInt(idNumInput.getText()));
+                  if (updateStaff != null) {
+                      switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                          case ("First Name") -> updateStaff.setFirst_name(updateNameInput.getText());
+                          case ("Last Name") -> updateStaff.setLast_name(updateNameInput.getText());
+                          case ("Wage") -> {
+                              if (isDouble(updateNameInput.getText())) {
+                                  updateStaff.setWage(roundToTwo(Double.parseDouble(updateNameInput.getText())));
+                              } else {
+                                  System.out.println("Wage input was not numeric");
+                              }
                           }
-                      }
-                      case ("Room ID") -> {
-                          if (isValidId(updateNameInput.getText(), "room")) {
-                              updateStaff.setRoom_id(Integer.parseInt(updateNameInput.getText()));
-                          } else {
-                              System.out.println("Invalid Room ID");
+                          case ("Room ID") -> {
+                              if (isValidId(updateNameInput.getText(), "room")) {
+                                  updateStaff.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                              } else {
+                                  System.out.println("Invalid Room ID");
+                              }
                           }
-                      }
-                      case ("Position ID") -> {
-                          if (isValidId(updateNameInput.getText(), "position")) {
-                              updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
-                          } else {
-                              System.out.println("Invalid Position ID");
+                          case ("Position ID") -> {
+                              if (isValidId(updateNameInput.getText(), "position")) {
+                                  updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
+                              } else {
+                                  System.out.println("Invalid Position ID");
+                              }
                           }
+                          default -> System.out.println("Category not selected");
                       }
-                      default -> System.out.println("Category not selected");
+                      updateNameInput.setText("");
+                      staff.updateStaff(updateStaff);
+                      loadTable();
+                  } else {
+                      System.out.println("Specified ID does not exist");
                   }
-                  updateNameInput.setText("");
-                  staff.updateStaff(updateStaff);
-                  loadTable();
+              } else {
+                  System.out.println("Invalid ID");
               }
           });
 
