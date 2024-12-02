@@ -346,7 +346,11 @@ public class OtherTablesPage extends CrudOverlay {
                 loadCityTable();
 
                 delete.setOnAction(e->{
-
+                    if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                        City deleteCity = (City) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                        cityTable.deleteCity(deleteCity);
+                        loadPosTable();
+                    }
                 });
 
                 create.setOnAction(e-> {
@@ -383,7 +387,13 @@ public class OtherTablesPage extends CrudOverlay {
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
-
+                        City updateCity = cityTable.getCity(Integer.parseInt(idNumInput.getText()));
+                        if (updateCity != null) {
+                            updateCity.setName(updateNameInput.getText());
+                            cityTable.updateCity(updateCity);
+                        }
+                        updateNameInput.setText("");
+                        loadRoomTable();
                     });
 
                     HBox updateCollection = new HBox(idNumGroup, updateNameGroup);
