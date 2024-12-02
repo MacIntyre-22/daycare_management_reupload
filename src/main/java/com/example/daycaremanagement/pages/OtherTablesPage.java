@@ -411,7 +411,7 @@ public class OtherTablesPage extends CrudOverlay {
 
         // Create Columns
         TableColumn<GuardianStudentRelation, String> columnId = new TableColumn<>("Rel. Id");
-        columnId.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getGuardian_id())));
+        columnId.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getId())));
 
         TableColumn<GuardianStudentRelation, String> column1 = new TableColumn<>("Parent Id");
         column1.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getGuardian_id())));
