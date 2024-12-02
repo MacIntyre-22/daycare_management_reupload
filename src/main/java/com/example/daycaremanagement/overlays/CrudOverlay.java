@@ -287,7 +287,6 @@ public abstract class CrudOverlay extends BorderPane {
                 }
             }
         }
-        System.out.println("Input ID was not an integer");
         return false;
     }
 
