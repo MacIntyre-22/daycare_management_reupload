@@ -72,7 +72,7 @@ public class StaffPage extends CrudOverlay {
       graph3.setGraphic(createBtn(setIcon(ICONS[2], 30), "Wage"));
 
       loadTable();
-      loadInfo();
+      loadInfo("staff");
   }
 
   @Override
@@ -241,7 +241,7 @@ public class StaffPage extends CrudOverlay {
           createCollection.setSpacing(10);
 
           VBox items = new VBox();
-          items.getChildren().addAll(setEscape(), createCollection, createInput);
+          items.getChildren().addAll(setEscape("staff"), createCollection, createInput);
           items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
           this.content.setBottom(items);
       });
@@ -306,7 +306,7 @@ public class StaffPage extends CrudOverlay {
           updateCollection.setSpacing(10);
 
           VBox items = new VBox();
-          items.getChildren().addAll(setEscape(), updateCollection, updateInput);
+          items.getChildren().addAll(setEscape("staff"), updateCollection, updateInput);
           items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
           this.content.setBottom(items);
       });
