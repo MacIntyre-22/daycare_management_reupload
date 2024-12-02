@@ -9,7 +9,7 @@
 .Box {
     -fx-background-color: #0E6BA8;
     -fx-padding: 10;
-    -fx-spacing: 436;
+    -fx-spacing: 390;
     -fx-effect: dropshadow(three-pass-box, black, 15, 0, 0, 0);
     -fx-background-radius: 0 0 10 10;
     /*-fx-max-width: 1018;
