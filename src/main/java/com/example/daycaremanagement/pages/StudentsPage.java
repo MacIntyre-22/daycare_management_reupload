@@ -256,7 +256,7 @@ public class StudentsPage extends CrudOverlay {
             VBox items = new VBox();
             items.getChildren().addAll(setEscape(), createCollection, createInput);
             items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
-            this.content.setBottom(items);
+            content.setBottom(items);
         });
 
         update.setOnAction(e-> {
