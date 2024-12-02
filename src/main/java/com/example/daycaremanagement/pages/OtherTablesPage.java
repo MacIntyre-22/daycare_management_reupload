@@ -258,6 +258,11 @@ public class OtherTablesPage extends CrudOverlay {
                     TextField idNumInput = new TextField();
                     VBox idNumGroup = new VBox(idNum, idNumInput);
 
+                    if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                        Room getIdRoom = (Room) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                        idNumInput.setText(""+getIdRoom.getId());
+                    }
+
                     Label updateName = new Label("New Room name");
                     TextField updateNameInput = new TextField();
                     VBox updateNameGroup = new VBox(updateName, updateNameInput);
@@ -331,6 +336,10 @@ public class OtherTablesPage extends CrudOverlay {
                     TextField idNumInput = new TextField();
                     VBox idNumGroup = new VBox(idNum, idNumInput);
 
+                    if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                        Position getIdPos = (Position) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                        idNumInput.setText(""+getIdPos.getId());
+                    }
 
                     Label updateName = new Label("New Position name");
                     TextField updateNameInput = new TextField();
@@ -404,6 +413,11 @@ public class OtherTablesPage extends CrudOverlay {
                     Label idNum = new Label("ID");
                     TextField idNumInput = new TextField();
                     VBox idNumGroup = new VBox(idNum, idNumInput);
+
+                    if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
+                        City getIdCity = (City) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                        idNumInput.setText(""+getIdCity.getId());
+                    }
 
                     Label updateName = new Label("New City Name");
                     TextField updateNameInput = new TextField();
