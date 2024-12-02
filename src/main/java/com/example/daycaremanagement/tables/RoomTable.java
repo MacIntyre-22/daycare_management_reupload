@@ -76,7 +76,7 @@ public class RoomTable implements RoomDAO {
             Statement statement = db.getConnection().createStatement();
             statement.executeUpdate(query);
         } catch (Exception e){
-            e.printStackTrace();
+            System.out.println("Invalid Room ID or the ID is in use in another table");
         }
     }
 
