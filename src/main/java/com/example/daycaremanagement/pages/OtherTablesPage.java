@@ -221,9 +221,13 @@ public class OtherTablesPage extends CrudOverlay {
 
                 delete.setOnAction(e->{
                     if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
-                        Room deleteRoom = (Room) this.tableView.getSelectionModel().getSelectedItems().get(0);
-                        roomTable.deleteRoom(deleteRoom);
-                        loadRoomTable();
+                        try {
+                            Room deleteRoom = (Room) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                            roomTable.deleteRoom(deleteRoom);
+                            loadRoomTable();
+                        } catch (Exception e1){
+                            System.out.println("The selected ID is being used in another table. Delete or update all records using the specified ID to continue with deletion");
+                        }
                     }
                 });
                 create.setOnAction(e-> {
@@ -289,9 +293,13 @@ public class OtherTablesPage extends CrudOverlay {
 
                 delete.setOnAction(e->{
                     if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
-                        Position deletePosition = (Position) this.tableView.getSelectionModel().getSelectedItems().get(0);
-                        posTable.deletePosition(deletePosition);
-                        loadPosTable();
+                        try {
+                            Position deletePosition = (Position) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                            posTable.deletePosition(deletePosition);
+                            loadPosTable();
+                        } catch (Exception e1){
+                            System.out.println("The selected ID is being used in another table. Delete or update all records using the specified ID to continue with deletion");
+                        }
                     }
                 });
 
@@ -359,9 +367,13 @@ public class OtherTablesPage extends CrudOverlay {
 
                 delete.setOnAction(e->{
                     if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
-                        City deleteCity = (City) this.tableView.getSelectionModel().getSelectedItems().get(0);
-                        cityTable.deleteCity(deleteCity);
-                        loadPosTable();
+                        try {
+                            City deleteCity = (City) this.tableView.getSelectionModel().getSelectedItems().get(0);
+                            cityTable.deleteCity(deleteCity);
+                            loadPosTable();
+                        } catch (Exception e1){
+                            System.out.println("The selected ID is being used in another table. Delete or update all records using the specified ID to continue with deletion");
+                        }
                     }
                 });
 
