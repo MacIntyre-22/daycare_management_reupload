@@ -445,7 +445,10 @@ public class OtherTablesPage extends CrudOverlay {
         this.tableView = new TableView();
         // Grab table data
         GuardianTable guardians;
+        ArrayList<Guardian> guardianList = new ArrayList<>();
         StudentTable students;
+        ArrayList<Student> studentList = new ArrayList<>();
+
         try {
             relationTable = GuardianStudentRelationTable.getInstance();
             students = StudentTable.getInstance();
@@ -454,15 +457,18 @@ public class OtherTablesPage extends CrudOverlay {
             throw new RuntimeException(e);
         }
 
+        guardianList.addAll(guardians.getAllGuardians());
+        studentList.addAll(students.getAllStudents());
+
         // Create Columns
         TableColumn<GuardianStudentRelation, String> columnId = new TableColumn<>("Rel. Id");
         columnId.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getId())));
 
         TableColumn<GuardianStudentRelation, String> column1 = new TableColumn<>("Guardian");
-        column1.setCellValueFactory(e -> new SimpleStringProperty(guardians.getGuardian(e.getValue().getGuardian_id()).toString()));
+        column1.setCellValueFactory(e -> new SimpleStringProperty(findGuardian(guardianList, e.getValue().getGuardian_id())));
 
         TableColumn<GuardianStudentRelation, String> column2 = new TableColumn<>("Student");
-        column2.setCellValueFactory(e -> new SimpleStringProperty(students.getStudent(e.getValue().getStudent_id()).toString()));
+        column2.setCellValueFactory(e -> new SimpleStringProperty(findStudent(studentList, e.getValue().getStudent_id())));
 
 
         this.tableView.getColumns().addAll(columnId, column1, column2);
@@ -555,5 +561,38 @@ public class OtherTablesPage extends CrudOverlay {
         this.tableView.setStyle("");
 
         this.content.setCenter(this.tableView);
+    }
+
+
+    /**
+     * Finds Guardian in array
+     * @param list
+     * @param id
+     * @return student name
+     */
+    private String findStudent(ArrayList<Student> list, int id) {
+        Student student = null;
+        for (Student s: list) {
+            if (s.getId() == id) {
+                student = s;
+            }
+        }
+        return student.toString();
+    }
+
+    /**
+     * Finds Student in array
+     * @param list
+     * @param id
+     * @return guardian name
+     */
+    private String findGuardian(ArrayList<Guardian> list, int id) {
+        Guardian guardian = null;
+        for (Guardian g: list) {
+            if (g.getId() == id) {
+                guardian = g;
+            }
+        }
+        return guardian.toString();
     }
 }
