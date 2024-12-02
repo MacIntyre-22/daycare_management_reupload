@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class OtherTablesPage extends CrudOverlay {
     // DF
     private static OtherTablesPage instance;
-    private Label title = new Label("Other Tables");
+    private Label title;
 
     // Active table
     int active = 0;
@@ -43,15 +44,24 @@ public class OtherTablesPage extends CrudOverlay {
 
     private OtherTablesPage() {
         super();
+        title = new Label("Other Tables");
         content.setTop(title);
+        title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
 
         // Set Icons for buttons we use
-        graph1.setGraphic(createBtn(setIcon(ICONS[0], 30), "Rel."));
-        graph2.setGraphic(createBtn(setIcon(ICONS[0], 30), "Room"));
-        graph3.setGraphic(createBtn(setIcon(ICONS[0], 30), "Pos."));
+        graph1.setText("Rel.");
+        graph1.setMinWidth(50);
+        graph2.setText("Room");
+        graph2.setMinWidth(50);
+        graph3.setText("Pos.");
+        graph3.setMinWidth(50);
+        graph4.setText("City");
+        graph4.setMinWidth(50);
+
+        tableView = new TableView();
 
         loadTable();
-        loadInfo();
+        loadInfo(null);
     }
 
     @Override
@@ -66,32 +76,7 @@ public class OtherTablesPage extends CrudOverlay {
 
         // load Room Table
         graph2.setOnAction(e->{
-            // Set active table to 1
-            active = 1;
-            title.setText("Room Table");
-
-            TableView tableView = new TableView();
-            // Grab table data
-            try {
-                roomTable = RoomTable.getInstance();
-            } catch (SQLException e1) {
-                throw new RuntimeException(e1);
-            }
-
-
-            // Create Columns
-            TableColumn<Room, String> column1 = new TableColumn<>("Room ID");
-            column1.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getId())));
-
-            TableColumn<Room, String> column2 = new TableColumn<>("Room Name");
-            column2.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getName())));
-
-
-            tableView.getColumns().addAll(column1, column2);
-            tableView.getItems().addAll(roomTable.getAllRooms());
-            tableView.setStyle("");
-
-            this.content.setCenter(tableView);
+            loadRoomTable();
 
             // Reset Form
             this.setBottom(createBottomBar());
@@ -99,39 +84,19 @@ public class OtherTablesPage extends CrudOverlay {
 
         // Position Table
         graph3.setOnAction(ex -> {
-            // Set active table to 2
-            active = 2;
-            title.setText("Positions Table");
-
-            TableView tableView = new TableView();
-            // Grab table data
-            try {
-                posTable = PositionTable.getInstance();
-            } catch (SQLException e1) {
-                throw new RuntimeException(e1);
-            }
-
-
-            // Create Columns
-            TableColumn<Position, String> column1 = new TableColumn<>("Position ID");
-            column1.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getId())));
-
-            TableColumn<Position, String> column2 = new TableColumn<>("Position Name");
-            column2.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getName())));
-
-
-            tableView.getColumns().addAll(column1, column2);
-            tableView.getItems().addAll(posTable.getAllPositions());
-            tableView.setStyle("");
-
-            this.content.setCenter(tableView);
+            loadPosTable();
 
             // Reset Form
             this.setBottom(createBottomBar());
         });
 
         // Remove buttons here
-        NavButtons.getChildren().remove(graph4);
+        graph4.setOnAction(e-> {
+            loadCityTable();
+
+            // Reset Form
+            this.setBottom(createBottomBar());
+        });
     }
 
     @Override
@@ -140,6 +105,7 @@ public class OtherTablesPage extends CrudOverlay {
         switch (active) {
             // Forms for Relation Table
             case 0:
+                loadTable();
 
                 delete.setOnAction(e->{
                     if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
@@ -176,7 +142,7 @@ public class OtherTablesPage extends CrudOverlay {
                     createCollection.setSpacing(10);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(), createCollection, createInput);
+                    items.getChildren().addAll(setEscape(null), createCollection, createInput);
                     items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
                     this.content.setBottom(items);
                 });
@@ -235,13 +201,16 @@ public class OtherTablesPage extends CrudOverlay {
                     updateCollection.setSpacing(10);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(), updateCollection, updateInput);
+                    items.getChildren().addAll(setEscape(null), updateCollection, updateInput);
                     items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
                     this.content.setBottom(items);
                 });
+                break;
 
             // Forms for Rooms Table
             case 1:
+                loadRoomTable();
+
                 delete.setOnAction(e->{
                     if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
                         Room deleteRoom = (Room) this.tableView.getSelectionModel().getSelectedItems().get(0);
@@ -267,7 +236,7 @@ public class OtherTablesPage extends CrudOverlay {
                     createCollection.setSpacing(10);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(), createCollection, createInput);
+                    items.getChildren().addAll(setEscape(null), createCollection, createInput);
                     items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
                     this.content.setBottom(items);
                 });
@@ -296,13 +265,16 @@ public class OtherTablesPage extends CrudOverlay {
                     updateCollection.setSpacing(10);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(), updateCollection, updateInput);
+                    items.getChildren().addAll(setEscape(null), updateCollection, updateInput);
                     items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
                     this.content.setBottom(items);
                 });
+                break;
 
             // Forms for Position Table
             case 2:
+                loadPosTable();
+
                 delete.setOnAction(e->{
                     if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
                         Position deletePosition = (Position) this.tableView.getSelectionModel().getSelectedItems().get(0);
@@ -329,7 +301,7 @@ public class OtherTablesPage extends CrudOverlay {
                     createCollection.setSpacing(10);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(), createCollection, createInput);
+                    items.getChildren().addAll(setEscape(null), createCollection, createInput);
                     items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
                     this.content.setBottom(items);
                 });
@@ -359,12 +331,66 @@ public class OtherTablesPage extends CrudOverlay {
                     updateCollection.setSpacing(10);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(), updateCollection, updateInput);
+                    items.getChildren().addAll(setEscape(null), updateCollection, updateInput);
+                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    this.content.setBottom(items);
+                });
+                break;
+
+            // Cities table
+            case 3:
+                loadCityTable();
+
+                delete.setOnAction(e->{
+
+                });
+
+                create.setOnAction(e-> {
+                    Label name = new Label("Name");
+                    TextField nameInput = new TextField();
+                    VBox nameGroup = new VBox(name, nameInput);
+
+                    Button createInput = new Button("Create!");
+                    createInput.setOnAction(e1->{
+                        Room createRoom = new Room(0, nameInput.getText());
+                        roomTable.createRoom(createRoom);
+
+                        nameInput.setText("");
+                        loadTable();
+                    });
+
+                    HBox createCollection = new HBox(nameGroup);
+                    createCollection.setSpacing(10);
+
+                    VBox items = new VBox();
+                    items.getChildren().addAll(setEscape(null), createCollection, createInput);
                     items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
                     this.content.setBottom(items);
                 });
 
+                update.setOnAction(e-> {
+                    Label idNum = new Label("ID");
+                    TextField idNumInput = new TextField();
+                    VBox idNumGroup = new VBox(idNum, idNumInput);
 
+                    Label updateName = new Label("New City Name");
+                    TextField updateNameInput = new TextField();
+                    VBox updateNameGroup = new VBox(updateName, updateNameInput);
+
+                    Button updateInput = new Button("Update!");
+                    updateInput.setOnAction(e1-> {
+
+                    });
+
+                    HBox updateCollection = new HBox(idNumGroup, updateNameGroup);
+                    updateCollection.setSpacing(10);
+
+                    VBox items = new VBox();
+                    items.getChildren().addAll(setEscape(null), updateCollection, updateInput);
+                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    this.content.setBottom(items);
+                });
+                break;
         }
     }
 
@@ -372,7 +398,7 @@ public class OtherTablesPage extends CrudOverlay {
     protected void loadTable() {
         // Set active table to 0
         active = 0;
-        title.setText("Guardian - Student Relations");
+        title = new Label("Guardian - Student Relations");
 
         TableView tableView = new TableView();
         // Grab table data
@@ -384,8 +410,9 @@ public class OtherTablesPage extends CrudOverlay {
 
 
         // Create Columns
+        TableColumn<GuardianStudentRelation, String> columnId = new TableColumn<>("Rel. Id");
+        columnId.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getGuardian_id())));
 
-        // TODO: update to showing them by name
         TableColumn<GuardianStudentRelation, String> column1 = new TableColumn<>("Parent Id");
         column1.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getGuardian_id())));
 
@@ -393,8 +420,93 @@ public class OtherTablesPage extends CrudOverlay {
         column2.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getStudent_id())));
 
 
-        tableView.getColumns().addAll(column1, column2);
+        tableView.getColumns().addAll(columnId, column1, column2);
         tableView.getItems().addAll(relationTable.getAllRelations());
+        tableView.setStyle("");
+
+        this.content.setCenter(tableView);
+    }
+
+    private void loadRoomTable() {
+        // Set active table to 1
+        active = 1;
+        title = new Label("Room Table");
+
+        TableView tableView = new TableView();
+        // Grab table data
+        try {
+            roomTable = RoomTable.getInstance();
+        } catch (SQLException e1) {
+            throw new RuntimeException(e1);
+        }
+
+
+        // Create Columns
+        TableColumn<Room, String> column1 = new TableColumn<>("Room ID");
+        column1.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getId())));
+
+        TableColumn<Room, String> column2 = new TableColumn<>("Room Name");
+        column2.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getName())));
+
+
+        tableView.getColumns().addAll(column1, column2);
+        tableView.getItems().addAll(roomTable.getAllRooms());
+        tableView.setStyle("");
+
+        this.content.setCenter(tableView);
+    }
+
+    private void loadPosTable() {
+        // Set active table to 2
+        active = 2;
+        title = new Label("Positions Table");
+
+        TableView tableView = new TableView();
+        // Grab table data
+        try {
+            posTable = PositionTable.getInstance();
+        } catch (SQLException e1) {
+            throw new RuntimeException(e1);
+        }
+
+
+        // Create Columns
+        TableColumn<Position, String> column1 = new TableColumn<>("Position ID");
+        column1.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getId())));
+
+        TableColumn<Position, String> column2 = new TableColumn<>("Position Name");
+        column2.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getName())));
+
+
+        tableView.getColumns().addAll(column1, column2);
+        tableView.getItems().addAll(posTable.getAllPositions());
+        tableView.setStyle("");
+
+        this.content.setCenter(tableView);
+    }
+
+    private void loadCityTable() {
+        active = 3;
+        title = new Label("Cities Table");
+        TableView tableView = new TableView();
+
+        try {
+            cityTable = CityTable.getInstance();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+
+        // Create Columns
+        TableColumn<City, String> column1 = new TableColumn<>("City Id");
+        column1.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getId())));
+
+        TableColumn<City, String> column2 = new TableColumn<>("City Name");
+        column2.setCellValueFactory(e1 -> new SimpleStringProperty(String.valueOf(e1.getValue().getName())));
+
+
+        tableView.getColumns().addAll(column1, column2);
+        tableView.getItems().addAll(cityTable.getAllCities());
         tableView.setStyle("");
 
         this.content.setCenter(tableView);

@@ -68,7 +68,7 @@ public class StudentsPage extends CrudOverlay {
         graph3.setGraphic(createBtn(setIcon(ICONS[2], 30), "Ages"));
 
         loadTable();
-        loadInfo();
+        loadInfo("students");
     }
 
     @Override
@@ -253,7 +253,7 @@ public class StudentsPage extends CrudOverlay {
             createCollection.setSpacing(10);
 
             VBox items = new VBox();
-            items.getChildren().addAll(setEscape(), createCollection, createInput);
+            items.getChildren().addAll(setEscape("students"), createCollection, createInput);
             items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
             this.content.setBottom(items);
         });
@@ -313,7 +313,7 @@ public class StudentsPage extends CrudOverlay {
             updateCollection.setSpacing(10);
 
             VBox items = new VBox();
-            items.getChildren().addAll(setEscape(), updateCollection, updateInput);
+            items.getChildren().addAll(setEscape("students"), updateCollection, updateInput);
             items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
             this.content.setBottom(items);
         });
@@ -350,6 +350,9 @@ public class StudentsPage extends CrudOverlay {
         }
 
         // Create Columns
+        TableColumn<DisplayStudent, String> columnId = new TableColumn<>("ID");
+        columnId.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getId())));
+
         TableColumn<DisplayStudent, String> column1 = new TableColumn<>("First Name");
         column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
@@ -365,7 +368,7 @@ public class StudentsPage extends CrudOverlay {
         TableColumn<DisplayStudent, String> column5 = new TableColumn<>("Room");
         column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom())));
 
-        tableView.getColumns().addAll(column1, column2, column3, column4, column5);
+        tableView.getColumns().addAll(columnId, column1, column2, column3, column4, column5);
         tableView.getItems().addAll(students.getAllDisplayStudents());
 
         this.content.setCenter(tableView);
@@ -413,23 +416,5 @@ public class StudentsPage extends CrudOverlay {
         seriesArray.get(2).getData().add(new XYChart.Data(roomTable.getRoom(roomId).getName(), count2));
         seriesArray.get(3).getData().add(new XYChart.Data(roomTable.getRoom(roomId).getName(), count3));
         seriesArray.get(4).getData().add(new XYChart.Data(roomTable.getRoom(roomId).getName(), count4));
-    }
-
-    /**
-     * Gets the students age by getting the difference between their birthdate and today.
-     * @return age as double
-     */
-    public double getAge(String dob) {
-        // Get student birthday
-        // YYYY-MM-DD
-        String[] birthdaySplit = dob.split("-");
-        LocalDate birthdayDate = LocalDate.of(Integer.parseInt(birthdaySplit[0]), Integer.parseInt(birthdaySplit[1]), Integer.parseInt(birthdaySplit[2]));
-        LocalDate now = LocalDate.now();
-        double age;
-
-        // Get the difference to find age
-        age = (double) ChronoUnit.YEARS.between(birthdayDate, now);
-        // Return age
-        return age;
     }
 }

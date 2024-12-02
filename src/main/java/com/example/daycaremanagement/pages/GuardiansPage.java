@@ -74,7 +74,7 @@ public class GuardiansPage extends CrudOverlay {
         graph3.setGraphic(createBtn(setIcon(ICONS[6], 30), "Rel."));
 
         loadTable();
-        loadInfo();
+        loadInfo("guardians");
     }
 
 
@@ -221,7 +221,7 @@ public class GuardiansPage extends CrudOverlay {
             createCollection.setSpacing(10);
 
             VBox items = new VBox();
-            items.getChildren().addAll(setEscape(), createCollection, createInput);
+            items.getChildren().addAll(setEscape("staff"), createCollection, createInput);
             items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
             this.content.setBottom(items);
         });
@@ -297,7 +297,7 @@ public class GuardiansPage extends CrudOverlay {
             updateCollection.setSpacing(10);
 
             VBox items = new VBox();
-            items.getChildren().addAll(setEscape(), updateCollection, updateInput);
+            items.getChildren().addAll(setEscape("staff"), updateCollection, updateInput);
             items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
             this.content.setBottom(items);
         });
@@ -333,6 +333,9 @@ public class GuardiansPage extends CrudOverlay {
         }
 
         // Create Columns
+        TableColumn<DisplayGuardian, String> columnId = new TableColumn<>("ID");
+        columnId.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getId())));
+
         TableColumn<DisplayGuardian, String> column1 = new TableColumn<>("First Name");
         column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
@@ -356,7 +359,7 @@ public class GuardiansPage extends CrudOverlay {
         column7.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getStreet_name()));
 
 
-        tableView.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7);
+        tableView.getColumns().addAll(columnId, column1, column2, column3, column4, column5, column6, column7);
         tableView.getItems().addAll(guardians.getAllDisplayGuardians());
         tableView.setStyle("");
 

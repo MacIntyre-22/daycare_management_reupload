@@ -72,7 +72,7 @@ public class StaffPage extends CrudOverlay {
       graph3.setGraphic(createBtn(setIcon(ICONS[2], 30), "Wage"));
 
       loadTable();
-      loadInfo();
+      loadInfo("staff");
   }
 
   @Override
@@ -242,7 +242,7 @@ public class StaffPage extends CrudOverlay {
           createCollection.setSpacing(10);
 
           VBox items = new VBox();
-          items.getChildren().addAll(setEscape(), createCollection, createInput);
+          items.getChildren().addAll(setEscape("staff"), createCollection, createInput);
           items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
           this.content.setBottom(items);
       });
@@ -307,7 +307,7 @@ public class StaffPage extends CrudOverlay {
           updateCollection.setSpacing(10);
 
           VBox items = new VBox();
-          items.getChildren().addAll(setEscape(), updateCollection, updateInput);
+          items.getChildren().addAll(setEscape("staff"), updateCollection, updateInput);
           items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
           this.content.setBottom(items);
       });
@@ -324,6 +324,9 @@ public class StaffPage extends CrudOverlay {
       }
 
       // Create Columns
+      TableColumn<DisplayStaff, String> columnId = new TableColumn<>("ID");
+      columnId.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getId())));
+
       TableColumn<DisplayStaff, String> column1 = new TableColumn<>("First Name");
       column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
@@ -339,7 +342,7 @@ public class StaffPage extends CrudOverlay {
       TableColumn<DisplayStaff, String> column5 = new TableColumn<>("Position");
       column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getPosition())));
 
-      tableView.getColumns().addAll(column1, column2, column3, column4, column5);
+      tableView.getColumns().addAll(columnId, column1, column2, column3, column4, column5);
       tableView.getItems().addAll(staff.getAllDisplayStaff());
 
       this.content.setCenter(tableView);

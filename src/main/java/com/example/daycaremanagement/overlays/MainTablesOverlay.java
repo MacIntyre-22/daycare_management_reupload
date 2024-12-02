@@ -87,7 +87,7 @@ public class MainTablesOverlay extends BorderPane {
       primaryStage.setScene(new Scene(loginPage, 1024, 768));
     });
 
-    vbox.getChildren().addAll(studentsButton, guardiansButton, staffButton, infoButton);
+    vbox.getChildren().addAll(studentsButton, guardiansButton, staffButton, otherTablesButton, infoButton);
     logoutBox.getChildren().addAll(vbox, logoutButton);
     logoutBox.setAlignment(Pos.BOTTOM_LEFT);
     this.setLeft(logoutBox);

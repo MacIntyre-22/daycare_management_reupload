@@ -1,6 +1,11 @@
 package com.example.daycaremanagement.overlays;
 
-import com.example.daycaremanagement.tables.*;
+import com.example.daycaremanagement.pojo.Guardian;
+import com.example.daycaremanagement.pojo.Staff;
+import com.example.daycaremanagement.pojo.Student;
+import com.example.daycaremanagement.tables.GuardianTable;
+import com.example.daycaremanagement.tables.StaffTable;
+import com.example.daycaremanagement.tables.StudentTable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -14,6 +19,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -156,12 +164,12 @@ public abstract class CrudOverlay extends BorderPane {
      * Creates an escape button for crud forms
      * @return a button that loadsInfo() on click
      */
-    protected Button setEscape() {
+    protected Button setEscape(String table) {
         // Create escape button
         Button esc = new Button();
         esc.setGraphic(setIcon(ICONS[7], 15));
-        esc.setOnAction(e1-> {
-            loadInfo();
+        esc.setOnAction(e-> {
+            loadInfo(table);
         });
 
         return esc;
@@ -189,13 +197,94 @@ public abstract class CrudOverlay extends BorderPane {
     /**
      * Loads basic info about the table to the page.
      */
-    protected void loadInfo() {
+    protected void loadInfo(String table) {
         VBox pageInfo = new VBox();
-        Label testInfo = new Label("Test info: Will hold information on table");
-        testInfo.setStyle("-fx-padding: 30 0 0 0;");
-        Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
-        testInfo2.setStyle("-fx-padding: 0 0 20 0;");
-        pageInfo.getChildren().addAll(testInfo, testInfo2);
+
+        Label formInfo = new Label("Use the form icons below to add, update, or remove an item.");
+        formInfo.setStyle("-fx-padding: 30 0 0 0;");
+
+        Label bottomLabel = new Label("To refresh, select the Table button on the left navigation.");
+        bottomLabel.setStyle("-fx-padding: 0 0 20 0;");
+
+        pageInfo.getChildren().add(formInfo);
+
+        if (table != null) {
+            StudentTable studentTable = null;
+            GuardianTable guardianTable = null;
+            StaffTable staffTable = null;
+
+            switch (table) {
+                case "students":
+                    try {
+                        studentTable = StudentTable.getInstance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList<Student> students = studentTable.getAllStudents();
+
+                    // Get Lowest and Highest age
+                    double firstAge = getAge(students.get(0).getBirthdate());
+                    double lowest = firstAge;
+                    double highest = firstAge;
+                    for (Student student : studentTable.getAllStudents()) {
+                        double age = getAge(student.getBirthdate());
+                        if (age > highest) {
+                            highest = age;
+                        }
+                        if (age < lowest) {
+                            lowest = age;
+                        }
+                    }
+
+                    //Display info
+                    pageInfo.getChildren().addAll(new Label("Amount of Students: "+students.size()), new Label("Oldest: "+highest), new Label("Youngest: "+lowest) );
+                    break;
+
+                case "guardians":
+                    try {
+                        guardianTable = GuardianTable.getInstance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList<Guardian> guardians = guardianTable.getAllGuardians();
+
+                    //Display info
+                    pageInfo.getChildren().addAll(new Label("Amount of Guardians: "+guardians.size()));
+                    break;
+
+                case "staff":
+                    try {
+                        staffTable = StaffTable.getInstance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList<Staff> staff = staffTable.getAllStaff();
+
+                    // Get Lowest and Highest wage
+                    double firstWage = staff.get(0).getWage();
+                    double least = firstWage;
+                    double most = firstWage;
+                    for (Staff s : staffTable.getAllStaff()) {
+                        double wage = s.getWage();
+                        if (wage > most) {
+                            most = wage;
+                        }
+                        if (wage < least) {
+                            least = wage;
+                        }
+                    }
+
+                    //Display info
+                    pageInfo.getChildren().addAll(new Label("Amount of Staff: "+staff.size()), new Label("Highest Wage: "+most), new Label("Lowest Wage: "+least) );
+                    break;
+            }
+
+
+        }else {
+            pageInfo.getChildren().addAll(new Label("Can't get extra table information."));
+        }
+
+        pageInfo.getChildren().addAll(bottomLabel);
         this.content.setBottom(pageInfo);
     };
 
@@ -314,5 +403,23 @@ public abstract class CrudOverlay extends BorderPane {
         return matcher.matches();
     }
 
+
+    /**
+     * Gets the students age by getting the difference between their birthdate and today.
+     * @return age as double
+     */
+    protected double getAge(String dob) {
+        // Get student birthday
+        // YYYY-MM-DD
+        String[] birthdaySplit = dob.split("-");
+        LocalDate birthdayDate = LocalDate.of(Integer.parseInt(birthdaySplit[0]), Integer.parseInt(birthdaySplit[1]), Integer.parseInt(birthdaySplit[2]));
+        LocalDate now = LocalDate.now();
+        double age;
+
+        // Get the difference to find age
+        age = (double) ChronoUnit.YEARS.between(birthdayDate, now);
+        // Return age
+        return age;
+    }
 
 }
