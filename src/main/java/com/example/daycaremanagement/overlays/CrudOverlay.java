@@ -235,6 +235,7 @@ public abstract class CrudOverlay extends BorderPane {
 
                     //Display info
                     pageInfo.getChildren().addAll(new Label("Amount of Students: "+students.size()), new Label("Oldest: "+highest), new Label("Youngest: "+lowest) );
+                    break;
 
                 case "guardians":
                     try {
@@ -246,6 +247,7 @@ public abstract class CrudOverlay extends BorderPane {
 
                     //Display info
                     pageInfo.getChildren().addAll(new Label("Amount of Guardians: "+guardians.size()));
+                    break;
 
                 case "staff":
                     try {
@@ -271,6 +273,7 @@ public abstract class CrudOverlay extends BorderPane {
 
                     //Display info
                     pageInfo.getChildren().addAll(new Label("Amount of Staff: "+staff.size()), new Label("Highest Wage: "+most), new Label("Lowest Wage: "+least) );
+                    break;
             }
 
 
