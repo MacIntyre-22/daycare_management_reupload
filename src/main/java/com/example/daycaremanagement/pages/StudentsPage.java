@@ -1,4 +1,5 @@
 package com.example.daycaremanagement.pages;
+import com.example.daycaremanagement.MainApp;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Room;
@@ -51,6 +52,7 @@ public class StudentsPage extends CrudOverlay {
      */
     private StudentsPage() {
         super();
+        this.getStylesheets().add(MainApp.class.getResource("Styles/StudentPage.css").toExternalForm());
         title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         content.setTop(title);
         // Add rooms to array
@@ -224,19 +226,23 @@ public class StudentsPage extends CrudOverlay {
             Label firstName = new Label("First Name");
             TextField fNameInput = new TextField();
             VBox fNameGroup = new VBox(firstName, fNameInput);
+            fNameGroup.setAlignment(Pos.CENTER);
 
             Label lastName = new Label("Last Name");
             TextField lNameInput = new TextField();
             VBox lNameGroup = new VBox(lastName, lNameInput);
+            lNameGroup.setAlignment(Pos.CENTER);
 
             Label birthday = new Label("Birthday");
             TextField birthdayInput = new TextField();
             birthdayInput.setPromptText("YYYY-MM-DD");
             VBox birthdayGroup = new VBox(birthday, birthdayInput);
+            birthdayGroup.setAlignment(Pos.CENTER);
 
             Label classroom = new Label("Classroom");
             TextField classroomInput = new TextField();
             VBox classroomGroup = new VBox(classroom, classroomInput);
+            classroomGroup.setAlignment(Pos.CENTER);
 
             Button createInput = new Button("Create!");
             createInput.setOnAction(e1->{
@@ -250,19 +256,43 @@ public class StudentsPage extends CrudOverlay {
                 }
             });
 
+            HBox escapeGroup = new HBox(setEscape());
+            escapeGroup.setAlignment(Pos.TOP_RIGHT);
+
             HBox createCollection = new HBox(fNameGroup, lNameGroup, birthdayGroup, classroomGroup);
             createCollection.setSpacing(10);
+            createCollection.setAlignment(Pos.CENTER);
+            createCollection.getChildren().forEach(node-> {
+                node.setOnKeyPressed(keyEvent -> {
+
+                    if(keyEvent.getCode().toString().equals("ENTER")){
+                        try{
+                            Student createStudent = new Student(0, fNameInput.getText(), lNameInput.getText(), birthdayInput.getText(), Integer.parseInt(classroomInput.getText()));
+                            students.createStudent(createStudent);
+                            loadTable();
+                        } catch (Exception e3){
+                            System.out.println("Input error");
+                            e3.printStackTrace();
+                        }
+                    }
+                });
+            });
+
+            HBox createInputGroup = new HBox(createInput);
+            createInputGroup.setAlignment(Pos.CENTER);
 
             VBox items = new VBox();
-            items.getChildren().addAll(setEscape(), createCollection, createInput);
-            items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
-            content.setBottom(items);
+
+            items.getChildren().addAll(escapeGroup, createCollection, createInputGroup);
+            items.getStyleClass().add("items");
+            this.content.setBottom(items);
         });
 
         update.setOnAction(e-> {
             Label idNum = new Label("ID");
             TextField idNumInput = new TextField();
             VBox idNumGroup = new VBox(idNum, idNumInput);
+            idNumGroup.setAlignment(Pos.CENTER);
             if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
                 DisplayStudent getIdStudent = (DisplayStudent) this.tableView.getSelectionModel().getSelectedItems().get(0);
                 idNumInput.setText(""+getIdStudent.getId());
@@ -274,12 +304,14 @@ public class StudentsPage extends CrudOverlay {
             // Grab Columns
             columnNameChoice.getItems().addAll("First Name", "Last Name", "Birthday", "Classroom ID");
             VBox columnNameGroup = new VBox(columnName, columnNameChoice);
+            columnNameGroup.setAlignment(Pos.CENTER);
 
 
 
             Label updateName = new Label("New");
             TextField updateNameInput = new TextField();
             VBox updateNameGroup = new VBox(updateName, updateNameInput);
+            updateNameGroup.setAlignment(Pos.CENTER);
 
             Button updateInput = new Button("Update!");
 
@@ -308,10 +340,43 @@ public class StudentsPage extends CrudOverlay {
 
             HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
             updateCollection.setSpacing(10);
+            updateCollection.setAlignment(Pos.CENTER);
+
+            HBox escapeGroup = new HBox(setEscape());
+            escapeGroup.setAlignment(Pos.TOP_RIGHT);
+
+
+            updateCollection.getChildren().forEach(node-> {
+                node.setOnKeyPressed(keyEvent -> {
+                    Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
+                    if (updateStudent != null) {
+                        switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                            case ("First Name"):
+                                updateStudent.setFirst_name(updateNameInput.getText());
+                                break;
+                            case ("Last Name"):
+                                updateStudent.setLast_name(updateNameInput.getText());
+                                break;
+                            case ("Birthday"):
+                                updateStudent.setBirthdate(updateNameInput.getText());
+                                break;
+                            case ("Classroom ID"):
+                                updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                                break;
+                        }
+                        students.updateStudent(updateStudent);
+                        loadTable();
+                    }
+                });
+            });
+
+            HBox createUpdateGroup = new HBox(updateInput);
+            createUpdateGroup.setAlignment(Pos.CENTER);
 
             VBox items = new VBox();
-            items.getChildren().addAll(setEscape(), updateCollection, updateInput);
-            items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+            items.getChildren().addAll(escapeGroup, updateCollection, createUpdateGroup);
+            items.setAlignment(Pos.CENTER);
+            items.getStyleClass().add("items");
             this.content.setBottom(items);
         });
 
@@ -364,6 +429,27 @@ public class StudentsPage extends CrudOverlay {
 
         tableView.getColumns().addAll(column1, column2, column3, column4, column5);
         tableView.getItems().addAll(students.getAllDisplayStudents());
+
+        tableView.setMinWidth(300);
+        tableView.setMaxWidth(925);
+
+
+        column1.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        column1.setResizable(false);
+        column1.setReorderable(false);
+
+        column2.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column2.setResizable(false);
+        column2.setReorderable(false);
+
+        column3.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column3.setResizable(false);
+
+        column4.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        column4.setResizable(false);
+
+        column5.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column5.setResizable(false);
 
         this.content.setCenter(tableView);
     }

@@ -1,13 +1,13 @@
 /* Main Page */
 .root {
-    -fx-background-color: #114675;
+    -fx-background-color: #21629B;
 }
 
 .title {
     -fx-font-family: "Courier New";
     -fx-font-size: 20;
     -fx-font-weight: bold;
-    -fx-text-fill: lightblue;
+    -fx-text-fill: white;
     -fx-effect: dropshadow(three-pass-box, black, 3, 0, 3, 2);
 }
 /* Main VBox */

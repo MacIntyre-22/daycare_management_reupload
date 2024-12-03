@@ -8,14 +8,20 @@
 /* Main Content */
 .content {
     -fx-padding: 10 50 0 50;
-    -fx-background-color: #114675;
+    -fx-background-color: #21629B;
 
+}
+.content .label {
+    -fx-text-fill: white;
+}
+.content .chart .label {
+    -fx-text-fill: black;
 }
 
 /* The Side Button Group */
 .NavButtons {
     -fx-padding: 0 0 0 0;
-    -fx-background-color: #007cb0cc;
+    -fx-background-color: #0963FFcc;
     -fx-background-radius: 10;
     -fx-max-height: 600;
     -fx-translate-y: -40;
