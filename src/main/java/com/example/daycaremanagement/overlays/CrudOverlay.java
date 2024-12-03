@@ -1,9 +1,11 @@
 package com.example.daycaremanagement.overlays;
 
-import com.example.daycaremanagement.pojo.Guardian;
-import com.example.daycaremanagement.pojo.Staff;
-import com.example.daycaremanagement.pojo.Student;
+import com.example.daycaremanagement.MainApp;
+import com.example.daycaremanagement.pojo.*;
 import com.example.daycaremanagement.tables.*;
+import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -19,13 +21,20 @@ import javafx.scene.layout.VBox;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
-public abstract class CrudOverlay extends BorderPane {
+import static com.example.daycaremanagement.MainApp.primaryStage;
+
+public abstract class CrudOverlay extends StackPane {
 
     // Table
     protected TableView tableView;
@@ -58,57 +67,163 @@ public abstract class CrudOverlay extends BorderPane {
 
 
     protected BorderPane content = new BorderPane();
+    private Button navArrowButton = new Button();
+    private ImageView navArrow;
 
     /**
      * This adds the different Bars into the scene with the content in the center
      */
     public CrudOverlay() {
-        this.setLeft(createSideBar());
-        this.setBottom(createBottomBar());
-        this.setCenter(content);
-        content.setStyle("-fx-padding: 10px 50px 0px 50px;");
+        // Adding Styling Sheet
+        this.getStylesheets().add(MainApp.class.getResource("Styles/CrudOverlay.css").toExternalForm());
+
+        // Adding Image
+        navArrow = new ImageView(new Image(MainApp.class.getResourceAsStream("icons/blackArrow.png")));
+        navArrow.setFitWidth(30);
+        navArrow.setFitHeight(30);
+
+        // Styling Button / Positioning
+        navArrowButton.setGraphic(navArrow);
+        navArrowButton.setTranslateY(50);
+        navArrowButton.setTranslateX(-10);
+        navArrowButton.getStyleClass().add("ArrowButton");
+
+
+        // Moving the pane of arrow button to the top right of screen
+        StackPane arrow = new StackPane(navArrowButton);
+        arrow.setTranslateX(-490);
+        arrow.setTranslateY(-345);
+        arrow.setMaxSize(30, 30);
+
+        // Styling Content
+        content.getStyleClass().add("content");
+        content.bottomProperty().addListener(e->content.getBottom().setTranslateY(content.getBottom().getTranslateY()-20));
+
+        // Making a new Borderpane to add the bottomBar to the bottom of the content
+        BorderPane allContent = new BorderPane();
+        allContent.setCenter(content);
+        allContent.setBottom(createBottomBar());
+        allContent.setMaxHeight(primaryStage.getScene().getHeight()-70);
+
+        // Pane to Display all content
+        StackPane displayContent = new StackPane(allContent);
+
+        // Adding all panes to the main pane
+        this.getChildren().addAll(displayContent, createSideBar(), arrow);
     }
 
     /**
      * This is the creation of the sideBar that has the graph Buttons inside
      * @return sideBar
      */
-    private VBox createSideBar() {
-        Label closedNavWords = new Label("Show Display Options");
-        closedNavWords.setRotate(-90);
-        Group closedNav = new Group(closedNavWords);
-        closedNav.setTranslateY(50);
-
-
+    private StackPane createSideBar() {
         NavButtons = new VBox(graph1, graph2, graph3, graph4);
         NavButtons.setAlignment(Pos.CENTER);
-        NavButtons.setSpacing(20);
+        NavButtons.getStyleClass().add("NavButtons");
+        NavButtons.setMinWidth(70);
 
         sideButtonBar();
 
-        // Create Side bar
-        VBox sideBar = new VBox();
-        sideBar.setStyle("-fx-padding: 50px 0 0 0; -fx-background-color: lightblue;");
-        sideBar.getChildren().add(closedNav);
+        StackPane displaySideBar = new StackPane(NavButtons);
+        displaySideBar.setVisible(false);
+        displaySideBar.setMaxWidth(0);
 
+        // Animation the Nav into the scene When arrowButton is pressed
+        navArrowButton.setOnMouseClicked(event -> {
+            // If the Arrow is in resting position
+            if(navArrowButton.getTranslateX() == -10) {
+                // att - Arrow Translate Transition
+                TranslateTransition att = new TranslateTransition(Duration.millis(300), navArrowButton);
+                att.setFromX(-10);
+                att.setToX(7.5);
+                att.play();
 
-        // Removed Closed Nav text
-        sideBar.setOnMouseEntered(event -> {
-            sideBar.getChildren().remove(closedNav);
-            sideBar.setMinWidth(60);
-            sideBar.getChildren().addAll(NavButtons);
-            sideBar.setAlignment(Pos.TOP_CENTER);
+                // afit - Arrow Fade In Transition
+                FadeTransition afit = new FadeTransition(Duration.millis(150), navArrowButton);
+                afit.setFromValue(100);
+                afit.setToValue(0);
+                afit.play();
+
+                // Switching the Arrow color/Image
+                navArrow = new ImageView(new Image(MainApp.class.getResourceAsStream("icons/whiteArrow.png")));
+                navArrow.setFitHeight(30);
+                navArrow.setFitWidth(30);
+                navArrowButton.setGraphic(navArrow);
+
+                // afot - Arrow Fade Out Transition
+                FadeTransition afot = new FadeTransition(Duration.millis(150), navArrowButton);
+                afot.setDelay(Duration.millis(100));
+                afot.setFromValue(0);
+                afot.setToValue(100);
+                afot.play();
+
+                // art - Arrow Rotate Transition
+                RotateTransition art = new RotateTransition(Duration.millis(300), navArrowButton);
+                art.setFromAngle(0);
+                art.setToAngle(180);
+                art.play();
+
+                displaySideBar.setVisible(true);
+                // sbft - Side Bar Fade Transition
+                FadeTransition sbft = new FadeTransition(Duration.millis(300), displaySideBar);
+                sbft.setFromValue(0.0);
+                sbft.setToValue(1.0);
+                sbft.play();
+
+                // sbtt - Side Bar Translate Transition
+                TranslateTransition sbtt = new TranslateTransition(Duration.millis(300), displaySideBar);
+                sbtt.setFromX(-60);
+                sbtt.setToX(0);
+                sbtt.play();
+
+            // If The ArrowButton is in a different location
+            } else {
+                // sbtt - Side Bar Translate Transition
+                TranslateTransition sbtt = new TranslateTransition(Duration.millis(300), displaySideBar);
+                sbtt.setFromX(0);
+                sbtt.setToX(-60);
+                sbtt.play();
+
+                // sbft - Side Bar Fade Transition
+                FadeTransition sbft = new FadeTransition(Duration.millis(300), displaySideBar);
+                sbft.setOnFinished(e1 -> displaySideBar.setVisible(false));
+                sbft.setFromValue(1.0);
+                sbft.setToValue(0.0);
+                sbft.play();
+
+                // afit - Arrow Fade In Transition
+                FadeTransition afit = new FadeTransition(Duration.millis(150), navArrowButton);
+                afit.setFromValue(100);
+                afit.setToValue(0);
+                afit.play();
+
+                // Switching the Arrow color/Image
+                navArrow = new ImageView(new Image(MainApp.class.getResourceAsStream("icons/blackArrow.png")));
+                navArrow.setFitHeight(30);
+                navArrow.setFitWidth(30);
+                navArrowButton.setGraphic(navArrow);
+
+                // afot - Arrow Fade Out Transition
+                FadeTransition afot = new FadeTransition(Duration.millis(150), navArrowButton);
+                afot.setFromValue(0);
+                afot.setToValue(100);
+                afot.play();
+
+                // att - Arrow Translate Transition
+                TranslateTransition att = new TranslateTransition(Duration.millis(300), navArrowButton);
+                att.setFromX(7.5);
+                att.setToX(-10);
+                att.play();
+
+                // art - Arrow Rotate Transition
+                RotateTransition art = new RotateTransition(Duration.millis(300), navArrowButton);
+                art.setFromAngle(180);
+                art.setToAngle(0);
+                art.play();
+            }
         });
-
-        // Removed Closed Nav text
-        sideBar.setOnMouseExited(e -> {
-            sideBar.getChildren().removeAll(NavButtons);
-            sideBar.setMinWidth(0);
-            sideBar.setAlignment(Pos.TOP_LEFT);
-            sideBar.getChildren().add(closedNav);
-        });
-
-        return sideBar;
+        StackPane.setAlignment(displaySideBar, Pos.CENTER_LEFT);
+        return displaySideBar;
     }
 
     /**
@@ -124,10 +239,12 @@ public abstract class CrudOverlay extends BorderPane {
         HBox crudButtons = new HBox(create, update, delete);
         bottomButtonBar();
         crudButtons.setAlignment(Pos.CENTER);
-        crudButtons.setMinHeight(50);
-        crudButtons.setMinWidth(100);
-        crudButtons.setStyle("-fx-background-color: lightblue; -fx-padding: 10;");
-        crudButtons.setSpacing(50);
+        crudButtons.getStyleClass().add("crudButtons");
+
+        // Set Positioning
+        crudButtons.setTranslateX((primaryStage.getScene().getWidth()/2)-150);
+        crudButtons.setTranslateY(crudButtons.getTranslateY()-10);
+
         return crudButtons;
     }
 
@@ -197,6 +314,7 @@ public abstract class CrudOverlay extends BorderPane {
      * Loads basic info about the table to the page.
      */
     protected void loadInfo(String table) {
+
         VBox pageInfo = new VBox();
 
         Label formInfo = new Label("Use the form icons below to add, update, or remove an item.");
@@ -283,9 +401,8 @@ public abstract class CrudOverlay extends BorderPane {
             pageInfo.getChildren().addAll(new Label("Can't get extra table information."));
         }
 
-        pageInfo.getChildren().addAll(bottomLabel);
         this.content.setBottom(pageInfo);
-    };
+    }
 
 
     // Tests if a string is an integer

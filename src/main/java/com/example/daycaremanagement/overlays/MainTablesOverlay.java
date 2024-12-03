@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -21,7 +22,7 @@ import java.io.PrintWriter;
 import static com.example.daycaremanagement.MainApp.loginPageScene;
 import static com.example.daycaremanagement.MainApp.primaryStage;
 
-public class MainTablesOverlay extends BorderPane {
+public class MainTablesOverlay extends StackPane {
   private StaffPage staffPageDisplay = StaffPage.getInstance();
   private GuardiansPage guardiansPageDisplay = GuardiansPage.getInstance();
   private StudentsPage studentDisplay = StudentsPage.getInstance();
@@ -32,6 +33,10 @@ public class MainTablesOverlay extends BorderPane {
    * This Overlay is the way the user can switch to each class type
    */
   public MainTablesOverlay() {
+    BorderPane root = new BorderPane();
+    // Moving the Content under the Header
+    root.setTranslateY(root.getTranslateY()+35);
+
     Label title = new Label("Daycare Management");
     title.getStyleClass().add("title");
 
@@ -56,24 +61,24 @@ public class MainTablesOverlay extends BorderPane {
     // Action for Information button
     infoButton.setOnAction(e -> {
       InfoPage infoDisplay = new InfoPage();
-      this.setCenter(infoDisplay);
+      root.setCenter(infoDisplay);
     });
 
     otherButton.setOnAction(e->{
-      this.setCenter(otherDisplay);
+      root.setCenter(otherDisplay);
     });
     // Placeholder action for Guardians button
     guardiansButton.setOnAction(e -> {
-      this.setCenter(guardiansPageDisplay);
+      root.setCenter(guardiansPageDisplay);
     });
 
     // Placeholder action for Staff button
     staffButton.setOnAction(e -> {
-      this.setCenter(staffPageDisplay);
+      root.setCenter(staffPageDisplay);
     });
 
     studentsButton.setOnAction(e -> {
-      this.setCenter(studentDisplay);
+      root.setCenter(studentDisplay);
     });
 
     logoutButton.setOnAction(e->{
@@ -94,14 +99,20 @@ public class MainTablesOverlay extends BorderPane {
       primaryStage.setScene(loginPageScene);
     });
 
-    mainButtonBox.getChildren().addAll(studentsButton, guardiansButton, staffButton, otherButton, infoButton);
+    StackPane top = new StackPane(layoutBox);
+    top.setAlignment(Pos.TOP_CENTER);
+    top.setMaxHeight(0);
+    // Position the Header to the top of the Screen
+    top.setTranslateY(-(primaryStage.getScene().getHeight()/2) + 20);
+
+    mainButtonBox.getChildren().addAll(studentsButton, guardiansButton, staffButton,otherButton, infoButton);
     addLoginButtonBox.getChildren().addAll(mainButtonBox, logoutButton);
     addLoginButtonBox.setAlignment(Pos.TOP_RIGHT);
     layoutBox.getChildren().addAll(title, addLoginButtonBox);
 
+    root.setCenter(studentDisplay);
 
-    this.setTop(layoutBox);
-    this.setCenter(studentDisplay);
+    this.getChildren().addAll(root, top);
   }
 
 

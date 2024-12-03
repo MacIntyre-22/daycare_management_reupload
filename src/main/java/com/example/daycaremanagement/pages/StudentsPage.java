@@ -1,4 +1,5 @@
 package com.example.daycaremanagement.pages;
+import com.example.daycaremanagement.MainApp;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Room;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 
 public class StudentsPage extends CrudOverlay {
     private static StudentsPage instance;
-    private Label title = new Label("Students");
+    private Label title = new Label("Students Page");
     private StudentTable students;
     private RoomTable roomTable;
     private ArrayList<Room> rooms = new ArrayList<>();
@@ -51,7 +52,8 @@ public class StudentsPage extends CrudOverlay {
      */
     private StudentsPage() {
         super();
-        title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
+        this.getStylesheets().add(MainApp.class.getResource("Styles/StudentPage.css").toExternalForm());
+        title.getStyleClass().add("title");
         content.setTop(title);
         // Add rooms to array
         // Significantly increases the load speed and lagginess of the tableView
@@ -224,19 +226,23 @@ public class StudentsPage extends CrudOverlay {
             Label firstName = new Label("First Name");
             TextField fNameInput = new TextField();
             VBox fNameGroup = new VBox(firstName, fNameInput);
+            fNameGroup.setAlignment(Pos.CENTER);
 
             Label lastName = new Label("Last Name");
             TextField lNameInput = new TextField();
             VBox lNameGroup = new VBox(lastName, lNameInput);
+            lNameGroup.setAlignment(Pos.CENTER);
 
             Label birthday = new Label("Birthday");
             TextField birthdayInput = new TextField();
             birthdayInput.setPromptText("YYYY-MM-DD");
             VBox birthdayGroup = new VBox(birthday, birthdayInput);
+            birthdayGroup.setAlignment(Pos.CENTER);
 
             Label classroom = new Label("Classroom");
             TextField classroomInput = new TextField();
             VBox classroomGroup = new VBox(classroom, classroomInput);
+            classroomGroup.setAlignment(Pos.CENTER);
 
             Button createInput = new Button("Create!");
             createInput.setOnAction(e1->{
@@ -249,12 +255,33 @@ public class StudentsPage extends CrudOverlay {
                 }
             });
 
+            HBox escapeGroup = new HBox(setEscape("students"));
+            escapeGroup.setAlignment(Pos.TOP_RIGHT);
+
             HBox createCollection = new HBox(fNameGroup, lNameGroup, birthdayGroup, classroomGroup);
             createCollection.setSpacing(10);
+            createCollection.setAlignment(Pos.CENTER);
+            createCollection.getChildren().forEach(node-> {
+                node.setOnKeyPressed(keyEvent -> {
+                    if(keyEvent.getCode().toString().equals("ENTER")){
+                        if (isValidId(classroomInput.getText(), "room") && isValidDateFormat(birthdayInput.getText())) {
+                            Student createStudent = new Student(0, fNameInput.getText(), lNameInput.getText(), birthdayInput.getText(), Integer.parseInt(classroomInput.getText()));
+                            students.createStudent(createStudent);
+                            loadTable();
+                        } else {
+                            System.out.println("Invalid Room ID or birthdate");
+                        }
+                    }
+                });
+            });
+
+            HBox createInputGroup = new HBox(createInput);
+            createInputGroup.setAlignment(Pos.CENTER);
 
             VBox items = new VBox();
-            items.getChildren().addAll(setEscape("students"), createCollection, createInput);
-            items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+
+            items.getChildren().addAll(escapeGroup, createCollection, createInputGroup);
+            items.getStyleClass().add("items");
             this.content.setBottom(items);
         });
 
@@ -318,10 +345,54 @@ public class StudentsPage extends CrudOverlay {
 
             HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
             updateCollection.setSpacing(10);
+            updateCollection.setAlignment(Pos.CENTER);
+
+            HBox escapeGroup = new HBox(setEscape("students"));
+            escapeGroup.setAlignment(Pos.TOP_RIGHT);
+
+
+            updateCollection.getChildren().forEach(node-> {
+                node.setOnKeyPressed(keyEvent -> {
+                    if (isInteger(idNumInput.getText())) {
+                        Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
+                        if (updateStudent != null) {
+                            switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                                case ("First Name") -> updateStudent.setFirst_name(updateNameInput.getText());
+                                case ("Last Name") -> updateStudent.setLast_name(updateNameInput.getText());
+                                case ("Birthday") -> {
+                                    if (isValidDateFormat(updateNameInput.getText())) {
+                                        updateStudent.setBirthdate(updateNameInput.getText());
+                                    } else {
+                                        System.out.println("Invalid date format. Please use YYYY-MM-DD");
+                                    }
+                                }
+                                case ("Classroom ID") -> {
+                                    if (isValidId(updateNameInput.getText(), "room")) {
+                                        updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                                    } else {
+                                        System.out.println("Invalid Room ID");
+                                    }
+                                }
+                                default -> System.out.println("Category was not selected");
+                            }
+                            students.updateStudent(updateStudent);
+                            loadTable();
+                        } else {
+                            System.out.println("Specified ID does not exist");
+                        }
+                    } else {
+                        System.out.println("Invalid ID");
+                    }
+                });
+            });
+
+            HBox createUpdateGroup = new HBox(updateInput);
+            createUpdateGroup.setAlignment(Pos.CENTER);
 
             VBox items = new VBox();
-            items.getChildren().addAll(setEscape("students"), updateCollection, updateInput);
-            items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+            items.getChildren().addAll(escapeGroup, updateCollection, createUpdateGroup);
+            items.setAlignment(Pos.CENTER);
+            items.getStyleClass().add("items");
             this.content.setBottom(items);
         });
 
@@ -377,6 +448,33 @@ public class StudentsPage extends CrudOverlay {
 
         tableView.getColumns().addAll(columnId, column1, column2, column3, column4, column5);
         tableView.getItems().addAll(students.getAllDisplayStudents());
+
+        tableView.setMinWidth(300);
+        tableView.setMaxWidth(925);
+
+        columnId.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        columnId.setResizable(false);
+        columnId.setReorderable(false);
+
+        column1.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        column1.setResizable(false);
+        column1.setReorderable(false);
+
+        column2.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column2.setResizable(false);
+        column2.setReorderable(false);
+
+        column3.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column3.setResizable(false);
+        column3.setReorderable(false);
+
+        column4.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        column4.setResizable(false);
+        column4.setReorderable(false);
+
+        column5.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column5.setResizable(false);
+        column5.setReorderable(false);
 
         this.content.setCenter(tableView);
     }

@@ -1,8 +1,13 @@
+/* Main Page */
+.root {
+    -fx-background-color: #21629B;
+}
+
 .title {
     -fx-font-family: "Courier New";
     -fx-font-size: 20;
     -fx-font-weight: bold;
-    -fx-text-fill: lightblue;
+    -fx-text-fill: white;
     -fx-effect: dropshadow(three-pass-box, black, 3, 0, 3, 2);
 }
 /* Main VBox */
@@ -12,9 +17,7 @@
     -fx-spacing: 390;
     -fx-effect: dropshadow(three-pass-box, black, 15, 0, 0, 0);
     -fx-background-radius: 0 0 10 10;
-    /*-fx-max-width: 1018;
-
-    -fx-alignment: right;*/
+    -fx-max-height: 0;
 }
 /* The Main Four Button */
 .ButtonBox .button {

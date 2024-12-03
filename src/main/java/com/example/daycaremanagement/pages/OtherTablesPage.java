@@ -1,5 +1,6 @@
 package com.example.daycaremanagement.pages;
 
+import com.example.daycaremanagement.MainApp;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 import com.example.daycaremanagement.pojo.*;
 import com.example.daycaremanagement.pojo.display.DisplayStaff;
@@ -8,6 +9,7 @@ import com.example.daycaremanagement.tables.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -46,9 +48,10 @@ public class OtherTablesPage extends CrudOverlay {
 
     private OtherTablesPage() {
         super();
-        title = new Label("Other Tables");
+        this.getStylesheets().add(MainApp.class.getResource("Styles/ExtraTablesPage.css").toExternalForm());
+        title = new Label("Other Tables Page");
         content.setTop(title);
-        title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
+        title.getStyleClass().add("title");
 
         // Set Icons for buttons we use
         graph1.setText("Rel.");
@@ -71,33 +74,21 @@ public class OtherTablesPage extends CrudOverlay {
         // Load Relation Tbale
         graph1.setOnAction(e->{
             loadTable();
-
-            // Reset Form
-            this.setBottom(createBottomBar());
         });
 
         // load Room Table
         graph2.setOnAction(e->{
             loadRoomTable();
-
-            // Reset Form
-            this.setBottom(createBottomBar());
         });
 
         // Position Table
         graph3.setOnAction(ex -> {
             loadPosTable();
-
-            // Reset Form
-            this.setBottom(createBottomBar());
         });
 
         // Remove buttons here
         graph4.setOnAction(e-> {
             loadCityTable();
-
-            // Reset Form
-            this.setBottom(createBottomBar());
         });
     }
 
@@ -124,10 +115,12 @@ public class OtherTablesPage extends CrudOverlay {
                     Label parentId = new Label("Parent ID");
                     TextField parentIdInput = new TextField();
                     VBox parentIdGroup = new VBox(parentId, parentIdInput);
+                    parentIdGroup.setAlignment(Pos.CENTER);
 
                     Label studentId = new Label("Student ID");
                     TextField studentIdInput = new TextField();
                     VBox studentIdGroup = new VBox(studentId, studentIdInput);
+                    studentIdGroup.setAlignment(Pos.CENTER);
 
                     Button createInput = new Button("Create!");
                     createInput.setOnAction(e1->{
@@ -141,13 +134,32 @@ public class OtherTablesPage extends CrudOverlay {
                         studentIdInput.setText("");
                         loadTable();
                     });
+                    HBox escapeGroup = new HBox(setEscape(null));
+                    escapeGroup.setAlignment(Pos.TOP_RIGHT);
 
                     HBox createCollection = new HBox(parentIdGroup, studentIdGroup);
                     createCollection.setSpacing(10);
+                    createCollection.setAlignment(Pos.CENTER);
+
+                    createCollection.getChildren().forEach(node-> {
+                        node.setOnKeyPressed(keyEvent -> {
+                            if (isValidId(parentIdInput.getText(), "guardian") && isValidId(studentIdInput.getText(), "student")) {
+                                GuardianStudentRelation createRelation = new GuardianStudentRelation(0, Integer.parseInt(parentIdInput.getText()), Integer.parseInt(studentIdInput.getText()));
+                                relationTable.createRelation(createRelation);
+                            } else {
+                                System.out.println("One or more IDs were not valid");
+                            }
+                            parentIdInput.setText("");
+                            studentIdInput.setText("");
+                            loadTable();
+                        });
+                    });
+                    HBox createInputGroup = new HBox(createInput);
+                    createInputGroup.setAlignment(Pos.CENTER);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(null), createCollection, createInput);
-                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    items.getChildren().addAll(escapeGroup, createCollection, createInputGroup);
+                    items.getStyleClass().add("items");
                     this.content.setBottom(items);
                 });
 
@@ -155,6 +167,8 @@ public class OtherTablesPage extends CrudOverlay {
                     Label idNum = new Label("ID");
                     TextField idNumInput = new TextField();
                     VBox idNumGroup = new VBox(idNum, idNumInput);
+                    idNumGroup.setAlignment(Pos.CENTER);
+
                     // Get col here
                     if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
                         GuardianStudentRelation getIdRelation = (GuardianStudentRelation) this.tableView.getSelectionModel().getSelectedItems().get(0);
@@ -167,10 +181,12 @@ public class OtherTablesPage extends CrudOverlay {
                     // Grab Columns
                     columnNameChoice.getItems().addAll("Parent ID", "Student ID");
                     VBox columnNameGroup = new VBox(columnName, columnNameChoice);
+                    columnNameGroup.setAlignment(Pos.CENTER);
 
                     Label updateName = new Label("New");
                     TextField updateNameInput = new TextField();
                     VBox updateNameGroup = new VBox(updateName, updateNameInput);
+                    updateNameGroup.setAlignment(Pos.CENTER);
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
@@ -205,12 +221,52 @@ public class OtherTablesPage extends CrudOverlay {
                         }
                     });
 
+                    HBox escapeGroup = new HBox(setEscape(null));
+                    escapeGroup.setAlignment(Pos.TOP_RIGHT);
+
                     HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
                     updateCollection.setSpacing(10);
+                    updateCollection.setAlignment(Pos.CENTER);
+
+                    updateCollection.getChildren().forEach(node-> {
+                        node.setOnKeyPressed(keyEvent -> {
+                            if (isInteger(idNumInput.getText())) {
+                                GuardianStudentRelation updateRelation = relationTable.getRelation(Integer.parseInt(idNumInput.getText()));
+                                if (updateRelation != null) {
+                                    switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                                        case "Parent ID" -> {
+                                            if (isValidId(updateNameInput.getText(), "guardian")) {
+                                                updateRelation.setGuardian_id(Integer.parseInt(updateNameInput.getText()));
+                                            } else {
+                                                System.out.println("Invalid Guardian ID");
+                                            }
+                                        }
+                                        case "Student ID" -> {
+                                            if (isValidId(updateNameInput.getText(), "student")) {
+                                                updateRelation.setStudent_id(Integer.parseInt(updateNameInput.getText()));
+                                            } else {
+                                                System.out.println("Invalid Student ID");
+                                            }
+                                        }
+                                        default -> System.out.println("Category not selected");
+                                    }
+                                    relationTable.updateRelation(updateRelation);
+                                } else {
+                                    System.out.println("ID was not numeric or specified relation does not exist");
+                                }
+                                updateNameInput.setText("");
+                                loadTable();
+                            } else {
+                                System.out.println("Invalid ID");
+                            }
+                        });
+                    });
+                    HBox createUpdateGroup = new HBox(updateInput);
+                    createUpdateGroup.setAlignment(Pos.CENTER);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(null), updateCollection, updateInput);
-                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    items.getChildren().addAll(escapeGroup, updateCollection, createUpdateGroup);
+                    items.getStyleClass().add("items");
                     this.content.setBottom(items);
                 });
                 break;
@@ -230,6 +286,7 @@ public class OtherTablesPage extends CrudOverlay {
                     Label name = new Label("Name");
                     TextField nameInput = new TextField();
                     VBox nameGroup = new VBox(name, nameInput);
+                    nameGroup.setAlignment(Pos.CENTER);
 
                     Button createInput = new Button("Create!");
                     createInput.setOnAction(e1->{
@@ -240,12 +297,29 @@ public class OtherTablesPage extends CrudOverlay {
                         loadRoomTable();
                     });
 
+                    HBox escapeGroup = new HBox(setEscape(null));
+                    escapeGroup.setAlignment(Pos.TOP_RIGHT);
+
                     HBox createCollection = new HBox(nameGroup);
                     createCollection.setSpacing(10);
+                    createCollection.setAlignment(Pos.CENTER);
+
+                    createCollection.getChildren().forEach(node-> {
+                        node.setOnKeyPressed(keyEvent -> {
+                            Room createRoom = new Room(0, nameInput.getText());
+                            roomTable.createRoom(createRoom);
+
+                            nameInput.setText("");
+                            loadRoomTable();
+                        });
+                    });
+
+                    HBox createInputGroup = new HBox(createInput);
+                    createInputGroup.setAlignment(Pos.CENTER);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(null), createCollection, createInput);
-                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    items.getChildren().addAll(escapeGroup, createCollection, createInputGroup);
+                    items.getStyleClass().add("items");
                     this.content.setBottom(items);
                 });
 
@@ -253,6 +327,7 @@ public class OtherTablesPage extends CrudOverlay {
                     Label idNum = new Label("ID");
                     TextField idNumInput = new TextField();
                     VBox idNumGroup = new VBox(idNum, idNumInput);
+                    idNumGroup.setAlignment(Pos.CENTER);
 
                     if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
                         Room getIdRoom = (Room) this.tableView.getSelectionModel().getSelectedItems().get(0);
@@ -262,6 +337,7 @@ public class OtherTablesPage extends CrudOverlay {
                     Label updateName = new Label("New Room name");
                     TextField updateNameInput = new TextField();
                     VBox updateNameGroup = new VBox(updateName, updateNameInput);
+                    updateNameGroup.setAlignment(Pos.CENTER);
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
@@ -278,12 +354,35 @@ public class OtherTablesPage extends CrudOverlay {
                         }
                     });
 
+                    HBox escapeGroup = new HBox(setEscape(null));
+                    escapeGroup.setAlignment(Pos.TOP_RIGHT);
+
                     HBox updateCollection = new HBox(idNumGroup, updateNameGroup);
                     updateCollection.setSpacing(10);
+                    updateCollection.setAlignment(Pos.CENTER);
+
+                    updateCollection.getChildren().forEach(node-> {
+                        node.setOnKeyPressed(keyEvent -> {
+                            if (isInteger(idNumInput.getText())) {
+                                Room updateRoom = roomTable.getRoom(Integer.parseInt(idNumInput.getText()));
+                                if (updateRoom != null) {
+                                    updateRoom.setName(updateNameInput.getText());
+                                    roomTable.updateRoom(updateRoom);
+                                }
+                                updateNameInput.setText("");
+                                loadRoomTable();
+                            } else {
+                                System.out.println("Invalid ID");
+                            }
+                        });
+                    });
+
+                    HBox createUpdateGroup = new HBox(updateInput);
+                    createUpdateGroup.setAlignment(Pos.CENTER);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(null), updateCollection, updateInput);
-                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    items.getChildren().addAll(escapeGroup, updateCollection, createUpdateGroup);
+                    items.getStyleClass().add("items");
                     this.content.setBottom(items);
                 });
                 break;
@@ -304,7 +403,7 @@ public class OtherTablesPage extends CrudOverlay {
                     Label name = new Label("Name");
                     TextField nameInput = new TextField();
                     VBox nameGroup = new VBox(name, nameInput);
-
+                    nameGroup.setAlignment(Pos.CENTER);
 
                     Button createInput = new Button("Create!");
                     createInput.setOnAction(e1->{
@@ -313,13 +412,28 @@ public class OtherTablesPage extends CrudOverlay {
                         nameInput.setText("");
                         loadPosTable();
                     });
+                    HBox escapeGroup = new HBox(setEscape(null));
+                    escapeGroup.setAlignment(Pos.TOP_RIGHT);
 
                     HBox createCollection = new HBox(nameGroup);
                     createCollection.setSpacing(10);
+                    createCollection.setAlignment(Pos.CENTER);
+
+                    createCollection.getChildren().forEach(node-> {
+                        node.setOnKeyPressed(keyEvent -> {
+                            Position createPosition = new Position(0, nameInput.getText());
+                            posTable.createPosition(createPosition);
+                            nameInput.setText("");
+                            loadPosTable();
+                        });
+                    });
+
+                    HBox createInputGroup = new HBox(createInput);
+                    createInputGroup.setAlignment(Pos.CENTER);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(null), createCollection, createInput);
-                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    items.getChildren().addAll(escapeGroup, createCollection, createInputGroup);
+                    items.getStyleClass().add("items");
                     this.content.setBottom(items);
                 });
 
@@ -327,6 +441,7 @@ public class OtherTablesPage extends CrudOverlay {
                     Label idNum = new Label("ID");
                     TextField idNumInput = new TextField();
                     VBox idNumGroup = new VBox(idNum, idNumInput);
+                    idNumGroup.setAlignment(Pos.CENTER);
 
                     if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
                         Position getIdPos = (Position) this.tableView.getSelectionModel().getSelectedItems().get(0);
@@ -336,6 +451,7 @@ public class OtherTablesPage extends CrudOverlay {
                     Label updateName = new Label("New Position name");
                     TextField updateNameInput = new TextField();
                     VBox updateNameGroup = new VBox(updateName, updateNameInput);
+                    updateNameGroup.setAlignment(Pos.CENTER);
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
@@ -351,13 +467,35 @@ public class OtherTablesPage extends CrudOverlay {
                             System.out.println("Invalid ID");
                         }
                     });
+                    HBox escapeGroup = new HBox(setEscape(null));
+                    escapeGroup.setAlignment(Pos.TOP_RIGHT);
 
                     HBox updateCollection = new HBox(idNumGroup, updateNameGroup);
                     updateCollection.setSpacing(10);
+                    updateCollection.setAlignment(Pos.CENTER);
+
+                    updateCollection.getChildren().forEach(node-> {
+                        node.setOnKeyPressed(keyEvent -> {
+                            if (isInteger(idNumInput.getText())) {
+                                Position updatePosition = posTable.getPosition(Integer.parseInt(idNumInput.getText()));
+                                if (updatePosition != null) {
+                                    updatePosition.setName(updateNameInput.getText());
+                                    posTable.updatePosition(updatePosition);
+                                }
+                                updateNameInput.setText("");
+                                loadPosTable();
+                            } else {
+                                System.out.println("Invalid ID");
+                            }
+                        });
+                    });
+
+                    HBox updateInputGroup = new HBox(updateInput);
+                    updateInputGroup.setAlignment(Pos.CENTER);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(null), updateCollection, updateInput);
-                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    items.getChildren().addAll(escapeGroup, updateCollection, updateInputGroup);
+                    items.getStyleClass().add("items");
                     this.content.setBottom(items);
                 });
                 break;
@@ -378,6 +516,7 @@ public class OtherTablesPage extends CrudOverlay {
                     Label name = new Label("Name");
                     TextField nameInput = new TextField();
                     VBox nameGroup = new VBox(name, nameInput);
+                    nameGroup.setAlignment(Pos.CENTER);
 
                     Button createInput = new Button("Create!");
                     createInput.setOnAction(e1->{
@@ -388,12 +527,29 @@ public class OtherTablesPage extends CrudOverlay {
                         loadCityTable();
                     });
 
+                    HBox escapeGroup = new HBox(setEscape(null));
+                    escapeGroup.setAlignment(Pos.TOP_RIGHT);
+
                     HBox createCollection = new HBox(nameGroup);
                     createCollection.setSpacing(10);
+                    createCollection.setAlignment(Pos.CENTER);
+
+                    createCollection.getChildren().forEach(node-> {
+                        node.setOnKeyPressed(keyEvent -> {
+                            City createCity = new City(0, nameInput.getText());
+                            cityTable.createCity(createCity);
+
+                            nameInput.setText("");
+                            loadCityTable();
+                        });
+                    });
+
+                    HBox createInputGroup = new HBox(createInput);
+                    createInputGroup.setAlignment(Pos.CENTER);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(null), createCollection, createInput);
-                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    items.getChildren().addAll(escapeGroup, createCollection, createInputGroup);
+                    items.getStyleClass().add("items");
                     this.content.setBottom(items);
                 });
 
@@ -401,6 +557,7 @@ public class OtherTablesPage extends CrudOverlay {
                     Label idNum = new Label("ID");
                     TextField idNumInput = new TextField();
                     VBox idNumGroup = new VBox(idNum, idNumInput);
+                    idNumGroup.setAlignment(Pos.CENTER);
 
                     if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
                         City getIdCity = (City) this.tableView.getSelectionModel().getSelectedItems().get(0);
@@ -410,6 +567,7 @@ public class OtherTablesPage extends CrudOverlay {
                     Label updateName = new Label("New City Name");
                     TextField updateNameInput = new TextField();
                     VBox updateNameGroup = new VBox(updateName, updateNameInput);
+                    updateNameGroup.setAlignment(Pos.CENTER);
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
@@ -426,12 +584,35 @@ public class OtherTablesPage extends CrudOverlay {
                         }
                     });
 
+                    HBox escapeGroup = new HBox(setEscape(null));
+                    escapeGroup.setAlignment(Pos.TOP_RIGHT);
+
                     HBox updateCollection = new HBox(idNumGroup, updateNameGroup);
                     updateCollection.setSpacing(10);
+                    updateCollection.setAlignment(Pos.CENTER);
+
+                    updateCollection.getChildren().forEach(node-> {
+                        node.setOnKeyPressed(keyEvent -> {
+                            if (isInteger(idNumInput.getText())) {
+                                City updateCity = cityTable.getCity(Integer.parseInt(idNumInput.getText()));
+                                if (updateCity != null) {
+                                    updateCity.setName(updateNameInput.getText());
+                                    cityTable.updateCity(updateCity);
+                                }
+                                updateNameInput.setText("");
+                                loadRoomTable();
+                            } else {
+                                System.out.println("Invalid ID");
+                            }
+                        });
+                    });
+
+                    HBox createUpdateGroup = new HBox(updateInput);
+                    createUpdateGroup.setAlignment(Pos.CENTER);
 
                     VBox items = new VBox();
-                    items.getChildren().addAll(setEscape(null), updateCollection, updateInput);
-                    items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+                    items.getChildren().addAll(escapeGroup, updateCollection, createUpdateGroup);
+                    items.getStyleClass().add("items");
                     this.content.setBottom(items);
                 });
                 break;
@@ -477,6 +658,21 @@ public class OtherTablesPage extends CrudOverlay {
         this.tableView.getItems().addAll(relationTable.getAllRelations());
         this.tableView.setStyle("");
 
+        tableView.setMinWidth(300);
+        tableView.setMaxWidth(925);
+
+        columnId.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        columnId.setResizable(false);
+        columnId.setReorderable(false);
+
+        column1.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        column1.setResizable(false);
+        column1.setReorderable(false);
+
+        column2.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column2.setResizable(false);
+        column2.setReorderable(false);
+
         this.content.setCenter(this.tableView);
     }
 
@@ -505,6 +701,17 @@ public class OtherTablesPage extends CrudOverlay {
         this.tableView.getColumns().addAll(column1, column2);
         this.tableView.getItems().addAll(roomTable.getAllRooms());
         this.tableView.setStyle("");
+
+        tableView.setMinWidth(300);
+        tableView.setMaxWidth(925);
+
+        column1.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        column1.setResizable(false);
+        column1.setReorderable(false);
+
+        column2.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column2.setResizable(false);
+        column2.setReorderable(false);
 
         this.content.setCenter(this.tableView);
     }
@@ -535,6 +742,17 @@ public class OtherTablesPage extends CrudOverlay {
         this.tableView.getItems().addAll(posTable.getAllPositions());
         this.tableView.setStyle("");
 
+        tableView.setMinWidth(300);
+        tableView.setMaxWidth(925);
+
+        column1.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        column1.setResizable(false);
+        column1.setReorderable(false);
+
+        column2.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column2.setResizable(false);
+        column2.setReorderable(false);
+
         this.content.setCenter(this.tableView);
     }
 
@@ -561,6 +779,17 @@ public class OtherTablesPage extends CrudOverlay {
         this.tableView.getColumns().addAll(column1, column2);
         this.tableView.getItems().addAll(cityTable.getAllCities());
         this.tableView.setStyle("");
+
+        tableView.setMinWidth(300);
+        tableView.setMaxWidth(925);
+
+        column1.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        column1.setResizable(false);
+        column1.setReorderable(false);
+
+        column2.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column2.setResizable(false);
+        column2.setReorderable(false);
 
         this.content.setCenter(this.tableView);
     }

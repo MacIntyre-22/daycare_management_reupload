@@ -30,7 +30,8 @@ public class MainApp extends Application {
         // Initialization
         primaryStage = stage;
         primaryStage.setTitle("Daycare Management");
-        // If we want the window to have rounded corners than we would have to make new buttons to close the thing thing
+        // User Can not Resize the screen, If they could the position of GUI's would break
+        primaryStage.setResizable(false);
         primaryStage.initStyle(StageStyle.DECORATED);
 
         loginPageScene.setFill(Color.TRANSPARENT);
@@ -45,7 +46,7 @@ public class MainApp extends Application {
         }
 
 
-        loginPageScene.getStylesheets().add(this.getClass().getResource("Styles/login.css").toExternalForm());
+        loginPageScene.getStylesheets().add(this.getClass().getResource("Styles/loginPage.css").toExternalForm());
 
 
         primaryStage.show();
