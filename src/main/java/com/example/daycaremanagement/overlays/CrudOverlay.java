@@ -69,6 +69,7 @@ public abstract class CrudOverlay extends StackPane {
     protected BorderPane content = new BorderPane();
     private Button navArrowButton = new Button();
     private ImageView navArrow;
+    public BorderPane allContent = new BorderPane();
 
     /**
      * This adds the different Bars into the scene with the content in the center
@@ -100,7 +101,7 @@ public abstract class CrudOverlay extends StackPane {
         content.bottomProperty().addListener(e->content.getBottom().setTranslateY(content.getBottom().getTranslateY()-20));
 
         // Making a new Borderpane to add the bottomBar to the bottom of the content
-        BorderPane allContent = new BorderPane();
+
         allContent.setCenter(content);
         allContent.setBottom(createBottomBar());
         allContent.setMaxHeight(primaryStage.getScene().getHeight()-70);

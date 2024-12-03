@@ -74,21 +74,29 @@ public class OtherTablesPage extends CrudOverlay {
         // Load Relation Tbale
         graph1.setOnAction(e->{
             loadTable();
+
+            this.allContent.setBottom(createBottomBar());
         });
 
         // load Room Table
         graph2.setOnAction(e->{
             loadRoomTable();
+
+            this.allContent.setBottom(createBottomBar());
         });
 
         // Position Table
         graph3.setOnAction(ex -> {
             loadPosTable();
+
+            this.allContent.setBottom(createBottomBar());
         });
 
         // Remove buttons here
         graph4.setOnAction(e-> {
             loadCityTable();
+
+            this.allContent.setBottom(createBottomBar());
         });
     }
 
