@@ -26,14 +26,9 @@ public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
     private Label title = new Label("Guardians Page");
     private GuardianTable guardians;
-    private RoomTable roomTable;
     private CityTable cityTable;
     private GuardianStudentRelationTable familyRelationTable;
     private StudentTable studentTable;
-
-    // Pre Loaded Array of data
-    ArrayList<City> cities = new ArrayList<>();
-    ArrayList<Room> rooms = new ArrayList<>();
 
     /**
      * Gets an instance of this class
@@ -58,17 +53,6 @@ public class GuardiansPage extends CrudOverlay {
         this.getStylesheets().add(MainApp.class.getResource("Styles/GuardiansPage.css").toExternalForm());
         title.getStyleClass().add("title");
         content.setTop(title);
-
-        // Add rooms to array
-        // Significantly increases the load speed and lagginess of the tableView
-        try {
-            roomTable = RoomTable.getInstance();
-            rooms.addAll(roomTable.getAllRooms());
-            cityTable = CityTable.getInstance();
-            cities.addAll(cityTable.getAllCities());
-        } catch (Exception e) {
-            System.out.println("Error From: StudentsPage.java, line 56. Couldn't get Rooms Table.");
-        }
 
         // Set Icons for buttons we use
         graph1.setGraphic(createBtn(setIcon(ICONS[0], 30), "Table"));
@@ -288,9 +272,8 @@ public class GuardiansPage extends CrudOverlay {
 
             Button updateInput = new Button("Update!");
             updateInput.setOnAction(e1->{
-                if (isInteger(idNumInput.getText())){
+                if (isValidId(idNumInput.getText(), "guardian")){
                     Guardian updateGuardian = guardians.getGuardian(Integer.parseInt(idNumInput.getText()));
-                    if (updateGuardian != null) {
                         switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
                             case ("First Name") -> updateGuardian.setFirst_name(updateNameInput.getText());
                             case ("Last Name") -> updateGuardian.setLast_name(updateNameInput.getText());
@@ -332,9 +315,6 @@ public class GuardiansPage extends CrudOverlay {
                     } else {
                         System.out.println("Specified ID does not exist");
                     }
-                } else {
-                    System.out.println("Invalid ID");
-                }
             });
 
             HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
@@ -346,9 +326,8 @@ public class GuardiansPage extends CrudOverlay {
 
             updateCollection.getChildren().forEach(node-> {
                 node.setOnKeyPressed(keyEvent -> {
-                    if (isInteger(idNumInput.getText())){
+                    if (isValidId(idNumInput.getText(), "guardian")){
                         Guardian updateGuardian = guardians.getGuardian(Integer.parseInt(idNumInput.getText()));
-                        if (updateGuardian != null) {
                             switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
                                 case ("First Name") -> updateGuardian.setFirst_name(updateNameInput.getText());
                                 case ("Last Name") -> updateGuardian.setLast_name(updateNameInput.getText());
@@ -390,9 +369,6 @@ public class GuardiansPage extends CrudOverlay {
                         } else {
                             System.out.println("Specified ID does not exist");
                         }
-                    } else {
-                        System.out.println("Invalid ID");
-                    }
                 });
             });
 
@@ -421,6 +397,8 @@ public class GuardiansPage extends CrudOverlay {
 
                 guardians.deleteGuardian(guardians.getGuardian(deleteGuardian.getId()));
                 loadTable();
+            } else {
+                System.out.println("Guardian not selected");
             }
         });
     }

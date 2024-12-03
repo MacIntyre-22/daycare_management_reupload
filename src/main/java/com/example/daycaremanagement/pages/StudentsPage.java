@@ -30,7 +30,6 @@ public class StudentsPage extends CrudOverlay {
     private Label title = new Label("Students Page");
     private StudentTable students;
     private RoomTable roomTable;
-    private ArrayList<Room> rooms = new ArrayList<>();
 
 
     /**
@@ -59,7 +58,6 @@ public class StudentsPage extends CrudOverlay {
         // Significantly increases the load speed and lagginess of the tableView
         try {
             roomTable = RoomTable.getInstance();
-            rooms.addAll(roomTable.getAllRooms());
         } catch (Exception e) {
             System.out.println("Error From: StudentsPage.java, line 56. Couldn't get Rooms Table.");
         }
@@ -249,6 +247,10 @@ public class StudentsPage extends CrudOverlay {
                 if (isValidId(classroomInput.getText(), "room") && isValidDateFormat(birthdayInput.getText())) {
                     Student createStudent = new Student(0, fNameInput.getText(), lNameInput.getText(), birthdayInput.getText(), Integer.parseInt(classroomInput.getText()));
                     students.createStudent(createStudent);
+                    fNameInput.setText("");
+                    lNameInput.setText("");
+                    birthdayInput.setText("");
+                    classroomInput.setText("");
                     loadTable();
                 } else {
                     System.out.println("Invalid Room ID or birthdate");
@@ -311,9 +313,8 @@ public class StudentsPage extends CrudOverlay {
 
 
             updateInput.setOnAction(e1->{
-                if (isInteger(idNumInput.getText())) {
+                if (isValidId(idNumInput.getText(), "student")) {
                     Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
-                    if (updateStudent != null) {
                         switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
                             case ("First Name") -> updateStudent.setFirst_name(updateNameInput.getText());
                             case ("Last Name") -> updateStudent.setLast_name(updateNameInput.getText());
@@ -321,7 +322,7 @@ public class StudentsPage extends CrudOverlay {
                                 if (isValidDateFormat(updateNameInput.getText())) {
                                     updateStudent.setBirthdate(updateNameInput.getText());
                                 } else {
-                                    System.out.println("Invalid date format. Please use YYYY-MM-DD");
+                                    System.out.println("Invalid date. Please enter a valid date after Jan. 1, 2000 in the YYYY-MM-DD format.");
                                 }
                             }
                             case ("Classroom ID") -> {
@@ -333,14 +334,12 @@ public class StudentsPage extends CrudOverlay {
                             }
                             default -> System.out.println("Category was not selected");
                         }
+                        updateNameInput.setText("");
                         students.updateStudent(updateStudent);
                         loadTable();
                     } else {
                         System.out.println("Specified ID does not exist");
                     }
-                } else {
-                    System.out.println("Invalid ID");
-                }
             });
 
             HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
@@ -353,9 +352,8 @@ public class StudentsPage extends CrudOverlay {
 
             updateCollection.getChildren().forEach(node-> {
                 node.setOnKeyPressed(keyEvent -> {
-                    if (isInteger(idNumInput.getText())) {
+                    if (isValidId(idNumInput.getText(), "student")) {
                         Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
-                        if (updateStudent != null) {
                             switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
                                 case ("First Name") -> updateStudent.setFirst_name(updateNameInput.getText());
                                 case ("Last Name") -> updateStudent.setLast_name(updateNameInput.getText());
@@ -380,9 +378,6 @@ public class StudentsPage extends CrudOverlay {
                         } else {
                             System.out.println("Specified ID does not exist");
                         }
-                    } else {
-                        System.out.println("Invalid ID");
-                    }
                 });
             });
 
@@ -412,6 +407,8 @@ public class StudentsPage extends CrudOverlay {
 
                 students.deleteStudent(students.getStudent(deleteStudent.getId()));
                 loadTable();
+            } else {
+                System.out.println("Student not selected");
             }
         });
     }
