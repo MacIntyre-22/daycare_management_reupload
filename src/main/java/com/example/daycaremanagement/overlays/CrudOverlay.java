@@ -26,6 +26,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -427,7 +428,7 @@ public abstract class CrudOverlay extends StackPane {
     // Checks if a string is 10 digits long and an integer
     public boolean isValidPhone(String i){
         if (isInteger(i)){
-            return i.length() == 10;
+            return i.length() == 10 && Integer.parseInt(i) >= 0;
         }
         return false;
     }
@@ -505,8 +506,12 @@ public abstract class CrudOverlay extends StackPane {
         try{
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             dateFormat.setLenient(false);
-            dateFormat.parse(date);
-            return true;
+            Date parsedDate = dateFormat.parse(date);
+            Date currentDate = new Date();
+            // min date of jan 1 2000, max date of today
+            Date minDate = dateFormat.parse("2000-01-01");
+
+            return parsedDate.equals(minDate) || parsedDate.after(minDate) && !parsedDate.after(currentDate);
         } catch (Exception e){
             return false;
         }
@@ -516,6 +521,10 @@ public abstract class CrudOverlay extends StackPane {
         Pattern pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+    // Checks if the wage is a double and is greater than or equal to 0
+    public boolean isValidWage(String wage){
+        return (isDouble(wage) && Double.parseDouble(wage) >= 0);
     }
 
 
