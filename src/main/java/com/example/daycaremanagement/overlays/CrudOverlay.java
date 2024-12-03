@@ -310,8 +310,8 @@ public abstract class CrudOverlay extends BorderPane {
 
     // Checks if a string is 10 digits long and an integer
     public boolean isValidPhone(String i){
-        if (isInteger(i) && Integer.parseInt(i) >= 0){
-            return i.length() == 10;
+        if (isInteger(i)){
+            return i.length() == 10 && Integer.parseInt(i) >= 0;
         }
         return false;
     }
