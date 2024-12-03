@@ -1,7 +1,10 @@
 package com.example.daycaremanagement.pages;
 
+import com.example.daycaremanagement.MainApp;
+import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -11,16 +14,14 @@ import javafx.scene.image.ImageView;
 public class InfoPage extends BorderPane {
 
 
-
   /**
    * This Pages Displays the Information about the creators, and the program itself
    */
   public InfoPage() {
-    VBox root = new VBox(10);
-    root.setPadding(new Insets(15));
-
+    HBox root = new HBox();
+    root.getStyleClass().add("content");
     // Load the logo and add it to the VBox
-    Image logo = new Image((getClass().getResourceAsStream("/com/example/daycaremanagement/images/Day.jpeg")));
+    Image logo = new Image((MainApp.class.getResourceAsStream("/com/example/daycaremanagement/images/Day.jpeg")));
     ImageView logoView = new ImageView(logo);
     logoView.setFitWidth(200);
 
@@ -30,19 +31,42 @@ public class InfoPage extends BorderPane {
     Label title = new Label("Project: Daycare Management");
     title.setStyle("-fx-font-size: 35px; -fx-font-weight: bold; -fx-font-family: 'Cooper'; -fx-padding: 5px 20px;");
     root.getChildren().add(title);
+    this.getStylesheets().add(MainApp.class.getResource("Styles/InfoPage.css").toExternalForm());
 
-    // Add project description and member names
-    addName(root, "This is a management system for daycare programs, that keeps track of the students that \n" +
-            "attend the daycare with their information, along with employees/staff with their position and \n" +
-            "wage, and the guardians/emergency contacts for the students.");
 
-    addName(root, "Project Members:");
-    addName(root, "  Ben MacIntyre");
-    addName(root, "  Kasey Johns");
-    addName(root, "  Gursimran Kaur");
-    addName(root, "  Alex Zarankin");
+    VBox creators = new VBox();
+    creators.setAlignment(Pos.CENTER);
+    creators.setMaxWidth(200);
 
+    Label creatorsTitle = new Label("Authors:");
+    creatorsTitle.getStyleClass().add("title");
+    creatorsTitle.setUnderline(true);
+
+    creators.getChildren().add(creatorsTitle);
+
+
+    VBox aboutProject = new VBox();
+    aboutProject.setAlignment(Pos.CENTER);
+    aboutProject.setMaxWidth(400);
+
+    Label aboutProjectTitle = new Label("About Project:");
+    aboutProjectTitle.getStyleClass().add("title");
+    aboutProjectTitle.setUnderline(true);
+
+    aboutProject.getChildren().add(aboutProjectTitle);
+
+
+    addName(creators, "Ben MacIntyre ");
+    addName(creators, "Kasey Johns ");
+    addName(creators, "Gursimran Kaur");
+    addName(creators, "Alex Zarankin ");
+
+    addName(aboutProject, "This is a management system for daycare programs, that keeps track of the students that attend the daycare with their information, along with employees/staff with their position and wage, and the guardians/emergency contacts for the students.");
+
+
+    root.getChildren().addAll(creators, aboutProject);
     this.setCenter(root);
+
   }
 
   /**
@@ -55,7 +79,7 @@ public class InfoPage extends BorderPane {
    */
   private void addName(VBox container, String name) {
     Label nameLabel = new Label(name);
-    nameLabel.setStyle("-fx-font-size: 19px; -fx-font-weight: italic; -fx-font-family: 'Baguet Script';");
-    container.getChildren().add(nameLabel);
+
+    container.getChildren().addAll(nameLabel);
   }
 }

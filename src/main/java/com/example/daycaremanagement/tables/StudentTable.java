@@ -74,10 +74,11 @@ public class StudentTable implements StudentDAO {
 
     @Override
     public Student getStudent(int id) {
-        String query = "SELECT * FROM "+ TABLE_STUDENTS + " WHERE " + STUDENTS_COLUMN_ID + " = " + id;
+        String query = "SELECT * FROM "+ TABLE_STUDENTS + " WHERE " + STUDENTS_COLUMN_ID + " = ?";
         try{
-            Statement getStudent = db.getConnection().createStatement();
-            ResultSet data = getStudent.executeQuery(query);
+            PreparedStatement getStudent = db.getConnection().prepareStatement(query);
+            getStudent.setInt(1, id);
+            ResultSet data = getStudent.executeQuery();
             if (data.next()){
                 Student student = new Student(
                         data.getInt(STUDENTS_COLUMN_ID),
@@ -95,10 +96,11 @@ public class StudentTable implements StudentDAO {
     }
 
     public Student getStudentByRelation(int id) {
-        String query = "SELECT * FROM "+ TABLE_STUDENTS + " WHERE " + TABLE_GUARDIAN_STUDENT_RELATION + "." + GUARDIAN_STUDENT_RELATION_COLUMN_ID + " = " + id;
+        String query = "SELECT * FROM "+ TABLE_STUDENTS + " WHERE " + TABLE_GUARDIAN_STUDENT_RELATION + "." + GUARDIAN_STUDENT_RELATION_COLUMN_ID + " = ?";
         try{
-            Statement getStudent = db.getConnection().createStatement();
-            ResultSet data = getStudent.executeQuery(query);
+            PreparedStatement getStudent = db.getConnection().prepareStatement(query);
+            getStudent.setInt(1, id);
+            ResultSet data = getStudent.executeQuery();
             if (data.next()){
                 Student student = new Student(
                         data.getInt(STUDENTS_COLUMN_ID),
@@ -117,11 +119,16 @@ public class StudentTable implements StudentDAO {
 
     @Override
     public void updateStudent(Student student) {
-        String query = "UPDATE " + TABLE_STUDENTS + " SET " + STUDENTS_COLUMN_FIRST_NAME + " = '" + student.getFirst_name() + "', " + STUDENTS_COLUMN_LAST_NAME + " = '" + student.getLast_name() +"', " + STUDENTS_COLUMN_BIRTHDATE + " = '" + student.getBirthdate() + "', " + STUDENTS_COLUMN_ROOM_ID + " = "+ student.getRoom_id()+
-                " WHERE " + STUDENTS_COLUMN_ID + " = " + student.getId();
+        String query = "UPDATE " + TABLE_STUDENTS + " SET " + STUDENTS_COLUMN_FIRST_NAME + " = ?, " + STUDENTS_COLUMN_LAST_NAME + " = ?, " + STUDENTS_COLUMN_BIRTHDATE + " = ?, " + STUDENTS_COLUMN_ROOM_ID + " = ?"+
+                " WHERE " + STUDENTS_COLUMN_ID + " = ?";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setString(1, student.getFirst_name());
+            statement.setString(2, student.getLast_name());
+            statement.setString(3, student.getBirthdate());
+            statement.setInt(4, student.getRoom_id());
+            statement.setInt(5, student.getId());
+            statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -129,10 +136,11 @@ public class StudentTable implements StudentDAO {
 
     @Override
     public void deleteStudent(Student student) {
-        String query = "DELETE FROM "+TABLE_STUDENTS+" WHERE "+ STUDENTS_COLUMN_ID + " = " + student.getId() + " LIMIT 1";
+        String query = "DELETE FROM "+TABLE_STUDENTS+" WHERE "+ STUDENTS_COLUMN_ID + " = ? LIMIT 1";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setInt(1, student.getId());
+            statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -140,10 +148,14 @@ public class StudentTable implements StudentDAO {
 
     @Override
     public void createStudent(Student student) {
-        String query = "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, '"+student.getFirst_name()+"', '"+student.getLast_name()+"', '"+student.getBirthdate()+"', "+student.getRoom_id()+");";
+        String query = "INSERT INTO " + TABLE_STUDENTS + " ("+STUDENTS_COLUMN_ID+", "+ STUDENTS_COLUMN_FIRST_NAME+", "+STUDENTS_COLUMN_LAST_NAME+", "+STUDENTS_COLUMN_BIRTHDATE+", "+STUDENTS_COLUMN_ROOM_ID+") VALUES (0, ?, ?, ?, ?);";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.execute(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setString(1, student.getFirst_name());
+            statement.setString(2, student.getLast_name());
+            statement.setString(3, student.getBirthdate());
+            statement.setInt(4, student.getRoom_id());
+            statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -5,6 +5,7 @@ import com.example.daycaremanagement.pojo.Guardian;
 import com.example.daycaremanagement.dao.GuardianDAO;
 import com.example.daycaremanagement.pojo.display.DisplayGuardian;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -81,10 +82,12 @@ public class GuardianTable implements GuardianDAO {
 
     @Override
     public Guardian getGuardian(int id) {
-        String query = "SELECT * FROM "+ TABLE_GUARDIANS + " WHERE " + GUARDIANS_COLUMN_ID + " = " + id;
-        try{
-            Statement getGuardian = db.getConnection().createStatement();
-            ResultSet data = getGuardian.executeQuery(query);
+        String query = "SELECT * FROM " + TABLE_GUARDIANS + " WHERE " + GUARDIANS_COLUMN_ID + " = ?";
+
+        try {
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet data = statement.executeQuery();
             if (data.next()){
                 Guardian guardian = new Guardian(
                         data.getInt(GUARDIANS_COLUMN_ID),
@@ -105,10 +108,11 @@ public class GuardianTable implements GuardianDAO {
     }
 
     public Guardian getGuardianByRelation(int id) {
-        String query = "SELECT * FROM "+ TABLE_GUARDIANS + " WHERE " + TABLE_GUARDIAN_STUDENT_RELATION +"."+GUARDIAN_STUDENT_RELATION_COLUMN_ID + " = " + id;
+        String query = "SELECT * FROM "+ TABLE_GUARDIANS + " WHERE " + TABLE_GUARDIAN_STUDENT_RELATION +"."+GUARDIAN_STUDENT_RELATION_COLUMN_ID + " = ?";
         try{
-            Statement getGuardian = db.getConnection().createStatement();
-            ResultSet data = getGuardian.executeQuery(query);
+            PreparedStatement getGuardian = db.getConnection().prepareStatement(query);
+            getGuardian.setInt(1, id);
+            ResultSet data = getGuardian.executeQuery();
             if (data.next()){
                 Guardian guardian = new Guardian(
                         data.getInt(GUARDIANS_COLUMN_ID),
@@ -130,22 +134,31 @@ public class GuardianTable implements GuardianDAO {
 
     @Override
     public void updateGuardian(Guardian guardian) {
-        String query = "UPDATE " + TABLE_GUARDIANS + " SET " + GUARDIANS_COLUMN_FIRST_NAME + " = '" + guardian.getFirst_name() + "', " + GUARDIANS_COLUMN_LAST_NAME + " = '" + guardian.getLast_name() +"', " + GUARDIANS_COLUMN_PHONE + " = " + guardian.getPhone() + ", " + GUARDIANS_COLUMN_EMAIL + " = '"+ guardian.getEmail()+"', " + GUARDIANS_COLUMN_CITY_ID + " = " + guardian.getCity_id() + ", " + GUARDIANS_COLUMN_STREET_NUM + " = " + guardian.getStreet_num() + ", " + GUARDIANS_COLUMN_STREET_NAME + " = '" + guardian.getStreet_name() + "'" +
-                " WHERE " + GUARDIANS_COLUMN_ID + " = " + guardian.getId();
-        try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
-        } catch (Exception e){
+        String query = "UPDATE " + TABLE_GUARDIANS + " SET " + GUARDIANS_COLUMN_FIRST_NAME + " = ?, " + GUARDIANS_COLUMN_LAST_NAME + " = ?, " + GUARDIANS_COLUMN_PHONE + " = ?, " + GUARDIANS_COLUMN_EMAIL + " = ?, " + GUARDIANS_COLUMN_CITY_ID + " = ?, " + GUARDIANS_COLUMN_STREET_NUM + " = ?, " + GUARDIANS_COLUMN_STREET_NAME + " = ?" +
+                " WHERE " + GUARDIANS_COLUMN_ID + " = ?";
+        try {
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setString(1, guardian.getFirst_name());
+            statement.setString(2, guardian.getLast_name());
+            statement.setString(3, guardian.getPhone());
+            statement.setString(4, guardian.getEmail());
+            statement.setInt(5, guardian.getCity_id());
+            statement.setInt(6, guardian.getStreet_num());
+            statement.setString(7, guardian.getStreet_name());
+            statement.setInt(8, guardian.getId());
+            statement.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void deleteGuardian(Guardian guardian) {
-        String query = "DELETE FROM "+TABLE_GUARDIANS+" WHERE "+ GUARDIANS_COLUMN_ID + " = " + guardian.getId() + " LIMIT 1";
+        String query = "DELETE FROM "+TABLE_GUARDIANS+" WHERE "+ GUARDIANS_COLUMN_ID + " = ? LIMIT 1";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setInt(1, guardian.getId());
+            statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -153,11 +166,18 @@ public class GuardianTable implements GuardianDAO {
 
     @Override
     public void createGuardian(Guardian guardian) {
-        String query = "INSERT INTO " + TABLE_GUARDIANS + " ("+GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME+", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, '"+guardian.getFirst_name()+"', '"+guardian.getLast_name()+"', "+guardian.getPhone()+", '"+guardian.getEmail()+"', "+guardian.getCity_id()+", "+guardian.getStreet_num()+", '"+guardian.getStreet_name()+"');";
-        try{
-            Statement statement = db.getConnection().createStatement();
-            statement.execute(query);
-        } catch (Exception e){
+        String query = "INSERT INTO " + TABLE_GUARDIANS + " (" +GUARDIANS_COLUMN_ID+", "+ GUARDIANS_COLUMN_FIRST_NAME + ", "+GUARDIANS_COLUMN_LAST_NAME+", "+GUARDIANS_COLUMN_PHONE+", "+GUARDIANS_COLUMN_EMAIL+", "+GUARDIANS_COLUMN_CITY_ID+", "+GUARDIANS_COLUMN_STREET_NUM+", "+GUARDIANS_COLUMN_STREET_NAME+") VALUES (0, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setString(1, guardian.getFirst_name());
+            statement.setString(2, guardian.getLast_name());
+            statement.setString(3, guardian.getPhone());
+            statement.setString(4, guardian.getEmail());
+            statement.setInt(5, guardian.getCity_id());
+            statement.setInt(6, guardian.getStreet_num());
+            statement.setString(7, guardian.getStreet_name());
+            statement.execute();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

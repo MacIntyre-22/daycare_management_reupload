@@ -6,7 +6,9 @@ import com.example.daycaremanagement.overlays.MainTablesOverlay;
 import com.example.daycaremanagement.pages.LoginPage;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,15 +21,20 @@ import static com.example.daycaremanagement.database.DBConst.*;
 public class MainApp extends Application {
     public static Stage primaryStage;
     // Test Page for login
-    private LoginPage loginPage = new LoginPage();
-    private Scene loginPageScene = new Scene(loginPage, 1024, 768);
+    private static LoginPage loginPage = new LoginPage();
+    public static Scene loginPageScene = new Scene(loginPage, 1024, 768);
 
 
     @Override
     public void start(Stage stage) throws IOException {
-        // Initalization
+        // Initialization
         primaryStage = stage;
         primaryStage.setTitle("Daycare Management");
+        // User Can not Resize the screen, If they could the position of GUI's would break
+        primaryStage.setResizable(false);
+        primaryStage.initStyle(StageStyle.DECORATED);
+
+        loginPageScene.setFill(Color.TRANSPARENT);
 
         // Set the Logic for login button press in LoginPageScene
         // Has to grab the button in main app for the ability to change the primary stage to test page
@@ -37,6 +44,9 @@ public class MainApp extends Application {
         if (loginExists()) {
             loginPage.connectToDatabase();
         }
+
+
+        loginPageScene.getStylesheets().add(this.getClass().getResource("Styles/loginPage.css").toExternalForm());
 
 
         primaryStage.show();

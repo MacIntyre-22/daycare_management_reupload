@@ -1,0 +1,27 @@
+.content {
+    -fx-padding: 15;
+    -fx-spacing: 150;
+    -fx-alignment: CENTER;
+    -fx-background-color: #67B0CE;
+    -fx-background-radius: 50;
+    -fx-max-width: 800;
+    -fx-max-height: 500;
+    -fx-effect: dropshadow(three-pass-box, black, 15, 0, 3, 4);
+    -fx-font-size: 14;
+}
+
+.content .label {
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, black, 5, 0, 3, 3);
+    -fx-alignment: CENTER;
+    -fx-wrap-text: true;
+}
+
+.title {
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 25;
+    -fx-effect: dropshadow(three-pass-box, black, 5, 0, 3, 3);
+    -fx-padding: 0 0 15 0;
+}

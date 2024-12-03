@@ -5,6 +5,7 @@ import com.example.daycaremanagement.pojo.Staff;
 import com.example.daycaremanagement.dao.StaffDAO;
 import com.example.daycaremanagement.pojo.display.DisplayStaff;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,7 +47,6 @@ public class StaffTable implements StaffDAO {
 
     public ArrayList<DisplayStaff> getAllDisplayStaff(){
         ArrayList<DisplayStaff> displayStaff = new ArrayList<>();
-        //pain
         String query = "SELECT "+TABLE_STAFF+"."+STAFF_COLUMN_ID+" as id, "
                 + TABLE_STAFF+"."+STAFF_COLUMN_FIRST_NAME+" as first_name, "
                 + TABLE_STAFF+"."+STAFF_COLUMN_LAST_NAME+" as last_name, "
@@ -79,10 +79,11 @@ public class StaffTable implements StaffDAO {
 
     @Override
     public Staff getStaff(int id) {
-        String query = "SELECT * FROM "+ TABLE_STAFF + " WHERE " + STAFF_COLUMN_ID + " = " + id;
+        String query = "SELECT * FROM "+ TABLE_STAFF + " WHERE " + STAFF_COLUMN_ID + " = ?";
         try{
-            Statement getStaff = db.getConnection().createStatement();
-            ResultSet data = getStaff.executeQuery(query);
+            PreparedStatement getStaff = db.getConnection().prepareStatement(query);
+            getStaff.setInt(1, id);
+            ResultSet data = getStaff.executeQuery();
             if (data.next()){
                 Staff singleStaff = new Staff(
                         data.getInt(STAFF_COLUMN_ID),
@@ -102,11 +103,17 @@ public class StaffTable implements StaffDAO {
 
     @Override
     public void updateStaff(Staff staff) {
-        String query = "UPDATE " + TABLE_STAFF + " SET " + STAFF_COLUMN_FIRST_NAME + " = '" + staff.getFirst_name() + "', " + STAFF_COLUMN_LAST_NAME + " = '" + staff.getLast_name() +"', " + STAFF_COLUMN_WAGE + " = " + staff.getWage() + ", " + STAFF_COLUMN_ROOM_ID + " = "+ staff.getRoom_id()+", " + STAFF_COLUMN_POSITION_ID + " = " + staff.getPosition_id() +
-                " WHERE " + STAFF_COLUMN_ID + " = " + staff.getId();
+        String query = "UPDATE " + TABLE_STAFF + " SET " + STAFF_COLUMN_FIRST_NAME + " = ?, " + STAFF_COLUMN_LAST_NAME + " = ?, " + STAFF_COLUMN_WAGE + " = ?, " + STAFF_COLUMN_ROOM_ID + " = ?, " + STAFF_COLUMN_POSITION_ID + " = ?" +
+                " WHERE " + STAFF_COLUMN_ID + " = ?";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setString(1, staff.getFirst_name());
+            statement.setString(2, staff.getLast_name());
+            statement.setDouble(3, staff.getWage());
+            statement.setInt(4, staff.getRoom_id());
+            statement.setInt(5, staff.getPosition_id());
+            statement.setInt(6, staff.getId());
+            statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -114,10 +121,12 @@ public class StaffTable implements StaffDAO {
 
     @Override
     public void deleteStaff(Staff staff) {
-        String query = "DELETE FROM "+TABLE_STAFF+" WHERE "+ STAFF_COLUMN_ID + " = " + staff.getId() + " LIMIT 1";
+        String query = "DELETE FROM "+TABLE_STAFF+" WHERE "+ STAFF_COLUMN_ID + " = ? LIMIT 1";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setInt(1, staff.getId());
+            statement.executeUpdate();
+
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -125,10 +134,15 @@ public class StaffTable implements StaffDAO {
 
     @Override
     public void createStaff(Staff staff) {
-        String query = "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, '"+staff.getFirst_name()+"', '"+staff.getLast_name()+"', "+staff.getWage()+", "+staff.getRoom_id()+", "+staff.getPosition_id()+");";
+        String query = "INSERT INTO " + TABLE_STAFF + " ("+STAFF_COLUMN_ID+", "+ STAFF_COLUMN_FIRST_NAME+", "+STAFF_COLUMN_LAST_NAME+", "+STAFF_COLUMN_WAGE+", "+STAFF_COLUMN_ROOM_ID+", "+STAFF_COLUMN_POSITION_ID+") VALUES (0, ?, ?, ?, ?, ?);";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.execute(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setString(1, staff.getFirst_name());
+            statement.setString(2, staff.getLast_name());
+            statement.setDouble(3, staff.getWage());
+            statement.setInt(4, staff.getRoom_id());
+            statement.setInt(5, staff.getPosition_id());
+            statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
         }

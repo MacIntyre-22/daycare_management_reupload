@@ -6,61 +6,79 @@ import com.example.daycaremanagement.pages.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import static com.example.daycaremanagement.MainApp.loginPageScene;
 import static com.example.daycaremanagement.MainApp.primaryStage;
 
-public class MainTablesOverlay extends BorderPane {
+public class MainTablesOverlay extends StackPane {
   private StaffPage staffPageDisplay = StaffPage.getInstance();
   private GuardiansPage guardiansPageDisplay = GuardiansPage.getInstance();
   private StudentsPage studentDisplay = StudentsPage.getInstance();
+  private OtherTablesPage otherDisplay = OtherTablesPage.getInstance();
 
 
   /**
    * This Overlay is the way the user can switch to each class type
    */
   public MainTablesOverlay() {
-    // Left Side Navigation (VBox)
-    VBox vbox = new VBox(10);
-    VBox logoutBox = new VBox(570);
-    logoutBox.setStyle("-fx-background-color:SkyBlue; -fx-padding: 20;");
+    BorderPane root = new BorderPane();
+    // Moving the Content under the Header
+    root.setTranslateY(root.getTranslateY()+35);
+
+    Label title = new Label("Daycare Management");
+    title.getStyleClass().add("title");
+
+    // Top Navigation (HBox)
+    HBox mainButtonBox = new HBox(10);
+    mainButtonBox.setAlignment(Pos.CENTER_RIGHT);
+    mainButtonBox.getStyleClass().add("ButtonBox");
+
+    HBox addLoginButtonBox = new HBox(50);
+    HBox layoutBox = new HBox();
+    layoutBox.getStyleClass().add("Box");
 
     Button studentsButton = new Button("Students");
     Button guardiansButton = new Button("Guardians");
-    Button staffButton = new Button("Staff ");
-    Button infoButton = new Button("Info ");
+    Button staffButton = new Button("Staff");
+    Button infoButton = new Button("Info");
+    Button otherButton = new Button("Extra");
     Button logoutButton = new Button("Logout");
 
-    studentsButton.setMaxWidth(Double.MAX_VALUE);
-    guardiansButton.setMaxWidth(Double.MAX_VALUE);
-    staffButton.setMaxWidth(Double.MAX_VALUE);
-    infoButton.setMaxWidth(Double.MAX_VALUE);
-    logoutButton.setMaxWidth(Double.MAX_VALUE);
+    logoutButton.getStyleClass().add("logoutButton");
 
     // Action for Information button
     infoButton.setOnAction(e -> {
       InfoPage infoDisplay = new InfoPage();
-      this.setCenter(infoDisplay);
+      root.setCenter(infoDisplay);
     });
 
+    otherButton.setOnAction(e->{
+      root.setCenter(otherDisplay);
+    });
     // Placeholder action for Guardians button
     guardiansButton.setOnAction(e -> {
-      this.setCenter(guardiansPageDisplay);
+      root.setCenter(guardiansPageDisplay);
     });
 
     // Placeholder action for Staff button
     staffButton.setOnAction(e -> {
-      this.setCenter(staffPageDisplay);
+      root.setCenter(staffPageDisplay);
     });
 
     studentsButton.setOnAction(e -> {
-      this.setCenter(studentDisplay);
+      root.setCenter(studentDisplay);
     });
 
     logoutButton.setOnAction(e->{
@@ -77,14 +95,24 @@ public class MainTablesOverlay extends BorderPane {
       }
 
       LoginPage loginPage = new LoginPage();
-      primaryStage.setScene(new Scene(loginPage, 1024, 768));
+      loginPageScene.setRoot(loginPage);
+      primaryStage.setScene(loginPageScene);
     });
 
-    vbox.getChildren().addAll(studentsButton, guardiansButton, staffButton, infoButton);
-    logoutBox.getChildren().addAll(vbox, logoutButton);
-    logoutBox.setAlignment(Pos.BOTTOM_LEFT);
-    this.setLeft(logoutBox);
-    this.setCenter(studentDisplay);
+    StackPane top = new StackPane(layoutBox);
+    top.setAlignment(Pos.TOP_CENTER);
+    top.setMaxHeight(0);
+    // Position the Header to the top of the Screen
+    top.setTranslateY(-(primaryStage.getScene().getHeight()/2) + 20);
+
+    mainButtonBox.getChildren().addAll(studentsButton, guardiansButton, staffButton,otherButton, infoButton);
+    addLoginButtonBox.getChildren().addAll(mainButtonBox, logoutButton);
+    addLoginButtonBox.setAlignment(Pos.TOP_RIGHT);
+    layoutBox.getChildren().addAll(title, addLoginButtonBox);
+
+    root.setCenter(studentDisplay);
+
+    this.getChildren().addAll(root, top);
   }
 
 

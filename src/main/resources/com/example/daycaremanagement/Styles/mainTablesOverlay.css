@@ -1,0 +1,66 @@
+/* Main Page */
+.root {
+    -fx-background-color: #21629B;
+}
+
+.title {
+    -fx-font-family: "Courier New";
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, black, 3, 0, 3, 2);
+}
+/* Main VBox */
+.Box {
+    -fx-background-color: #0E6BA8;
+    -fx-padding: 10;
+    -fx-spacing: 370;
+    -fx-effect: dropshadow(three-pass-box, black, 15, 0, 0, 0);
+    -fx-background-radius: 0 0 10 10;
+    -fx-max-height: 0;
+}
+/* The Main Four Button */
+.ButtonBox .button {
+    -fx-background-radius: 10;
+    -fx-background-color: #002D8A;
+    -fx-text-fill: white;
+    -fx-height: 25;
+    -fx-min-width: 20;
+    -fx-max-width: 75;
+    -fx-effect: dropshadow(three-pass-box, black, 3, 0, 3, 4);
+}
+.ButtonBox .button:focused {
+     -fx-background-color: #1549B6;
+}
+.ButtonBox .button:hover {
+    -fx-background-color: #A6E1FA;
+    -fx-text-fill: #002D8A;
+    -fx-effect: dropshadow(three-pass-box, blueviolet, 3, 0, 3, 4);
+}
+.ButtonBox .button:pressed {
+    -fx-background-color: #67B0CE;
+    -fx-text-fill: #002D8A;
+    -fx-effect: dropshadow(three-pass-box, violet, 3, 0, 3, 4);
+}
+
+/* Logout Button */
+.logoutButton {
+    -fx-background-radius: 10;
+    -fx-background-color: #6B08AD;
+    -fx-text-fill: white;
+    -fx-height: 25;
+    -fx-min-width: 20;
+    -fx-max-width: 75;
+    -fx-effect: dropshadow(three-pass-box, black, 3, 0, 3, 4);
+    -fx-focus-traversable: false;
+}
+.logoutButton:hover {
+    -fx-background-color: #D28EFF;
+    -fx-text-fill: #6B08AD;
+    -fx-effect: dropshadow(three-pass-box, blue, 3, 0, 3, 4);
+}
+.logoutButton:pressed {
+    -fx-background-color: #B549FE;
+    -fx-text-fill: #6B08AD;
+    -fx-effect: dropshadow(three-pass-box, hotpink, 3, 0, 3, 4);
+}

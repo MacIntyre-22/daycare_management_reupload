@@ -1,0 +1,78 @@
+/* The Side Bar Arrow */
+.ArrowButton {
+    -fx-background-radius: 100;
+    -fx-background-color: transparent;
+    -fx-focus-traversable: false;
+}
+
+/* Main Content */
+.content {
+    -fx-padding: 10 50 0 50;
+    -fx-background-color: #21629B;
+
+}
+.content .label {
+    -fx-text-fill: white;
+}
+.content .chart .label {
+    -fx-text-fill: black;
+}
+
+/* The Side Button Group */
+.NavButtons {
+    -fx-padding: 0 0 0 0;
+    -fx-background-color: #0963FFcc;
+    -fx-background-radius: 10;
+    -fx-max-height: 600;
+    -fx-translate-y: -40;
+    -fx-spacing: 50;
+    -fx-effect: dropshadow(three-pass-box, black, 15, 0, 4, 3);
+}
+/* The Side Button */
+.NavButtons .button {
+    -fx-effect: dropshadow(three-pass-box, #114675, 15, 0, 4, 3);
+    -fx-background-color: #06D9FE;
+    -fx-background-radius: 10;
+}
+.NavButtons .button:focused {
+    -fx-background-color: #84EDFE;
+    -fx-effect: dropshadow(three-pass-box, #02A7F8, 15, 0, 4, 3);
+}
+.NavButtons .button:hover {
+    -fx-background-color: #ABF3FF;
+    -fx-effect: dropshadow(three-pass-box, #06D9FE, 15, 0, 4, 3);
+
+}
+.NavButtons .button:pressed {
+    -fx-background-color: #6CCBDB;
+    -fx-effect: dropshadow(three-pass-box, #05A1BC, 15, 0, 4, 3);
+}
+
+/* The Bottom Button Group */
+.crudButtons {
+    -fx-background-color: #007cb0;
+    -fx-background-radius: 50;
+    -fx-padding: 10;
+    -fx-spacing: 50;
+    -fx-max-width: 300;
+    -fx-effect: dropshadow(three-pass-box, black, 15, 0, 3, 4);
+}
+/* The Button Button */
+.crudButtons .button {
+    -fx-effect: dropshadow(three-pass-box, #114675, 15, 0, 3, 4);
+    -fx-background-color: #06D9FE;
+    -fx-background-radius: 10;
+}
+.crudButtons .button:focused {
+    -fx-background-color: #84EDFE;
+    -fx-effect: dropshadow(three-pass-box, #02A7F8, 15, 0, 3, 4);
+}
+.crudButtons .button:hover {
+    -fx-background-color: #ABF3FF;
+    -fx-effect: dropshadow(three-pass-box, #06D9FE, 15, 0, 3, 4);
+
+}
+.crudButtons .button:pressed {
+    -fx-background-color: #6CCBDB;
+    -fx-effect: dropshadow(three-pass-box, #05A1BC, 15, 0, 3, 4);
+}
