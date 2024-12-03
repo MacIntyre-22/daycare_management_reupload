@@ -104,7 +104,7 @@ public class GuardianStudentRelationTable implements GuardianStudentRelationDAO 
         try{
             PreparedStatement statement = db.getConnection().prepareStatement(query);
             statement.setInt(1,relation.getId());
-            statement.executeUpdate(query);
+            statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
         }

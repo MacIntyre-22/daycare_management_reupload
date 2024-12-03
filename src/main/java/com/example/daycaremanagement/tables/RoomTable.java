@@ -65,7 +65,7 @@ public class RoomTable implements RoomDAO {
         try{
             PreparedStatement statement = db.getConnection().prepareStatement(query);
             statement.setString(1, room.getName());
-            statement.setInt(1, room.getId());
+            statement.setInt(2, room.getId());
             statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
