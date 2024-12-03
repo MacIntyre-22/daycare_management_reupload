@@ -4,6 +4,7 @@ import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.pojo.Position;
 import com.example.daycaremanagement.dao.PositionDAO;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -40,10 +41,11 @@ public class PositionTable implements PositionDAO {
 
     @Override
     public Position getPosition(int id) {
-        String query = "SELECT * FROM "+ TABLE_POSITIONS + " WHERE " + POSITIONS_COLUMN_ID + " = " + id;
+        String query = "SELECT * FROM "+ TABLE_POSITIONS + " WHERE " + POSITIONS_COLUMN_ID + " = ?";
         try{
-            Statement getPosition = db.getConnection().createStatement();
-            ResultSet data = getPosition.executeQuery(query);
+            PreparedStatement getPosition = db.getConnection().prepareStatement(query);
+            getPosition.setInt(1, id);
+            ResultSet data = getPosition.executeQuery();
             if (data.next()){
                 Position position = new Position(
                         data.getInt(POSITIONS_COLUMN_ID),
@@ -59,10 +61,12 @@ public class PositionTable implements PositionDAO {
 
     @Override
     public void updatePosition(Position position) {
-        String query = "UPDATE " + TABLE_POSITIONS + " SET " + POSITIONS_COLUMN_NAME + " = '" + position.getName() + "' WHERE " + POSITIONS_COLUMN_ID + " = " + position.getId();
+        String query = "UPDATE " + TABLE_POSITIONS + " SET " + POSITIONS_COLUMN_NAME + " = ? WHERE " + POSITIONS_COLUMN_ID + " = ?";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setString(1, position.getName());
+            statement.setInt(2, position.getId());
+            statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -70,10 +74,11 @@ public class PositionTable implements PositionDAO {
 
     @Override
     public void deletePosition(Position position) {
-        String query = "DELETE FROM "+TABLE_POSITIONS+" WHERE "+ POSITIONS_COLUMN_ID + " = " + position.getId() + " LIMIT 1";
+        String query = "DELETE FROM "+TABLE_POSITIONS+" WHERE "+ POSITIONS_COLUMN_ID + " = ? LIMIT 1";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setInt(1, position.getId());
+            statement.executeUpdate();
         } catch (Exception e){
             System.out.println("Invalid Position ID or the ID is in use in another table.");
         }
