@@ -25,13 +25,8 @@ public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
   private Label title = new Label("Staff Page");
   private StaffTable staff;
-  private RoomTable roomTable;
   private PositionTable positionTable;
 
-    // Pre Loaded Array of data
-    ArrayList<City> cities = new ArrayList<>();
-    ArrayList<Room> rooms = new ArrayList<>();
-    ArrayList<Position> positions = new ArrayList<>();
 
 
 
@@ -57,17 +52,6 @@ public class StaffPage extends CrudOverlay {
       this.getStylesheets().add(MainApp.class.getResource("Styles/StaffPage.css").toExternalForm());
       title.getStyleClass().add("title");
       content.setTop(title);
-
-      // Add rooms to array
-      // Significantly increases the load speed and lagginess of the tableView
-      try {
-          roomTable = RoomTable.getInstance();
-          rooms.addAll(roomTable.getAllRooms());
-          positionTable = PositionTable.getInstance();
-          positions.addAll(positionTable.getAllPositions());
-      } catch (Exception e) {
-          System.out.println("Error From: StaffPage.java, line 51. Couldn't get tables.");
-      }
 
       // Set Icons for buttons we use
       graph1.setGraphic(createBtn(setIcon(ICONS[0], 30), "Table"));
@@ -200,6 +184,8 @@ public class StaffPage extends CrudOverlay {
               DisplayStaff deleteStaff = (DisplayStaff) this.tableView.getSelectionModel().getSelectedItems().get(0);
               staff.deleteStaff(staff.getStaff(deleteStaff.getId()));
               loadTable();
+          } else {
+              System.out.println("Staff not selected");
           }
       });
 
@@ -303,43 +289,39 @@ public class StaffPage extends CrudOverlay {
 
           Button updateInput = new Button("Update!");
           updateInput.setOnAction(e1->{
-              if (isInteger(idNumInput.getText())) {
+              if (isValidId(idNumInput.getText(), "staff")) {
                   Staff updateStaff = staff.getStaff(Integer.parseInt(idNumInput.getText()));
-                  if (updateStaff != null) {
-                      switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
-                          case ("First Name") -> updateStaff.setFirst_name(updateNameInput.getText());
-                          case ("Last Name") -> updateStaff.setLast_name(updateNameInput.getText());
-                          case ("Wage") -> {
-                              if (isValidWage(updateNameInput.getText())) {
-                                  updateStaff.setWage(roundToTwo(Double.parseDouble(updateNameInput.getText())));
-                              } else {
-                                  System.out.println("Wage must be a number greater than or equal to 0");
-                              }
+                  switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                      case ("First Name") -> updateStaff.setFirst_name(updateNameInput.getText());
+                      case ("Last Name") -> updateStaff.setLast_name(updateNameInput.getText());
+                      case ("Wage") -> {
+                          if (isValidWage(updateNameInput.getText())) {
+                              updateStaff.setWage(roundToTwo(Double.parseDouble(updateNameInput.getText())));
+                          } else {
+                              System.out.println("Wage must be a number greater than or equal to 0");
                           }
-                          case ("Room ID") -> {
-                              if (isValidId(updateNameInput.getText(), "room")) {
-                                  updateStaff.setRoom_id(Integer.parseInt(updateNameInput.getText()));
-                              } else {
-                                  System.out.println("Invalid Room ID");
-                              }
-                          }
-                          case ("Position ID") -> {
-                              if (isValidId(updateNameInput.getText(), "position")) {
-                                  updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
-                              } else {
-                                  System.out.println("Invalid Position ID");
-                              }
-                          }
-                          default -> System.out.println("Category not selected");
                       }
-                      updateNameInput.setText("");
-                      staff.updateStaff(updateStaff);
-                      loadTable();
-                  } else {
-                      System.out.println("Specified ID does not exist");
+                      case ("Room ID") -> {
+                          if (isValidId(updateNameInput.getText(), "room")) {
+                              updateStaff.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                          } else {
+                              System.out.println("Invalid Room ID");
+                          }
+                      }
+                      case ("Position ID") -> {
+                          if (isValidId(updateNameInput.getText(), "position")) {
+                              updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
+                          } else {
+                              System.out.println("Invalid Position ID");
+                          }
+                      }
+                      default -> System.out.println("Category not selected");
                   }
+                  updateNameInput.setText("");
+                  staff.updateStaff(updateStaff);
+                  loadTable();
               } else {
-                  System.out.println("Invalid ID");
+                  System.out.println("Specified ID does not exist");
               }
           });
           HBox escapeGroup = new HBox(setEscape("staff"));
@@ -351,9 +333,8 @@ public class StaffPage extends CrudOverlay {
 
           updateCollection.getChildren().forEach(node-> {
               node.setOnKeyPressed(keyEvent -> {
-                  if (isInteger(idNumInput.getText())) {
+                  if (isValidId(idNumInput.getText(), "staff")) {
                       Staff updateStaff = staff.getStaff(Integer.parseInt(idNumInput.getText()));
-                      if (updateStaff != null) {
                           switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
                               case ("First Name") -> updateStaff.setFirst_name(updateNameInput.getText());
                               case ("Last Name") -> updateStaff.setLast_name(updateNameInput.getText());
@@ -386,9 +367,6 @@ public class StaffPage extends CrudOverlay {
                       } else {
                           System.out.println("Specified ID does not exist");
                       }
-                  } else {
-                      System.out.println("Invalid ID");
-                  }
               });
           });
           HBox createUpdateGroup = new HBox(updateInput);

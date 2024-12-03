@@ -177,8 +177,6 @@ public class OtherTablesPage extends CrudOverlay {
 
                     Label columnName = new Label("Column");
                     ComboBox<String> columnNameChoice = new ComboBox<>();
-                    // Temporary Options
-                    // Grab Columns
                     columnNameChoice.getItems().addAll("Parent ID", "Student ID");
                     VBox columnNameGroup = new VBox(columnName, columnNameChoice);
                     columnNameGroup.setAlignment(Pos.CENTER);
@@ -190,35 +188,31 @@ public class OtherTablesPage extends CrudOverlay {
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
-                        if (isInteger(idNumInput.getText())) {
+                        if (isValidId(idNumInput.getText(), "relation")) {
                             GuardianStudentRelation updateRelation = relationTable.getRelation(Integer.parseInt(idNumInput.getText()));
-                            if (updateRelation != null) {
-                                switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
-                                    case "Parent ID" -> {
-                                        if (isValidId(updateNameInput.getText(), "guardian")) {
-                                            updateRelation.setGuardian_id(Integer.parseInt(updateNameInput.getText()));
-                                        } else {
-                                            System.out.println("Invalid Guardian ID");
-                                        }
+                            switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                                case "Parent ID" -> {
+                                    if (isValidId(updateNameInput.getText(), "guardian")) {
+                                        updateRelation.setGuardian_id(Integer.parseInt(updateNameInput.getText()));
+                                    } else {
+                                        System.out.println("Invalid Guardian ID");
                                     }
-                                    case "Student ID" -> {
-                                        if (isValidId(updateNameInput.getText(), "student")) {
-                                            updateRelation.setStudent_id(Integer.parseInt(updateNameInput.getText()));
-                                        } else {
-                                            System.out.println("Invalid Student ID");
-                                        }
-                                    }
-                                    default -> System.out.println("Category not selected");
                                 }
-                                relationTable.updateRelation(updateRelation);
-                            } else {
-                                System.out.println("ID was not numeric or specified relation does not exist");
+                                case "Student ID" -> {
+                                    if (isValidId(updateNameInput.getText(), "student")) {
+                                        updateRelation.setStudent_id(Integer.parseInt(updateNameInput.getText()));
+                                    } else {
+                                        System.out.println("Invalid Student ID");
+                                    }
+                                }
+                                default -> System.out.println("Category not selected");
                             }
-                            updateNameInput.setText("");
-                            loadTable();
+                            relationTable.updateRelation(updateRelation);
                         } else {
-                            System.out.println("Invalid ID");
+                            System.out.println("ID was not numeric or specified relation does not exist");
                         }
+                        updateNameInput.setText("");
+                        loadTable();
                     });
 
                     HBox escapeGroup = new HBox(setEscape(null));
@@ -230,9 +224,8 @@ public class OtherTablesPage extends CrudOverlay {
 
                     updateCollection.getChildren().forEach(node-> {
                         node.setOnKeyPressed(keyEvent -> {
-                            if (isInteger(idNumInput.getText())) {
+                            if (isValidId(idNumInput.getText(), "relation")) {
                                 GuardianStudentRelation updateRelation = relationTable.getRelation(Integer.parseInt(idNumInput.getText()));
-                                if (updateRelation != null) {
                                     switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
                                         case "Parent ID" -> {
                                             if (isValidId(updateNameInput.getText(), "guardian")) {
@@ -256,9 +249,6 @@ public class OtherTablesPage extends CrudOverlay {
                                 }
                                 updateNameInput.setText("");
                                 loadTable();
-                            } else {
-                                System.out.println("Invalid ID");
-                            }
                         });
                     });
                     HBox createUpdateGroup = new HBox(updateInput);
@@ -341,12 +331,10 @@ public class OtherTablesPage extends CrudOverlay {
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
-                        if (isInteger(idNumInput.getText())) {
+                        if (isValidId(idNumInput.getText(), "room")) {
                             Room updateRoom = roomTable.getRoom(Integer.parseInt(idNumInput.getText()));
-                            if (updateRoom != null) {
-                                updateRoom.setName(updateNameInput.getText());
-                                roomTable.updateRoom(updateRoom);
-                            }
+                            updateRoom.setName(updateNameInput.getText());
+                            roomTable.updateRoom(updateRoom);
                             updateNameInput.setText("");
                             loadRoomTable();
                         } else {
@@ -363,12 +351,10 @@ public class OtherTablesPage extends CrudOverlay {
 
                     updateCollection.getChildren().forEach(node-> {
                         node.setOnKeyPressed(keyEvent -> {
-                            if (isInteger(idNumInput.getText())) {
+                            if (isValidId(idNumInput.getText(), "room")) {
                                 Room updateRoom = roomTable.getRoom(Integer.parseInt(idNumInput.getText()));
-                                if (updateRoom != null) {
-                                    updateRoom.setName(updateNameInput.getText());
-                                    roomTable.updateRoom(updateRoom);
-                                }
+                                updateRoom.setName(updateNameInput.getText());
+                                roomTable.updateRoom(updateRoom);
                                 updateNameInput.setText("");
                                 loadRoomTable();
                             } else {
@@ -455,12 +441,10 @@ public class OtherTablesPage extends CrudOverlay {
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
-                        if (isInteger(idNumInput.getText())) {
+                        if (isValidId(idNumInput.getText(), "position")) {
                             Position updatePosition = posTable.getPosition(Integer.parseInt(idNumInput.getText()));
-                            if (updatePosition != null) {
-                                updatePosition.setName(updateNameInput.getText());
-                                posTable.updatePosition(updatePosition);
-                            }
+                            updatePosition.setName(updateNameInput.getText());
+                            posTable.updatePosition(updatePosition);
                             updateNameInput.setText("");
                             loadPosTable();
                         } else {
@@ -476,12 +460,10 @@ public class OtherTablesPage extends CrudOverlay {
 
                     updateCollection.getChildren().forEach(node-> {
                         node.setOnKeyPressed(keyEvent -> {
-                            if (isInteger(idNumInput.getText())) {
+                            if (isValidId(idNumInput.getText(), "position")) {
                                 Position updatePosition = posTable.getPosition(Integer.parseInt(idNumInput.getText()));
-                                if (updatePosition != null) {
-                                    updatePosition.setName(updateNameInput.getText());
-                                    posTable.updatePosition(updatePosition);
-                                }
+                                updatePosition.setName(updateNameInput.getText());
+                                posTable.updatePosition(updatePosition);
                                 updateNameInput.setText("");
                                 loadPosTable();
                             } else {
@@ -571,12 +553,10 @@ public class OtherTablesPage extends CrudOverlay {
 
                     Button updateInput = new Button("Update!");
                     updateInput.setOnAction(e1-> {
-                        if (isInteger(idNumInput.getText())) {
+                        if (isValidId(idNumInput.getText(), "city")) {
                             City updateCity = cityTable.getCity(Integer.parseInt(idNumInput.getText()));
-                            if (updateCity != null) {
-                                updateCity.setName(updateNameInput.getText());
-                                cityTable.updateCity(updateCity);
-                            }
+                            updateCity.setName(updateNameInput.getText());
+                            cityTable.updateCity(updateCity);
                             updateNameInput.setText("");
                             loadCityTable();
                         } else {
@@ -593,12 +573,10 @@ public class OtherTablesPage extends CrudOverlay {
 
                     updateCollection.getChildren().forEach(node-> {
                         node.setOnKeyPressed(keyEvent -> {
-                            if (isInteger(idNumInput.getText())) {
+                            if (isValidId(idNumInput.getText(), "city")) {
                                 City updateCity = cityTable.getCity(Integer.parseInt(idNumInput.getText()));
-                                if (updateCity != null) {
-                                    updateCity.setName(updateNameInput.getText());
-                                    cityTable.updateCity(updateCity);
-                                }
+                                updateCity.setName(updateNameInput.getText());
+                                cityTable.updateCity(updateCity);
                                 updateNameInput.setText("");
                                 loadRoomTable();
                             } else {

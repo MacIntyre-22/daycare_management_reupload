@@ -352,9 +352,8 @@ public class StudentsPage extends CrudOverlay {
 
             updateCollection.getChildren().forEach(node-> {
                 node.setOnKeyPressed(keyEvent -> {
-                    if (isInteger(idNumInput.getText())) {
+                    if (isValidId(idNumInput.getText(), "student")) {
                         Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
-                        if (updateStudent != null) {
                             switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
                                 case ("First Name") -> updateStudent.setFirst_name(updateNameInput.getText());
                                 case ("Last Name") -> updateStudent.setLast_name(updateNameInput.getText());
@@ -379,9 +378,6 @@ public class StudentsPage extends CrudOverlay {
                         } else {
                             System.out.println("Specified ID does not exist");
                         }
-                    } else {
-                        System.out.println("Invalid ID");
-                    }
                 });
             });
 
@@ -411,6 +407,8 @@ public class StudentsPage extends CrudOverlay {
 
                 students.deleteStudent(students.getStudent(deleteStudent.getId()));
                 loadTable();
+            } else {
+                System.out.println("Student not selected");
             }
         });
     }
