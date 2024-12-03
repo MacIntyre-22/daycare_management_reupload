@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class StudentsPage extends CrudOverlay {
     private static StudentsPage instance;
-    private Label title = new Label("Students");
+    private Label title = new Label("Students Page");
     private StudentTable students;
     private RoomTable roomTable;
     private ArrayList<Room> rooms = new ArrayList<>();

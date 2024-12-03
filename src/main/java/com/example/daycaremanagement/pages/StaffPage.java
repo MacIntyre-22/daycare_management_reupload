@@ -1,5 +1,6 @@
 package com.example.daycaremanagement.pages;
 
+import com.example.daycaremanagement.MainApp;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.*;
@@ -10,6 +11,7 @@ import com.example.daycaremanagement.tables.StaffTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
@@ -21,7 +23,7 @@ import java.sql.SQLException;
 
 public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
-  private Label title = new Label("Staff");
+  private Label title = new Label("Staff Page");
   private StaffTable staff;
   private RoomTable roomTable;
   private PositionTable positionTable;
@@ -52,7 +54,8 @@ public class StaffPage extends CrudOverlay {
      */
   private StaffPage() {
       super();
-      title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
+      this.getStylesheets().add(MainApp.class.getResource("Styles/StaffPage.css").toExternalForm());
+      title.getStyleClass().add("title");
       content.setTop(title);
 
       // Add rooms to array
@@ -205,22 +208,27 @@ public class StaffPage extends CrudOverlay {
           Label firstName = new Label("First Name");
           TextField fNameInput = new TextField();
           VBox fNameGroup = new VBox(firstName, fNameInput);
+          fNameGroup.setAlignment(Pos.CENTER);
 
           Label lastName = new Label("Last Name");
           TextField lNameInput = new TextField();
           VBox lNameGroup = new VBox(lastName, lNameInput);
+          lNameGroup.setAlignment(Pos.CENTER);
 
           Label wage = new Label("Wage");
           TextField wageTF = new TextField();
           VBox wageGroup = new VBox(wage, wageTF);
+          wageGroup.setAlignment(Pos.CENTER);
 
           Label classroom = new Label("Classroom");
           TextField classroomInput = new TextField();
           VBox classroomGroup = new VBox(classroom, classroomInput);
+          classroomGroup.setAlignment(Pos.CENTER);
 
           Label pos = new Label("Position");
           TextField posTF = new TextField();
           VBox posGroup = new VBox(pos, posTF);
+          posGroup.setAlignment(Pos.CENTER);
 
           Button createInput = new Button("Create!");
           createInput.setOnAction(e1->{
@@ -237,13 +245,36 @@ public class StaffPage extends CrudOverlay {
               wageTF.setText("");
               posTF.setText("");
           });
+          HBox escapeGroup = new HBox(setEscape("staff"));
+          escapeGroup.setAlignment(Pos.TOP_RIGHT);
 
           HBox createCollection = new HBox(fNameGroup, lNameGroup, wageGroup, classroomGroup, posGroup);
           createCollection.setSpacing(10);
+          createCollection.setAlignment(Pos.CENTER);
+
+          createCollection.getChildren().forEach(node-> {
+              node.setOnKeyPressed(keyEvent -> {
+                  if (isDouble(wageTF.getText()) && isValidId(classroomInput.getText(), "room") && isValidId(posTF.getText(), "position")) {
+                      Staff createStaff = new Staff(0, fNameInput.getText(), lNameInput.getText(), roundToTwo(Double.parseDouble(wageTF.getText())), Integer.parseInt(classroomInput.getText()), Integer.parseInt(posTF.getText()));
+                      staff.createStaff(createStaff);
+                      loadTable();
+                  } else {
+                      System.out.println("Invalid input");
+                  }
+                  fNameInput.setText("");
+                  lNameInput.setText("");
+                  classroomInput.setText("");
+                  wageTF.setText("");
+                  posTF.setText("");
+              });
+          });
+
+          HBox createInputGroup = new HBox(createInput);
+          createInputGroup.setAlignment(Pos.CENTER);
 
           VBox items = new VBox();
-          items.getChildren().addAll(setEscape("staff"), createCollection, createInput);
-          items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+          items.getChildren().addAll(escapeGroup, createCollection, createInputGroup);
+          items.getStyleClass().add("items");
           this.content.setBottom(items);
       });
 
@@ -251,6 +282,7 @@ public class StaffPage extends CrudOverlay {
           Label idNum = new Label("Id");
           TextField idNumInput = new TextField();
           VBox idNumGroup = new VBox(idNum, idNumInput);
+          idNumGroup.setAlignment(Pos.CENTER);
 
           Label columnName = new Label("Column");
           ComboBox<String> columnNameChoice = new ComboBox<>();
@@ -262,10 +294,12 @@ public class StaffPage extends CrudOverlay {
 
           columnNameChoice.getItems().addAll("First Name", "Last Name", "Wage", "Room ID", "Position ID");
           VBox columnNameGroup = new VBox(columnName, columnNameChoice);
+          columnNameGroup.setAlignment(Pos.CENTER);
 
           Label updateName = new Label("New");
           TextField updateNameInput = new TextField();
           VBox updateNameGroup = new VBox(updateName, updateNameInput);
+          updateNameGroup.setAlignment(Pos.CENTER);
 
           Button updateInput = new Button("Update!");
           updateInput.setOnAction(e1->{
@@ -308,13 +342,61 @@ public class StaffPage extends CrudOverlay {
                   System.out.println("Invalid ID");
               }
           });
+          HBox escapeGroup = new HBox(setEscape("staff"));
+          escapeGroup.setAlignment(Pos.TOP_RIGHT);
 
           HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
           updateCollection.setSpacing(10);
+          updateCollection.setAlignment(Pos.CENTER);
+
+          updateCollection.getChildren().forEach(node-> {
+              node.setOnKeyPressed(keyEvent -> {
+                  if (isInteger(idNumInput.getText())) {
+                      Staff updateStaff = staff.getStaff(Integer.parseInt(idNumInput.getText()));
+                      if (updateStaff != null) {
+                          switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                              case ("First Name") -> updateStaff.setFirst_name(updateNameInput.getText());
+                              case ("Last Name") -> updateStaff.setLast_name(updateNameInput.getText());
+                              case ("Wage") -> {
+                                  if (isDouble(updateNameInput.getText())) {
+                                      updateStaff.setWage(roundToTwo(Double.parseDouble(updateNameInput.getText())));
+                                  } else {
+                                      System.out.println("Wage input was not numeric");
+                                  }
+                              }
+                              case ("Room ID") -> {
+                                  if (isValidId(updateNameInput.getText(), "room")) {
+                                      updateStaff.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                                  } else {
+                                      System.out.println("Invalid Room ID");
+                                  }
+                              }
+                              case ("Position ID") -> {
+                                  if (isValidId(updateNameInput.getText(), "position")) {
+                                      updateStaff.setPosition_id(Integer.parseInt(updateNameInput.getText()));
+                                  } else {
+                                      System.out.println("Invalid Position ID");
+                                  }
+                              }
+                              default -> System.out.println("Category not selected");
+                          }
+                          updateNameInput.setText("");
+                          staff.updateStaff(updateStaff);
+                          loadTable();
+                      } else {
+                          System.out.println("Specified ID does not exist");
+                      }
+                  } else {
+                      System.out.println("Invalid ID");
+                  }
+              });
+          });
+          HBox createUpdateGroup = new HBox(updateInput);
+          createUpdateGroup.setAlignment(Pos.CENTER);
 
           VBox items = new VBox();
-          items.getChildren().addAll(setEscape("staff"), updateCollection, updateInput);
-          items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+          items.getChildren().addAll(escapeGroup, updateCollection, createUpdateGroup);
+          items.getStyleClass().add("items");
           this.content.setBottom(items);
       });
   }
@@ -350,6 +432,33 @@ public class StaffPage extends CrudOverlay {
 
       tableView.getColumns().addAll(columnId, column1, column2, column3, column4, column5);
       tableView.getItems().addAll(staff.getAllDisplayStaff());
+
+      tableView.setMinWidth(300);
+      tableView.setMaxWidth(925);
+
+      columnId.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+      columnId.setResizable(false);
+      columnId.setReorderable(false);
+
+      column1.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+      column1.setResizable(false);
+      column1.setReorderable(false);
+
+      column2.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+      column2.setResizable(false);
+      column2.setReorderable(false);
+
+      column3.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+      column3.setResizable(false);
+      column3.setReorderable(false);
+
+      column4.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+      column4.setResizable(false);
+      column4.setReorderable(false);
+
+      column5.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+      column5.setResizable(false);
+      column5.setReorderable(false);
 
       this.content.setCenter(tableView);
   }

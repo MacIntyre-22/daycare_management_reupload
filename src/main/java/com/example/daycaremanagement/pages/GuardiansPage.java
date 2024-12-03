@@ -24,7 +24,7 @@ import java.sql.SQLException;
 
 public class GuardiansPage extends CrudOverlay {
     private static GuardiansPage instance;
-    private Label title = new Label("Guardians");
+    private Label title = new Label("Guardians Page");
     private GuardianTable guardians;
     private RoomTable roomTable;
     private CityTable cityTable;
@@ -265,9 +265,11 @@ public class GuardiansPage extends CrudOverlay {
             Label idNum = new Label("Id");
             TextField idNumInput = new TextField();
             VBox idNumGroup = new VBox(idNum, idNumInput);
+            idNumGroup.setAlignment(Pos.CENTER);
 
             Label columnName = new Label("Column");
             ComboBox<String> columnNameChoice = new ComboBox<>();
+
 
             if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
                 DisplayGuardian getIdGuardian = (DisplayGuardian) this.tableView.getSelectionModel().getSelectedItems().get(0);
@@ -276,10 +278,13 @@ public class GuardiansPage extends CrudOverlay {
 
             columnNameChoice.getItems().addAll("First Name", "Last Name", "Phone", "Email", "City ID", "Street Number", "Street Name");
             VBox columnNameGroup = new VBox(columnName, columnNameChoice);
+            columnNameGroup.setAlignment(Pos.CENTER);
 
             Label updateName = new Label("New");
             TextField updateNameInput = new TextField();
             VBox updateNameGroup = new VBox(updateName, updateNameInput);
+            updateNameGroup.setAlignment(Pos.CENTER);
+
 
             Button updateInput = new Button("Update!");
             updateInput.setOnAction(e1->{
