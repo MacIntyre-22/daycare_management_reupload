@@ -370,7 +370,7 @@ public class OtherTablesPage extends CrudOverlay {
                     if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
                         City deleteCity = (City) this.tableView.getSelectionModel().getSelectedItems().get(0);
                         cityTable.deleteCity(deleteCity);
-                        loadPosTable();
+                        loadCityTable();
                     }
                 });
 
@@ -420,7 +420,7 @@ public class OtherTablesPage extends CrudOverlay {
                                 cityTable.updateCity(updateCity);
                             }
                             updateNameInput.setText("");
-                            loadRoomTable();
+                            loadCityTable();
                         } else {
                             System.out.println("Invalid ID");
                         }
