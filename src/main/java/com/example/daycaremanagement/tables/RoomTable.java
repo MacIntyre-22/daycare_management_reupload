@@ -41,10 +41,11 @@ public class RoomTable implements RoomDAO {
 
     @Override
     public Room getRoom(int id) {
-        String query = "SELECT * FROM "+ TABLE_ROOMS + " WHERE " + ROOMS_COLUMN_ID + " = " + id;
+        String query = "SELECT * FROM "+ TABLE_ROOMS + " WHERE " + ROOMS_COLUMN_ID + " = ?";
         try{
-            Statement getRoom = db.getConnection().createStatement();
-            ResultSet data = getRoom.executeQuery(query);
+            PreparedStatement getRoom = db.getConnection().prepareStatement(query);
+            getRoom.setInt(1, id);
+            ResultSet data = getRoom.executeQuery();
             if (data.next()){
                 Room room = new Room(
                         data.getInt(ROOMS_COLUMN_ID),
@@ -60,10 +61,12 @@ public class RoomTable implements RoomDAO {
 
     @Override
     public void updateRoom(Room room) {
-        String query = "UPDATE " + TABLE_ROOMS + " SET " + ROOMS_COLUMN_NAME + " = '" + room.getName() + "' WHERE " + ROOMS_COLUMN_ID + " = " + room.getId();
+        String query = "UPDATE " + TABLE_ROOMS + " SET " + ROOMS_COLUMN_NAME + " = ? WHERE " + ROOMS_COLUMN_ID + " = ?";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setString(1, room.getName());
+            statement.setInt(1, room.getId());
+            statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -71,10 +74,11 @@ public class RoomTable implements RoomDAO {
 
     @Override
     public void deleteRoom(Room room) {
-        String query = "DELETE FROM "+TABLE_ROOMS+" WHERE "+ ROOMS_COLUMN_ID + " = " + room.getId() + " LIMIT 1";
+        String query = "DELETE FROM "+TABLE_ROOMS+" WHERE "+ ROOMS_COLUMN_ID + " = ? LIMIT 1";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setInt(1, room.getId());
+            statement.executeUpdate();
         } catch (Exception e){
             System.out.println("Invalid Room ID or the ID is in use in another table");
         }
@@ -82,10 +86,11 @@ public class RoomTable implements RoomDAO {
 
     @Override
     public void createRoom(Room room) {
-        String query = "INSERT INTO " + TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, '" + room.getName() +"');";
+        String query = "INSERT INTO " + TABLE_ROOMS + " ("+ROOMS_COLUMN_ID+", "+ROOMS_COLUMN_NAME+") VALUES (0, ?);";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.execute(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setString(1, room.getName());
+            statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
         }
