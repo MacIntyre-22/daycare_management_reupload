@@ -17,6 +17,9 @@ import javafx.scene.image.ImageView;
 public class StaffPage extends CrudOverlay {
   private static StaffPage instance;
   private Label title = new Label("Staff");
+
+
+
   private StaffTable staff;
 
 
