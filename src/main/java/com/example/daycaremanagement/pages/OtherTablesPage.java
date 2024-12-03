@@ -73,7 +73,7 @@ public class OtherTablesPage extends CrudOverlay {
             loadTable();
 
             // Reset Form
-            this.setBottom(createBottomBar());
+            this.content.setBottom(createBottomBar());
         });
 
         // load Room Table
@@ -81,7 +81,7 @@ public class OtherTablesPage extends CrudOverlay {
             loadRoomTable();
 
             // Reset Form
-            this.setBottom(createBottomBar());
+            this.content.setBottom(createBottomBar());
         });
 
         // Position Table
@@ -89,7 +89,7 @@ public class OtherTablesPage extends CrudOverlay {
             loadPosTable();
 
             // Reset Form
-            this.setBottom(createBottomBar());
+            this.content.setBottom(createBottomBar());
         });
 
         // Remove buttons here
@@ -97,7 +97,7 @@ public class OtherTablesPage extends CrudOverlay {
             loadCityTable();
 
             // Reset Form
-            this.setBottom(createBottomBar());
+            this.content.setBottom(createBottomBar());
         });
     }
 

@@ -1,4 +1,5 @@
 package com.example.daycaremanagement.pages;
+import com.example.daycaremanagement.MainApp;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Room;
@@ -52,6 +53,7 @@ public class StudentsPage extends CrudOverlay {
     private StudentsPage() {
         super();
         this.getStylesheets().add(MainApp.class.getResource("Styles/StudentPage.css").toExternalForm());
+        title.getStyleClass().add("title");
         content.setTop(title);
         // Add rooms to array
         // Significantly increases the load speed and lagginess of the tableView
@@ -440,6 +442,9 @@ public class StudentsPage extends CrudOverlay {
         tableView.setMinWidth(300);
         tableView.setMaxWidth(925);
 
+        columnId.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        columnId.setResizable(false);
+        columnId.setReorderable(false);
 
         column1.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
         column1.setResizable(false);
@@ -451,12 +456,15 @@ public class StudentsPage extends CrudOverlay {
 
         column3.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
         column3.setResizable(false);
+        column3.setReorderable(false);
 
         column4.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
         column4.setResizable(false);
+        column4.setReorderable(false);
 
         column5.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
         column5.setResizable(false);
+        column5.setReorderable(false);
 
         this.content.setCenter(tableView);
     }

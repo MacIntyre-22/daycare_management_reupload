@@ -1,8 +1,11 @@
 package com.example.daycaremanagement.overlays;
 
-import com.example.daycaremanagement.pojo.City;
-import com.example.daycaremanagement.pojo.Position;
-import com.example.daycaremanagement.pojo.Room;
+import com.example.daycaremanagement.MainApp;
+import com.example.daycaremanagement.pojo.*;
+import com.example.daycaremanagement.tables.*;
+import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -397,8 +400,8 @@ public abstract class CrudOverlay extends StackPane {
             pageInfo.getChildren().addAll(new Label("Can't get extra table information."));
         }
 
-
-    };
+        this.content.setBottom(pageInfo);
+    }
 
 
     // Tests if a string is an integer
