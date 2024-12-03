@@ -75,7 +75,7 @@ public class PositionTable implements PositionDAO {
             Statement statement = db.getConnection().createStatement();
             statement.executeUpdate(query);
         } catch (Exception e){
-            e.printStackTrace();
+            System.out.println("Invalid Position ID or the ID is in use in another table.");
         }
     }
 

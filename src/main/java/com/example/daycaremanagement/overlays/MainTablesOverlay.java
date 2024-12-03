@@ -26,6 +26,7 @@ public class MainTablesOverlay extends StackPane {
   private StaffPage staffPageDisplay = StaffPage.getInstance();
   private GuardiansPage guardiansPageDisplay = GuardiansPage.getInstance();
   private StudentsPage studentDisplay = StudentsPage.getInstance();
+  private OtherTablesPage otherDisplay = OtherTablesPage.getInstance();
 
 
   /**
@@ -52,6 +53,7 @@ public class MainTablesOverlay extends StackPane {
     Button guardiansButton = new Button("Guardians");
     Button staffButton = new Button("Staff");
     Button infoButton = new Button("Info");
+    Button otherButton = new Button("Extra");
     Button logoutButton = new Button("Logout");
 
     logoutButton.getStyleClass().add("logoutButton");
@@ -62,6 +64,9 @@ public class MainTablesOverlay extends StackPane {
       root.setCenter(infoDisplay);
     });
 
+    otherButton.setOnAction(e->{
+      root.setCenter(otherDisplay);
+    });
     // Placeholder action for Guardians button
     guardiansButton.setOnAction(e -> {
       root.setCenter(guardiansPageDisplay);
@@ -100,7 +105,7 @@ public class MainTablesOverlay extends StackPane {
     // Position the Header to the top of the Screen
     top.setTranslateY(-(primaryStage.getScene().getHeight()/2) + 20);
 
-    mainButtonBox.getChildren().addAll(studentsButton, guardiansButton, staffButton, infoButton);
+    mainButtonBox.getChildren().addAll(studentsButton, guardiansButton, staffButton,otherButton, infoButton);
     addLoginButtonBox.getChildren().addAll(mainButtonBox, logoutButton);
     addLoginButtonBox.setAlignment(Pos.TOP_RIGHT);
     layoutBox.getChildren().addAll(title, addLoginButtonBox);

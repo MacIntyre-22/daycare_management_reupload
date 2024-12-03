@@ -1,5 +1,4 @@
 package com.example.daycaremanagement.pages;
-import com.example.daycaremanagement.MainApp;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.Room;
@@ -53,7 +52,6 @@ public class StudentsPage extends CrudOverlay {
     private StudentsPage() {
         super();
         this.getStylesheets().add(MainApp.class.getResource("Styles/StudentPage.css").toExternalForm());
-        title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         content.setTop(title);
         // Add rooms to array
         // Significantly increases the load speed and lagginess of the tableView
@@ -70,7 +68,7 @@ public class StudentsPage extends CrudOverlay {
         graph3.setGraphic(createBtn(setIcon(ICONS[2], 30), "Ages"));
 
         loadTable();
-        loadInfo();
+        loadInfo("students");
     }
 
     @Override
@@ -246,17 +244,16 @@ public class StudentsPage extends CrudOverlay {
 
             Button createInput = new Button("Create!");
             createInput.setOnAction(e1->{
-                try{
+                if (isValidId(classroomInput.getText(), "room") && isValidDateFormat(birthdayInput.getText())) {
                     Student createStudent = new Student(0, fNameInput.getText(), lNameInput.getText(), birthdayInput.getText(), Integer.parseInt(classroomInput.getText()));
                     students.createStudent(createStudent);
                     loadTable();
-                } catch (Exception e3){
-                    System.out.println("Input error");
-                    e3.printStackTrace();
+                } else {
+                    System.out.println("Invalid Room ID or birthdate");
                 }
             });
 
-            HBox escapeGroup = new HBox(setEscape());
+            HBox escapeGroup = new HBox(setEscape("students"));
             escapeGroup.setAlignment(Pos.TOP_RIGHT);
 
             HBox createCollection = new HBox(fNameGroup, lNameGroup, birthdayGroup, classroomGroup);
@@ -266,13 +263,12 @@ public class StudentsPage extends CrudOverlay {
                 node.setOnKeyPressed(keyEvent -> {
 
                     if(keyEvent.getCode().toString().equals("ENTER")){
-                        try{
+                        if (isValidId(classroomInput.getText(), "room") && isValidDateFormat(birthdayInput.getText())) {
                             Student createStudent = new Student(0, fNameInput.getText(), lNameInput.getText(), birthdayInput.getText(), Integer.parseInt(classroomInput.getText()));
                             students.createStudent(createStudent);
                             loadTable();
-                        } catch (Exception e3){
-                            System.out.println("Input error");
-                            e3.printStackTrace();
+                        } else {
+                            System.out.println("Invalid Room ID or birthdate");
                         }
                     }
                 });
@@ -292,7 +288,6 @@ public class StudentsPage extends CrudOverlay {
             Label idNum = new Label("ID");
             TextField idNumInput = new TextField();
             VBox idNumGroup = new VBox(idNum, idNumInput);
-            idNumGroup.setAlignment(Pos.CENTER);
             if (!this.tableView.getSelectionModel().getSelectedItems().isEmpty()) {
                 DisplayStudent getIdStudent = (DisplayStudent) this.tableView.getSelectionModel().getSelectedItems().get(0);
                 idNumInput.setText(""+getIdStudent.getId());
@@ -304,37 +299,46 @@ public class StudentsPage extends CrudOverlay {
             // Grab Columns
             columnNameChoice.getItems().addAll("First Name", "Last Name", "Birthday", "Classroom ID");
             VBox columnNameGroup = new VBox(columnName, columnNameChoice);
-            columnNameGroup.setAlignment(Pos.CENTER);
 
 
 
             Label updateName = new Label("New");
             TextField updateNameInput = new TextField();
             VBox updateNameGroup = new VBox(updateName, updateNameInput);
-            updateNameGroup.setAlignment(Pos.CENTER);
 
             Button updateInput = new Button("Update!");
 
 
             updateInput.setOnAction(e1->{
-                Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
-                if (updateStudent != null) {
-                    switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
-                        case ("First Name"):
-                            updateStudent.setFirst_name(updateNameInput.getText());
-                            break;
-                        case ("Last Name"):
-                            updateStudent.setLast_name(updateNameInput.getText());
-                            break;
-                        case ("Birthday"):
-                            updateStudent.setBirthdate(updateNameInput.getText());
-                            break;
-                        case ("Classroom ID"):
-                            updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
-                            break;
+                if (isInteger(idNumInput.getText())) {
+                    Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
+                    if (updateStudent != null) {
+                        switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                            case ("First Name") -> updateStudent.setFirst_name(updateNameInput.getText());
+                            case ("Last Name") -> updateStudent.setLast_name(updateNameInput.getText());
+                            case ("Birthday") -> {
+                                if (isValidDateFormat(updateNameInput.getText())) {
+                                    updateStudent.setBirthdate(updateNameInput.getText());
+                                } else {
+                                    System.out.println("Invalid date format. Please use YYYY-MM-DD");
+                                }
+                            }
+                            case ("Classroom ID") -> {
+                                if (isValidId(updateNameInput.getText(), "room")) {
+                                    updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                                } else {
+                                    System.out.println("Invalid Room ID");
+                                }
+                            }
+                            default -> System.out.println("Category was not selected");
+                        }
+                        students.updateStudent(updateStudent);
+                        loadTable();
+                    } else {
+                        System.out.println("Specified ID does not exist");
                     }
-                    students.updateStudent(updateStudent);
-                    loadTable();
+                } else {
+                    System.out.println("Invalid ID");
                 }
             });
 
@@ -342,7 +346,7 @@ public class StudentsPage extends CrudOverlay {
             updateCollection.setSpacing(10);
             updateCollection.setAlignment(Pos.CENTER);
 
-            HBox escapeGroup = new HBox(setEscape());
+            HBox escapeGroup = new HBox(setEscape("students"));
             escapeGroup.setAlignment(Pos.TOP_RIGHT);
 
 
@@ -412,6 +416,9 @@ public class StudentsPage extends CrudOverlay {
         }
 
         // Create Columns
+        TableColumn<DisplayStudent, String> columnId = new TableColumn<>("ID");
+        columnId.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getId())));
+
         TableColumn<DisplayStudent, String> column1 = new TableColumn<>("First Name");
         column1.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getFirst_name()));
 
@@ -427,7 +434,7 @@ public class StudentsPage extends CrudOverlay {
         TableColumn<DisplayStudent, String> column5 = new TableColumn<>("Room");
         column5.setCellValueFactory(e -> new SimpleStringProperty(String.valueOf(e.getValue().getRoom())));
 
-        tableView.getColumns().addAll(column1, column2, column3, column4, column5);
+        tableView.getColumns().addAll(columnId, column1, column2, column3, column4, column5);
         tableView.getItems().addAll(students.getAllDisplayStudents());
 
         tableView.setMinWidth(300);
@@ -496,23 +503,5 @@ public class StudentsPage extends CrudOverlay {
         seriesArray.get(2).getData().add(new XYChart.Data(roomTable.getRoom(roomId).getName(), count2));
         seriesArray.get(3).getData().add(new XYChart.Data(roomTable.getRoom(roomId).getName(), count3));
         seriesArray.get(4).getData().add(new XYChart.Data(roomTable.getRoom(roomId).getName(), count4));
-    }
-
-    /**
-     * Gets the students age by getting the difference between their birthdate and today.
-     * @return age as double
-     */
-    public double getAge(String dob) {
-        // Get student birthday
-        // YYYY-MM-DD
-        String[] birthdaySplit = dob.split("-");
-        LocalDate birthdayDate = LocalDate.of(Integer.parseInt(birthdaySplit[0]), Integer.parseInt(birthdaySplit[1]), Integer.parseInt(birthdaySplit[2]));
-        LocalDate now = LocalDate.now();
-        double age;
-
-        // Get the difference to find age
-        age = (double) ChronoUnit.YEARS.between(birthdayDate, now);
-        // Return age
-        return age;
     }
 }

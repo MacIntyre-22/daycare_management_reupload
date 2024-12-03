@@ -1,10 +1,8 @@
 package com.example.daycaremanagement.overlays;
 
-import com.example.daycaremanagement.MainApp;
 import com.example.daycaremanagement.pojo.City;
 import com.example.daycaremanagement.pojo.Position;
 import com.example.daycaremanagement.pojo.Room;
-import javafx.animation.*;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -13,12 +11,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static com.example.daycaremanagement.MainApp.primaryStage;
@@ -269,12 +276,12 @@ public abstract class CrudOverlay extends StackPane {
      * Creates an escape button for crud forms
      * @return a button that loadsInfo() on click
      */
-    protected Button setEscape() {
+    protected Button setEscape(String table) {
         // Create escape button
         Button esc = new Button();
         esc.setGraphic(setIcon(ICONS[7], 15));
-        esc.setOnAction(e1-> {
-            loadInfo();
+        esc.setOnAction(e-> {
+            loadInfo(table);
         });
 
         return esc;
@@ -302,14 +309,229 @@ public abstract class CrudOverlay extends StackPane {
     /**
      * Loads basic info about the table to the page.
      */
-    protected void loadInfo() {
+    protected void loadInfo(String table) {
+
         VBox pageInfo = new VBox();
-        Label testInfo = new Label("Test info: Will hold information on table");
-        testInfo.setStyle("-fx-padding: 30 0 0 0;");
-        Label testInfo2 = new Label("Test info: Information like Table total, How many Students per room and etc.");
-        pageInfo.getChildren().addAll(testInfo, testInfo2);
-        this.content.setBottom(pageInfo);
+
+        Label formInfo = new Label("Use the form icons below to add, update, or remove an item.");
+        formInfo.setStyle("-fx-padding: 30 0 0 0;");
+
+        Label bottomLabel = new Label("To refresh, select the Table button on the left navigation.");
+        bottomLabel.setStyle("-fx-padding: 0 0 20 0;");
+
+        pageInfo.getChildren().add(formInfo);
+
+        if (table != null) {
+            StudentTable studentTable = null;
+            GuardianTable guardianTable = null;
+            StaffTable staffTable = null;
+
+            switch (table) {
+                case "students":
+                    try {
+                        studentTable = StudentTable.getInstance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList<Student> students = studentTable.getAllStudents();
+
+                    // Get Lowest and Highest age
+                    double firstAge = getAge(students.get(0).getBirthdate());
+                    double lowest = firstAge;
+                    double highest = firstAge;
+                    for (Student student : studentTable.getAllStudents()) {
+                        double age = getAge(student.getBirthdate());
+                        if (age > highest) {
+                            highest = age;
+                        }
+                        if (age < lowest) {
+                            lowest = age;
+                        }
+                    }
+
+                    //Display info
+                    pageInfo.getChildren().addAll(new Label("Amount of Students: "+students.size()), new Label("Oldest: "+highest), new Label("Youngest: "+lowest) );
+                    break;
+
+                case "guardians":
+                    try {
+                        guardianTable = GuardianTable.getInstance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList<Guardian> guardians = guardianTable.getAllGuardians();
+
+                    //Display info
+                    pageInfo.getChildren().addAll(new Label("Amount of Guardians: "+guardians.size()));
+                    break;
+
+                case "staff":
+                    try {
+                        staffTable = StaffTable.getInstance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList<Staff> staff = staffTable.getAllStaff();
+
+                    // Get Lowest and Highest wage
+                    double firstWage = staff.get(0).getWage();
+                    double least = firstWage;
+                    double most = firstWage;
+                    for (Staff s : staffTable.getAllStaff()) {
+                        double wage = s.getWage();
+                        if (wage > most) {
+                            most = wage;
+                        }
+                        if (wage < least) {
+                            least = wage;
+                        }
+                    }
+
+                    //Display info
+                    pageInfo.getChildren().addAll(new Label("Amount of Staff: "+staff.size()), new Label("Highest Wage: "+most), new Label("Lowest Wage: "+least) );
+                    break;
+            }
+
+
+        }else {
+            pageInfo.getChildren().addAll(new Label("Can't get extra table information."));
+        }
+
+
     };
 
+
+    // Tests if a string is an integer
+    public boolean isInteger(String i){
+        try{
+            Integer.parseInt(i);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    // Tests if a string is a double
+    public boolean isDouble(String i){
+        try{
+            Double.parseDouble(i);
+            return true;
+        } catch (Exception e1){
+            return false;
+        }
+    }
+
+    // Checks if a string is 10 digits long and an integer
+    public boolean isValidPhone(String i){
+        if (isInteger(i)){
+            return i.length() == 10;
+        }
+        return false;
+    }
+
+    public boolean isValidId(String input, String table){
+        if (isInteger(input)){
+            int intInput = Integer.parseInt(input);
+            switch (table.toLowerCase()) {
+                case "room" -> {
+                    try {
+                        return RoomTable.getInstance().getRoom(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "city" -> {
+                    try {
+                        return CityTable.getInstance().getCity(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "position" -> {
+                    try {
+                        return PositionTable.getInstance().getPosition(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "student" -> {
+                    try {
+                        return StudentTable.getInstance().getStudent(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "guardian" -> {
+                    try {
+                        return GuardianTable.getInstance().getGuardian(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "relation" -> {
+                    try {
+                        return GuardianStudentRelationTable.getInstance().getRelation(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                case "staff" -> {
+                    try {
+                        return StaffTable.getInstance().getStaff(intInput) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                default -> {
+                    System.out.println("Invalid table input. Options are: room, city, position, student, guardian, relation, and staff");
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    public double roundToTwo(double num){
+        num*=100;
+        num = (double) Math.round(num);
+        num/= 100;
+        return num;
+    }
+
+    public boolean isValidDateFormat(String date){
+        try{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            dateFormat.setLenient(false);
+            dateFormat.parse(date);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    public boolean isValidEmail(String email){
+        Pattern pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+
+    /**
+     * Gets the students age by getting the difference between their birthdate and today.
+     * @return age as double
+     */
+    protected double getAge(String dob) {
+        // Get student birthday
+        // YYYY-MM-DD
+        String[] birthdaySplit = dob.split("-");
+        LocalDate birthdayDate = LocalDate.of(Integer.parseInt(birthdaySplit[0]), Integer.parseInt(birthdaySplit[1]), Integer.parseInt(birthdaySplit[2]));
+        LocalDate now = LocalDate.now();
+        double age;
+
+        // Get the difference to find age
+        age = (double) ChronoUnit.YEARS.between(birthdayDate, now);
+        // Return age
+        return age;
+    }
 
 }
