@@ -78,6 +78,8 @@ public class OtherTablesPage extends CrudOverlay {
             loadTable();
             title.getStyleClass().add("title");
             content.setTop(title);
+
+            this.allContent.setBottom(createBottomBar());
         });
 
         // load Room Table
@@ -85,6 +87,8 @@ public class OtherTablesPage extends CrudOverlay {
             loadRoomTable();
             title.getStyleClass().add("title");
             content.setTop(title);
+
+            this.allContent.setBottom(createBottomBar());
         });
 
         // Position Table
@@ -92,6 +96,8 @@ public class OtherTablesPage extends CrudOverlay {
             loadPosTable();
             title.getStyleClass().add("title");
             content.setTop(title);
+
+            this.allContent.setBottom(createBottomBar());
         });
 
         // Remove buttons here
@@ -99,6 +105,8 @@ public class OtherTablesPage extends CrudOverlay {
             loadCityTable();
             title.getStyleClass().add("title");
             content.setTop(title);
+
+            this.allContent.setBottom(createBottomBar());
         });
     }
 
