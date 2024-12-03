@@ -30,7 +30,6 @@ public class StudentsPage extends CrudOverlay {
     private Label title = new Label("Students Page");
     private StudentTable students;
     private RoomTable roomTable;
-    private ArrayList<Room> rooms = new ArrayList<>();
 
 
     /**
@@ -59,7 +58,6 @@ public class StudentsPage extends CrudOverlay {
         // Significantly increases the load speed and lagginess of the tableView
         try {
             roomTable = RoomTable.getInstance();
-            rooms.addAll(roomTable.getAllRooms());
         } catch (Exception e) {
             System.out.println("Error From: StudentsPage.java, line 56. Couldn't get Rooms Table.");
         }

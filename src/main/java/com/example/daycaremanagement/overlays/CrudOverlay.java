@@ -340,11 +340,11 @@ public abstract class CrudOverlay extends StackPane {
                     ArrayList<Student> students = studentTable.getAllStudents();
 
                     // Get Lowest and Highest age
-                    double firstAge = getAge(students.get(0).getBirthdate());
-                    double lowest = firstAge;
-                    double highest = firstAge;
+                    int firstAge = getAge(students.get(0).getBirthdate());
+                    int lowest = firstAge;
+                    int highest = firstAge;
                     for (Student student : studentTable.getAllStudents()) {
-                        double age = getAge(student.getBirthdate());
+                        int age = getAge(student.getBirthdate());
                         if (age > highest) {
                             highest = age;
                         }
@@ -532,16 +532,16 @@ public abstract class CrudOverlay extends StackPane {
      * Gets the students age by getting the difference between their birthdate and today.
      * @return age as double
      */
-    protected double getAge(String dob) {
+    protected int getAge(String dob) {
         // Get student birthday
         // YYYY-MM-DD
         String[] birthdaySplit = dob.split("-");
         LocalDate birthdayDate = LocalDate.of(Integer.parseInt(birthdaySplit[0]), Integer.parseInt(birthdaySplit[1]), Integer.parseInt(birthdaySplit[2]));
         LocalDate now = LocalDate.now();
-        double age;
+        int age;
 
         // Get the difference to find age
-        age = (double) ChronoUnit.YEARS.between(birthdayDate, now);
+        age = (int) ChronoUnit.YEARS.between(birthdayDate, now);
         // Return age
         return age;
     }
