@@ -10,6 +10,11 @@ import javafx.scene.image.ImageView;
 
 public class InfoPage extends BorderPane {
 
+
+
+  /**
+   * This Pages Displays the Information about the creators, and the program itself
+   */
   public InfoPage() {
     VBox root = new VBox(10);
     root.setPadding(new Insets(15));
@@ -40,6 +45,14 @@ public class InfoPage extends BorderPane {
     this.setCenter(root);
   }
 
+  /**
+   *
+   * @param container that is a VBox
+   * @param name This is string
+   * Makes the name into a label
+   * This adds styling to the label
+   * Then adds the label to the container
+   */
   private void addName(VBox container, String name) {
     Label nameLabel = new Label(name);
     nameLabel.setStyle("-fx-font-size: 19px; -fx-font-weight: italic; -fx-font-family: 'Baguet Script';");

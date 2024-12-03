@@ -1,21 +1,18 @@
-package com.example.daycaremanagement.pojo;
+package com.example.daycaremanagement.pojo.display;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-
-public class Student {
+public class DisplayStudent {
     private int id;
     private String first_name;
     private String last_name;
     private String birthdate;
-    private int room_id;
+    private String room;
 
-    public Student(int id, String first_name, String last_name, String birthdate, int room_id) {
+    public DisplayStudent(int id, String first_name, String last_name, String birthdate, String room) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.birthdate = birthdate;
-        this.room_id = room_id;
+        this.room = room;
     }
 
     public int getId() {
@@ -50,12 +47,12 @@ public class Student {
         this.birthdate = birthdate;
     }
 
-    public int getRoom_id() {
-        return room_id;
+    public String getRoom() {
+        return room;
     }
 
-    public void setRoom_id(int room_id) {
-        this.room_id = room_id;
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     @Override

@@ -1,13 +1,21 @@
 package com.example.daycaremanagement.overlays;
 
+import com.example.daycaremanagement.pojo.City;
+import com.example.daycaremanagement.pojo.Position;
+import com.example.daycaremanagement.pojo.Room;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class CrudOverlay extends BorderPane {
 
@@ -15,57 +23,79 @@ public abstract class CrudOverlay extends BorderPane {
     protected TableView tableView;
 
     // Shared buttons
-    protected Button graph1 = new Button("Graph 1");
-    protected Button graph2 = new Button("Graph 2");
-    protected Button graph3 = new Button("Graph 3");
-    protected Button graph4 = new Button("Graph 4");
+    protected Button graph1 = new Button();
+    protected Button graph2 = new Button();
+    protected Button graph3 = new Button();
+    protected Button graph4 = new Button();
 
-    protected Button create = new Button("Create");
-    protected Button read = new Button("Read");
-    protected Button update = new Button("Update");
-    protected Button delete = new Button("Delete");
+    // Can be accessed by child classes now
+    protected VBox NavButtons;
+
+    protected Button create = new Button();
+    protected Button read = new Button();
+    protected Button update = new Button();
+    protected Button delete = new Button();
+
+    // Icons
+    public final ImageView[] ICONS = {
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/table.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/pie.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/bar.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/user_plus.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/user_check.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/user_x.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/relation.png")))),
+            new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/daycaremanagement/icons/x.png"))))
+    };
+
 
     protected BorderPane content = new BorderPane();
 
+    /**
+     * This adds the different Bars into the scene with the content in the center
+     */
     public CrudOverlay() {
         this.setLeft(createSideBar());
         this.setBottom(createBottomBar());
         this.setCenter(content);
-        content.setStyle("-fx-padding: 10px 50px 50px 50px;");
+        content.setStyle("-fx-padding: 10px 50px 0px 50px;");
     }
 
+    /**
+     * This is the creation of the sideBar that has the graph Buttons inside
+     * @return sideBar
+     */
     private VBox createSideBar() {
         Label closedNavWords = new Label("Show Display Options");
         closedNavWords.setRotate(-90);
         Group closedNav = new Group(closedNavWords);
         closedNav.setTranslateY(50);
 
-        Label openedNavWords = new Label("Hide Display Options");
-        Label arrow = new Label("------------>");
-        VBox TopNavGroup = new VBox(openedNavWords, arrow);
-        TopNavGroup.setMinWidth(125);
-        TopNavGroup.setAlignment(Pos.CENTER);
-        TopNavGroup.setTranslateY(-200);
 
-        VBox NavButtons = new VBox(graph1, graph2, graph3, graph4);
+        NavButtons = new VBox(graph1, graph2, graph3, graph4);
         NavButtons.setAlignment(Pos.CENTER);
-        NavButtons.setSpacing(5);
+        NavButtons.setSpacing(20);
 
         sideButtonBar();
 
+        // Create Side bar
         VBox sideBar = new VBox();
-        sideBar.setStyle("-fx-background-color: lightblue;");
-        sideBar.setSpacing(5);
+        sideBar.setStyle("-fx-padding: 50px 0 0 0; -fx-background-color: lightblue;");
         sideBar.getChildren().add(closedNav);
 
+
+        // Removed Closed Nav text
         sideBar.setOnMouseEntered(event -> {
             sideBar.getChildren().remove(closedNav);
-            sideBar.getChildren().addAll(TopNavGroup, NavButtons);
-            sideBar.setAlignment(Pos.CENTER);
+            sideBar.setMinWidth(60);
+            sideBar.getChildren().addAll(NavButtons);
+            sideBar.setAlignment(Pos.TOP_CENTER);
         });
 
+        // Removed Closed Nav text
         sideBar.setOnMouseExited(e -> {
-            sideBar.getChildren().removeAll(TopNavGroup, NavButtons);
+            sideBar.getChildren().removeAll(NavButtons);
+            sideBar.setMinWidth(0);
             sideBar.setAlignment(Pos.TOP_LEFT);
             sideBar.getChildren().add(closedNav);
         });
@@ -73,22 +103,71 @@ public abstract class CrudOverlay extends BorderPane {
         return sideBar;
     }
 
-    private HBox createBottomBar() {
-        HBox crudButtons = new HBox(create, read, update, delete);
+    /**
+     * This is the creation of the Bottom bar with the main CRUD operations
+     * @return crudButtons
+     */
+    protected HBox createBottomBar() {
+        // Set Icons
+        create.setGraphic(setIcon(ICONS[3], 30));
+        update.setGraphic(setIcon(ICONS[4], 30));
+        delete.setGraphic(setIcon(ICONS[5], 30));
+
+        HBox crudButtons = new HBox(create, update, delete);
         bottomButtonBar();
-        crudButtons.setAlignment(Pos.TOP_CENTER);
+        crudButtons.setAlignment(Pos.CENTER);
         crudButtons.setMinHeight(50);
+        crudButtons.setMinWidth(100);
         crudButtons.setStyle("-fx-background-color: lightblue;");
         crudButtons.setSpacing(50);
         return crudButtons;
     }
 
-    // Abstract methods for subclasses to define specific behavior
+    protected ImageView setIcon(ImageView icon, double x) {
+        icon.setFitHeight(x);
+        icon.setFitWidth(x);
+        return icon;
+    }
+
+    protected Button setEscape() {
+        // Create escape button
+        Button esc = new Button();
+        esc.setGraphic(setIcon(ICONS[7], 15));
+        esc.setOnAction(e1-> {
+            loadInfo();
+        });
+
+        return esc;
+    }
+
+
+    // Abstract methods for subclasses to define specific behavior\
+
+    /**
+     * Sets the actions and styling for the pop out buttons on the page.
+     */
     protected abstract void sideButtonBar();
 
+<<<<<<< HEAD
 
 
+=======
+    /**
+     * Sets the actions and styling for the crud buttons on bottom of the page.
+     */
+>>>>>>> development
     protected abstract void bottomButtonBar();
+    /**
+     *  Creates the Table
+     *  Adding the columns to the display
+     *  and all the data under the corresponding
+     */
     protected abstract void loadTable();
+
+    /**
+     * Loads basic info about the table to the page.
+     */
     protected abstract void loadInfo();
+
+
 }
