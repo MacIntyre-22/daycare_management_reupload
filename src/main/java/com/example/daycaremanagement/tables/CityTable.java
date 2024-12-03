@@ -43,10 +43,11 @@ public class CityTable implements CityDAO {
 
     @Override
     public City getCity(int id) {
-        String query = "SELECT * FROM "+ TABLE_CITIES + " WHERE " + CITIES_COLUMN_ID + " = " + id;
+        String query = "SELECT * FROM "+ TABLE_CITIES + " WHERE " + CITIES_COLUMN_ID + " = ?";
         try{
-            Statement getCity = db.getConnection().createStatement();
-            ResultSet data = getCity.executeQuery(query);
+            PreparedStatement getCity = db.getConnection().prepareStatement(query);
+            getCity.setInt(1,id);
+            ResultSet data = getCity.executeQuery();
             if (data.next()){
                 City city = new City(
                         data.getInt(CITIES_COLUMN_ID),
