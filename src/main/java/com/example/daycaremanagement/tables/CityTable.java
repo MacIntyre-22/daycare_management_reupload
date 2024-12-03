@@ -4,6 +4,7 @@ import com.example.daycaremanagement.pojo.City;
 import com.example.daycaremanagement.database.Database;
 import com.example.daycaremanagement.dao.CityDAO;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -61,10 +62,12 @@ public class CityTable implements CityDAO {
 
     @Override
     public void updateCity(City city) {
-        String query = "UPDATE " + TABLE_CITIES + " SET " + CITIES_COLUMN_NAME + " = '" + city.getName() + "' WHERE " + CITIES_COLUMN_ID + " = " + city.getId();
+        String query = "UPDATE " + TABLE_CITIES + " SET " + CITIES_COLUMN_NAME + " = ? WHERE " + CITIES_COLUMN_ID + " =  ?";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, city.getName());
+            preparedStatement.setInt(2, city.getId());
+            preparedStatement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -72,10 +75,11 @@ public class CityTable implements CityDAO {
 
     @Override
     public void deleteCity(City city) {
-        String query = "DELETE FROM "+TABLE_CITIES+" WHERE "+ CITIES_COLUMN_ID + " = " + city.getId() + " LIMIT 1";
+        String query = "DELETE FROM "+TABLE_CITIES+" WHERE "+ CITIES_COLUMN_ID + " = ? LIMIT 1";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.executeUpdate(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setInt(1, city.getId());
+            statement.executeUpdate();
         } catch (Exception e){
             System.out.println("Invalid City ID or the ID is in use in another table.");
         }
@@ -83,10 +87,11 @@ public class CityTable implements CityDAO {
 
     @Override
     public void createCity(City city) {
-        String query = "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, '" + city.getName() +"');";
+        String query = "INSERT INTO " + TABLE_CITIES + " ("+CITIES_COLUMN_ID+", "+CITIES_COLUMN_NAME+") VALUES (0, ?);";
         try{
-            Statement statement = db.getConnection().createStatement();
-            statement.execute(query);
+            PreparedStatement statement = db.getConnection().prepareStatement(query);
+            statement.setString(1, city.getName());
+            statement.execute();
         } catch (Exception e){
             e.printStackTrace();
         }
