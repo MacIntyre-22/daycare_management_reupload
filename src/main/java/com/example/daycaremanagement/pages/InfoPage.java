@@ -20,12 +20,7 @@ public class InfoPage extends BorderPane {
   public InfoPage() {
     HBox root = new HBox();
     root.getStyleClass().add("content");
-    // Load the logo and add it to the VBox
-    Image logo = new Image((MainApp.class.getResourceAsStream("/com/example/daycaremanagement/images/Day.jpeg")));
-    ImageView logoView = new ImageView(logo);
-    logoView.setFitWidth(200);
 
-    root.getChildren().add(logoView);
 
     // Add title label
     Label title = new Label("Project: Daycare Management");
