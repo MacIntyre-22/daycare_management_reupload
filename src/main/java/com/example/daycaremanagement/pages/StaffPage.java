@@ -224,7 +224,7 @@ public class StaffPage extends CrudOverlay {
 
           Button createInput = new Button("Create!");
           createInput.setOnAction(e1->{
-              if (isDouble(wageTF.getText()) && isValidId(classroomInput.getText(), "room") && isValidId(posTF.getText(), "position")) {
+              if (isValidWage(wageTF.getText()) && isValidId(classroomInput.getText(), "room") && isValidId(posTF.getText(), "position")) {
                   Staff createStaff = new Staff(0, fNameInput.getText(), lNameInput.getText(), roundToTwo(Double.parseDouble(wageTF.getText())), Integer.parseInt(classroomInput.getText()), Integer.parseInt(posTF.getText()));
                   staff.createStaff(createStaff);
                   loadTable();
@@ -276,7 +276,7 @@ public class StaffPage extends CrudOverlay {
                           case ("First Name") -> updateStaff.setFirst_name(updateNameInput.getText());
                           case ("Last Name") -> updateStaff.setLast_name(updateNameInput.getText());
                           case ("Wage") -> {
-                              if (isDouble(updateNameInput.getText())) {
+                              if (isValidWage(updateNameInput.getText())) {
                                   updateStaff.setWage(roundToTwo(Double.parseDouble(updateNameInput.getText())));
                               } else {
                                   System.out.println("Wage input was not numeric");
