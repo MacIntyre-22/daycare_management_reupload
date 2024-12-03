@@ -279,7 +279,7 @@ public class StaffPage extends CrudOverlay {
                               if (isValidWage(updateNameInput.getText())) {
                                   updateStaff.setWage(roundToTwo(Double.parseDouble(updateNameInput.getText())));
                               } else {
-                                  System.out.println("Wage input was not numeric");
+                                  System.out.println("Wage must be a number greater than or equal to 0");
                               }
                           }
                           case ("Room ID") -> {
