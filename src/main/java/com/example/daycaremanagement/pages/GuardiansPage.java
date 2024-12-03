@@ -1,4 +1,5 @@
 package com.example.daycaremanagement.pages;
+import com.example.daycaremanagement.MainApp;
 import com.example.daycaremanagement.overlays.CrudOverlay;
 
 import com.example.daycaremanagement.pojo.*;
@@ -11,6 +12,7 @@ import com.example.daycaremanagement.tables.GuardianTable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -53,8 +55,8 @@ public class GuardiansPage extends CrudOverlay {
      */
     private GuardiansPage() {
         super();
-
-        title.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
+        this.getStylesheets().add(MainApp.class.getResource("Styles/GuardiansPage.css").toExternalForm());
+        title.getStyleClass().add("title");
         content.setTop(title);
 
         // Add rooms to array
@@ -173,30 +175,37 @@ public class GuardiansPage extends CrudOverlay {
             Label firstName = new Label("First Name");
             TextField fNameInput = new TextField();
             VBox fNameGroup = new VBox(firstName, fNameInput);
+            fNameGroup.setAlignment(Pos.CENTER);
 
             Label lastName = new Label("Last Name");
             TextField lNameInput = new TextField();
             VBox lNameGroup = new VBox(lastName, lNameInput);
+            lNameGroup.setAlignment(Pos.CENTER);
 
             Label phone = new Label("Phone");
             TextField phoneTF = new TextField();
             VBox phoneGroup = new VBox(phone, phoneTF);
+            phoneGroup.setAlignment(Pos.CENTER);
 
             Label email = new Label("Email");
             TextField emailTF = new TextField();
             VBox emailGroup = new VBox(email, emailTF);
+            emailGroup.setAlignment(Pos.CENTER);
 
             Label city = new Label("City Id");
             TextField cityTF = new TextField();
             VBox cityGroup = new VBox(city, cityTF);
+            cityGroup.setAlignment(Pos.CENTER);
 
             Label streetNum = new Label("Street Number");
             TextField streetNumTF = new TextField();
             VBox streetNumGroup = new VBox(streetNum, streetNumTF);
+            streetNumGroup.setAlignment(Pos.CENTER);
 
             Label streetName = new Label("Street name");
             TextField streetNameTF = new TextField();
             VBox streetNameGroup = new VBox(streetName, streetNameTF);
+            streetNameGroup.setAlignment(Pos.CENTER);
 
             Button createInput = new Button("Create!");
 
@@ -217,12 +226,38 @@ public class GuardiansPage extends CrudOverlay {
                 streetNameTF.setText("");
             });
 
+            HBox escapeGroup = new HBox(setEscape("guardians"));
+            escapeGroup.setAlignment(Pos.TOP_RIGHT);
+
             HBox createCollection = new HBox(fNameGroup, lNameGroup, emailGroup, phoneGroup, cityGroup, streetNumGroup, streetNameGroup);
             createCollection.setSpacing(10);
+            createCollection.setAlignment(Pos.CENTER);
+
+            createCollection.getChildren().forEach(node-> {
+                node.setOnKeyPressed(keyEvent -> {
+                    if (isValidId(cityTF.getText(), "city") && isInteger(streetNumTF.getText()) && isValidPhone(phoneTF.getText()) && isValidEmail(emailTF.getText())) {
+                        Guardian createGuardian = new Guardian(0, fNameInput.getText(), lNameInput.getText(), phoneTF.getText(), emailTF.getText(), Integer.parseInt(cityTF.getText()), Integer.parseInt(streetNumTF.getText()), streetNameTF.getText());
+                        guardians.createGuardian(createGuardian);
+                        loadTable();
+                    } else {
+                        System.out.println("Input error. Potential causes: Invalid City ID, non-numeric street number, invalid phone number, invalid email.");
+                    }
+                    fNameInput.setText("");
+                    lNameInput.setText("");
+                    phoneTF.setText("");
+                    emailTF.setText("");
+                    cityTF.setText("");
+                    streetNumTF.setText("");
+                    streetNameTF.setText("");
+                });
+            });
+
+            HBox createInputGroup = new HBox(createInput);
+            createInputGroup.setAlignment(Pos.CENTER);
 
             VBox items = new VBox();
-            items.getChildren().addAll(setEscape("staff"), createCollection, createInput);
-            items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+            items.getChildren().addAll(escapeGroup, createCollection, createInputGroup);
+            items.getStyleClass().add("items");
             this.content.setBottom(items);
         });
 
@@ -299,10 +334,69 @@ public class GuardiansPage extends CrudOverlay {
 
             HBox updateCollection = new HBox(idNumGroup, columnNameGroup, updateNameGroup);
             updateCollection.setSpacing(10);
+            updateCollection.setAlignment(Pos.CENTER);
+
+            HBox escapeGroup = new HBox(setEscape("guardians"));
+            escapeGroup.setAlignment(Pos.TOP_RIGHT);
+
+            updateCollection.getChildren().forEach(node-> {
+                node.setOnKeyPressed(keyEvent -> {
+                    if (isInteger(idNumInput.getText())){
+                        Guardian updateGuardian = guardians.getGuardian(Integer.parseInt(idNumInput.getText()));
+                        if (updateGuardian != null) {
+                            switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                                case ("First Name") -> updateGuardian.setFirst_name(updateNameInput.getText());
+                                case ("Last Name") -> updateGuardian.setLast_name(updateNameInput.getText());
+                                case ("Phone") -> {
+                                    if (isValidPhone(updateNameInput.getText())) {
+                                        updateGuardian.setPhone(updateNameInput.getText());
+                                    } else {
+                                        System.out.println("Please enter a valid 10 digit phone number, with no spaces or hyphens");
+                                    }
+                                }
+                                case ("Email") -> {
+                                    if (isValidEmail(updateNameInput.getText())){
+                                        updateGuardian.setEmail(updateNameInput.getText());
+                                    } else {
+                                        System.out.println("Invalid email");
+                                    }
+                                }
+
+                                case ("City ID") -> {
+                                    if (isValidId(updateNameInput.getText(), "city")) {
+                                        updateGuardian.setCity_id(Integer.parseInt(updateNameInput.getText()));
+                                    } else {
+                                        System.out.println("Invalid City ID");
+                                    }
+                                }
+                                case ("Street Number") -> {
+                                    if (isInteger(updateNameInput.getText())) {
+                                        updateGuardian.setStreet_num(Integer.parseInt(updateNameInput.getText()));
+                                    } else {
+                                        System.out.println("Input error, enter a number");
+                                    }
+                                }
+                                case ("Street Name") -> updateGuardian.setStreet_name(updateNameInput.getText());
+                                default -> System.out.println("Category not selected");
+                            }
+                            updateNameInput.setText("");
+                            guardians.updateGuardian(updateGuardian);
+                            loadTable();
+                        } else {
+                            System.out.println("Specified ID does not exist");
+                        }
+                    } else {
+                        System.out.println("Invalid ID");
+                    }
+                });
+            });
+
+            HBox createUpdateGroup = new HBox(updateInput);
+            createUpdateGroup.setAlignment(Pos.CENTER);
 
             VBox items = new VBox();
-            items.getChildren().addAll(setEscape("staff"), updateCollection, updateInput);
-            items.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-spacing: 10");
+            items.getChildren().addAll(escapeGroup, updateCollection, createUpdateGroup);
+            items.getStyleClass().add("items");
             this.content.setBottom(items);
         });
 
@@ -366,6 +460,33 @@ public class GuardiansPage extends CrudOverlay {
         tableView.getColumns().addAll(columnId, column1, column2, column3, column4, column5, column6, column7);
         tableView.getItems().addAll(guardians.getAllDisplayGuardians());
         tableView.setStyle("");
+
+        tableView.setMinWidth(300);
+        tableView.setMaxWidth(925);
+
+        columnId.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        columnId.setResizable(false);
+        columnId.setReorderable(false);
+
+        column1.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        column1.setResizable(false);
+        column1.setReorderable(false);
+
+        column2.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column2.setResizable(false);
+        column2.setReorderable(false);
+
+        column3.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column3.setResizable(false);
+        column3.setReorderable(false);
+
+        column4.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size() ));
+        column4.setResizable(false);
+        column4.setReorderable(false);
+
+        column5.setPrefWidth((tableView.getMaxWidth() / tableView.getColumns().size()) );
+        column5.setResizable(false);
+        column5.setReorderable(false);
 
         this.content.setCenter(tableView);
     }

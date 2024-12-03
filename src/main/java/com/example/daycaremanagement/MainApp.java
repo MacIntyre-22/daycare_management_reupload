@@ -31,7 +31,7 @@ public class MainApp extends Application {
         primaryStage = stage;
         primaryStage.setTitle("Daycare Management");
         // User Can not Resize the screen, If they could the position of GUI's would break
-        //primaryStage.setResizable(false);
+        primaryStage.setResizable(false);
         primaryStage.initStyle(StageStyle.DECORATED);
 
         loginPageScene.setFill(Color.TRANSPARENT);

@@ -263,7 +263,6 @@ public class StudentsPage extends CrudOverlay {
             createCollection.setAlignment(Pos.CENTER);
             createCollection.getChildren().forEach(node-> {
                 node.setOnKeyPressed(keyEvent -> {
-
                     if(keyEvent.getCode().toString().equals("ENTER")){
                         if (isValidId(classroomInput.getText(), "room") && isValidDateFormat(birthdayInput.getText())) {
                             Student createStudent = new Student(0, fNameInput.getText(), lNameInput.getText(), birthdayInput.getText(), Integer.parseInt(classroomInput.getText()));
@@ -354,24 +353,35 @@ public class StudentsPage extends CrudOverlay {
 
             updateCollection.getChildren().forEach(node-> {
                 node.setOnKeyPressed(keyEvent -> {
-                    Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
-                    if (updateStudent != null) {
-                        switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
-                            case ("First Name"):
-                                updateStudent.setFirst_name(updateNameInput.getText());
-                                break;
-                            case ("Last Name"):
-                                updateStudent.setLast_name(updateNameInput.getText());
-                                break;
-                            case ("Birthday"):
-                                updateStudent.setBirthdate(updateNameInput.getText());
-                                break;
-                            case ("Classroom ID"):
-                                updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
-                                break;
+                    if (isInteger(idNumInput.getText())) {
+                        Student updateStudent = students.getStudent(Integer.parseInt(idNumInput.getText()));
+                        if (updateStudent != null) {
+                            switch (columnNameChoice.getSelectionModel().getSelectedItem()) {
+                                case ("First Name") -> updateStudent.setFirst_name(updateNameInput.getText());
+                                case ("Last Name") -> updateStudent.setLast_name(updateNameInput.getText());
+                                case ("Birthday") -> {
+                                    if (isValidDateFormat(updateNameInput.getText())) {
+                                        updateStudent.setBirthdate(updateNameInput.getText());
+                                    } else {
+                                        System.out.println("Invalid date format. Please use YYYY-MM-DD");
+                                    }
+                                }
+                                case ("Classroom ID") -> {
+                                    if (isValidId(updateNameInput.getText(), "room")) {
+                                        updateStudent.setRoom_id(Integer.parseInt(updateNameInput.getText()));
+                                    } else {
+                                        System.out.println("Invalid Room ID");
+                                    }
+                                }
+                                default -> System.out.println("Category was not selected");
+                            }
+                            students.updateStudent(updateStudent);
+                            loadTable();
+                        } else {
+                            System.out.println("Specified ID does not exist");
                         }
-                        students.updateStudent(updateStudent);
-                        loadTable();
+                    } else {
+                        System.out.println("Invalid ID");
                     }
                 });
             });
