@@ -52,21 +52,24 @@ a navigation bar. This navigation bar has more buttons that can display graphs a
 | position_id | INT(11)      |
 
 ### Positions
-    Shows Position to id relation
+Shows Position to id relation
+
 | Column        | Datatype     |
 |---------------|--------------|
 | position_id   | INT(11)      |
 | position_name | VARCHAR(20)  | 
 
 ### Citites
-    Shows City to id relation
+Shows City to id relation
+
 | Column    | Datatype     |
 |-----------|--------------|
 | city_id   | INT(11)      |
 | city_name | VARCHAR(20)  | 
 
 ### Guardian Student Relation
-    Shows Guardian to Student relation with an id
+Shows Guardian to Student relation with an id
+
 | Column      | Datatype |
 |-------------|----------|
 | id          | INT(11)  |
